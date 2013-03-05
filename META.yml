@@ -1,0 +1,45 @@
+---
+abstract: 'general purpose path languages for trees'
+author:
+  - 'David F. Houghton <dfhoughton@gmail.com>'
+build_requires:
+  File::Basename: 0
+  File::Find: 0
+  File::Temp: 0
+  List::MoreUtils: 0
+  Test::Exception: 0
+  Test::More: 0.88
+  Test::Trap: 0
+  overload: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: TPath
+no_index: {}
+requires:
+  Carp: 0
+  Exporter: 0
+  List::Util: 0
+  Moose: 0
+  Moose::Role: 0
+  Moose::Util::TypeConstraints: 0
+  MooseX::MethodAttributes::Role: 0
+  MooseX::SingletonMethod: 0
+  POSIX: 0
+  Regexp::Grammars: 0
+  Scalar::Util: 0
+  Time::HiRes: 0
+  URI::Escape: 0
+  aliased: 0
+  feature: 0
+  namespace::autoclean: 0
+  parent: 0
+  perl: v5.10.0
+  strict: 0
+  warnings: 0
+version: 0.001

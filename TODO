@@ -1,0 +1,9 @@
+Key
+ . = still to do
+ - = discarded
+ * = completed
+
+* get rid of MooseX::Privacy to speed things up somewhat
+* improve error message when expression is unparsable
+. clean up tests and add more thorough testing
+* allow attribute selectors as well as predicates
