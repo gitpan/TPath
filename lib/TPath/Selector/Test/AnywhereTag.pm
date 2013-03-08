@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereTag;
 {
-  $TPath::Selector::Test::AnywhereTag::VERSION = '0.001';
+  $TPath::Selector::Test::AnywhereTag::VERSION = '0.002';
 }
 
 # ABSTRACT: handles C<//foo> expression
@@ -38,7 +38,7 @@ TPath::Selector::Test::AnywhereTag - handles C<//foo> expression
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 ROLES
 

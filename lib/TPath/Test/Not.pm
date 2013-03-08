@@ -1,6 +1,6 @@
 package TPath::Test::Not;
 {
-  $TPath::Test::Not::VERSION = '0.001';
+  $TPath::Test::Not::VERSION = '0.002';
 }
 
 # ABSTRACT: implements logical negation of a test
@@ -36,7 +36,7 @@ TPath::Test::Not - implements logical negation of a test
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 DESCRIPTION
 

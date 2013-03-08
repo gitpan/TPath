@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.001';
+  $TPath::VERSION = '0.002';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -328,30 +328,23 @@ a regular expression.
 
 =head3 @a attribute
 
-Any attribute may be used as a selector so long as it is preceded by some separator other than
-the null separator. This is because attributes may take arguments and among other things these
-arguments can be both expressions and other attributes. If C<@foo> were a legitimate path
-expression it would be ambiguous how to compile C<@bar(@foo)>. Is the argument an attribute or
-a path with an attribute selector. You can produce the effect of an attribute selector with the
-null separator, however, by using the child axis (see below). If you want the argument to be
-a path, you write
+Any attribute may be used as a selector so long as it is preceded by something other than
+the null separator -- in other words, C<@> cannot be the first character in a path. This is because 
+attributes may take arguments and among other things these arguments can be both expressions and 
+other attributes. If C<@foo> were a legitimate path expression it would be ambiguous how to compile 
+C<@bar(@foo)>. Is the argument an attribute or a path with an attribute selector. You can produce
+the effect of an attribute selector with the null separator, however, in two ways
 
 =over 2
 
-C<//@bar(child::@foo)>
+C<child::@foo>
+
+C<./@foo>
 
 =back
 
-If you want it to be an ordinary attribute, you write
-
-=over 2
-
-C<//@bar(@foo)>
-
-=back
-
-If the first instance the C<@bar> attribute receives a list of nodes as its arguments. In the second,
-it receives whatever C<@foo> evaluates to at the candidate node in question.
+the second of these will be normalized in parsing to precisely what one would expect with a C<@foo>
+path.
 
 =head3 * wildcard
 
@@ -712,14 +705,14 @@ no nodes, or the boolean expression is false.
 
 True iff all conjoined operands are true.
 
-=item C<||> or c<or>
+=item C<||> or C<or>
 
 True iff any of the conjoined operands is true.
 
 Note that boolean or is two pipe characters. This is to disambiguate the path expression
 C<a|b> from the boolean expression C<a||b>.
 
-=item C<^> or c<xor>
+=item C<^> or C<xor>
 
 True B<if one and only one of the conjoined operands is true>. The expression
 

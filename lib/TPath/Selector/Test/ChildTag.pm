@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildTag;
 {
-  $TPath::Selector::Test::ChildTag::VERSION = '0.001';
+  $TPath::Selector::Test::ChildTag::VERSION = '0.002';
 }
 
 # ABSTRACT: handles C</foo> where this is not the first step in the path, or C<child::foo>
@@ -39,7 +39,7 @@ TPath::Selector::Test::ChildTag - handles C</foo> where this is not the first st
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 METHODS
 

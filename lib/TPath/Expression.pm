@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.001';
+  $TPath::Expression::VERSION = '0.002';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -22,13 +22,6 @@ has _selectors =>
   ( is => 'ro', isa => 'ArrayRef[ArrayRef[TPath::Selector]]', required => 1 );
 
 
-sub first {
-    my ( $self, $n, $i ) = @_;
-    my @c = $self->select( $n, $i );
-    return shift @c;
-}
-
-
 sub select {
     my ( $self, $n, $i ) = @_;
     confess 'select called on a null node' unless defined $n;
@@ -47,7 +40,7 @@ sub select {
             else                   { $uniques{$ra} = 1; $_ }
         } @sel;
     }
-    return @sel;
+    return wantarray ? @sel : $sel[0];
 }
 
 # required by TPath::Test
@@ -79,7 +72,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -101,16 +94,14 @@ The expression's L<TPath::Forester>.
 
 =head1 METHODS
 
-=head2 first
-
-Convenience method that returns the first node selected by this expression from
-the given tree. This method just delegates to C<select> and expects the same arguments.
-
 =head2 select
 
 Takes a tree and, optionally, an index and returns the nodes selected from this
-tree by the path. If you are doing many selections on a particular tree, you may
-save some work by using a common index for all selections.
+tree by the path if you want a list or the first node selected if you want a
+scalar. 
+
+If you are doing many selections on a particular tree, you may save some work by 
+using a common index for all selections.
 
 =head1 ROLES
 

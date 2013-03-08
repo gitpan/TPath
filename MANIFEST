@@ -68,6 +68,7 @@ lib/TPath/Test/Or.pm
 lib/TPath/Test/XOr.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
+perltidy.LOG
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm
@@ -83,3 +84,5 @@ t/precedence.t
 t/release-00element.t
 t/release-01parsing.t
 t/release-unused-vars.t
+tester.pl
+tester.pl.bak

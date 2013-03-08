@@ -1,6 +1,6 @@
 package TPath::Selector::Test::RootMatch;
 {
-  $TPath::Selector::Test::RootMatch::VERSION = '0.001';
+  $TPath::Selector::Test::RootMatch::VERSION = '0.002';
 }
 
 # ABSTRACT: handles C</~foo~>
@@ -40,7 +40,7 @@ TPath::Selector::Test::RootMatch - handles C</~foo~>
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 ROLES
 
