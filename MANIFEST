@@ -8,6 +8,7 @@ README.md
 TODO
 demo.pl
 dist.ini
+junk.txt
 lib/TPath.pm
 lib/TPath/Attribute.pm
 lib/TPath/AttributeTest.pm

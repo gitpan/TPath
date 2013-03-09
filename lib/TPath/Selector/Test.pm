@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.002';
+  $TPath::Selector::Test::VERSION = '0.003';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -67,7 +67,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 

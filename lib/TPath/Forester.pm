@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.002';
+  $TPath::Forester::VERSION = '0.003';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -175,6 +175,7 @@ sub axis_leaf { my $self = shift; $self->_leaves(@_) }
 sub axis_parent {
     my ( $self, $n, $t, $i ) = @_;
     my $parent = $self->parent( $n, $i );
+    return () unless $parent;
     return $t->passes( $parent, $i ) ? $parent : ();
 }
 
@@ -354,7 +355,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 

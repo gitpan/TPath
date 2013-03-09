@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.002';
+  $TPath::Grammar::VERSION = '0.003';
 }
 
 use v5.10;
@@ -506,7 +506,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 

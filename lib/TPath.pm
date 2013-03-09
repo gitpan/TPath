@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.002';
+  $TPath::VERSION = '0.003';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -49,7 +49,6 @@ version 0.002
   use Moose;
   use MooseX::MethodAttributes;    # needed for @tag attribute below
   with 'TPath::Forester';
-  with 'TPath::Attributes::Extended';
   
   # implement required methods
   
@@ -118,35 +117,23 @@ version 0.002
   my $index = $rhood->index($root);
   
   # try out some paths
-  
-  # find all nodes with the tag r
   my @nodes = $rhood->path('//r')->select( $root, $index );
   print scalar @nodes, "\n";    # 1
   print $nodes[0], "\n";        # <r><x/><y><z/></y></r>
-  
-  # find all leaves whose tag alphabetically follows o
   print $_
     for $rhood->path('leaf::*[@tag > "o"]')->select( $root, $index )
     ;                           # <s/><t/><u/><v/><w/><q/><x/><z/>
   print "\n";
-  
-  # find the nodes dominating a sub-tree of size 3
   print $_->{tag}
-    for $rhood->path('//@echo(@tsize = 3)')->select( $root, $index );    # bm
+    for $rhood->path('//*[@tsize = 3]')->select( $root, $index );    # bm
+  print "\n";
+  @nodes = $rhood->path('/>~[bh-z]~')->select( $root, $index );
+  print $_->{tag} for @nodes;                                        # bhijk
   print "\n";
   
-  # find the closest (see below) nodes whose tag matches /[bh-z]/
-  @nodes = $rhood->path('/>@s:matches(@tag,"[bh-z]")')->select( $root, $index );
-  print $_->{tag} for @nodes;                                            # bhijk
-  print "\n";
-  
-  # we can map nodes back to their parents even though the nodes themselves
-  # do not retain this information
-  
-  # find the nodes whose parent's tag is a, d, or r
-  @nodes = $rhood->path('//*[parent::*[@s:matches(@tag, "[adr]")]]')
-    ->select( $root, $index );
-  print $_->{tag} for @nodes;    # bcijxykd
+  # we can map nodes back to their parents
+  @nodes = $rhood->path('//*[parent::~[adr]~]')->select( $root, $index );
+  print $_->{tag} for @nodes;                                        # bcijxykd
   print "\n";
 
 =head1 DESCRIPTION
@@ -197,7 +184,7 @@ descendants will be listed first.
 
 =head2 Steps
 
-=over2
+=over 2
 
 C<B<//a>/b[0]/E<gt>c[@d]>
 
@@ -212,7 +199,7 @@ number of predicates.
 
 =head2 Separators
 
-=over2
+=over 2
 
 C<a/b/c/E<gt>d>
 
@@ -226,7 +213,7 @@ C<B</E<gt>>a/b//cB</E<gt>>d>
 
 =head3 null separator
 
-=over2
+=over 2
 
 C<a/b/c/E<gt>d>
 
@@ -238,7 +225,7 @@ where C</a> means the file C<a> in the root directory and C<a> means the file C<
 
 =head3 /
 
-=over2
+=over 2
 
 C<B</>aB</>b//c/E<gt>d>
 
@@ -249,7 +236,7 @@ the first step it means that the context node is the root node.
 
 =head3 // select among descendants
 
-=over2
+=over 2
 
 C<B<//>a/bB<//>c/E<gt>d>
 
@@ -260,7 +247,7 @@ context node is the root, "search among the root node and its descendants".
 
 =head3 /> select closest
 
-=over2
+=over 2
 
 C<B</E<gt>>a/b//cB</E<gt>>d>
 
