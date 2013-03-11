@@ -59,6 +59,7 @@ eval { $v .= pmver('List::Util','any version') };
 eval { $v .= pmver('Moose','2.0604') };
 eval { $v .= pmver('Moose::Role','2.0604') };
 eval { $v .= pmver('Moose::Util::TypeConstraints','2.0604') };
+eval { $v .= pmver('MooseX::MethodAttributes','any version') };
 eval { $v .= pmver('MooseX::MethodAttributes::Role','0.28') };
 eval { $v .= pmver('MooseX::SingletonMethod','0.03') };
 eval { $v .= pmver('POSIX','any version') };

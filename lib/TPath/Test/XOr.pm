@@ -1,6 +1,6 @@
 package TPath::Test::XOr;
 {
-  $TPath::Test::XOr::VERSION = '0.004';
+  $TPath::Test::XOr::VERSION = '0.005';
 }
 
 # ABSTRACT: implements logical function of tests which returns true iff only one test is true
@@ -37,7 +37,7 @@ TPath::Test::XOr - implements logical function of tests which returns true iff o
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 DESCRIPTION
 

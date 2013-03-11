@@ -1,6 +1,6 @@
 package TPath::Selector::Test::RootTag;
 {
-  $TPath::Selector::Test::RootTag::VERSION = '0.004';
+  $TPath::Selector::Test::RootTag::VERSION = '0.005';
 }
 
 # ABSTRACT: handles C</foo>
@@ -40,7 +40,7 @@ TPath::Selector::Test::RootTag - handles C</foo>
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 ROLES
 

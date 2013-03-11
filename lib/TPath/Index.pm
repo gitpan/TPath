@@ -2,7 +2,7 @@
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '0.004';
+  $TPath::Index::VERSION = '0.005';
 }
 
 
@@ -117,7 +117,7 @@ TPath::Index - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

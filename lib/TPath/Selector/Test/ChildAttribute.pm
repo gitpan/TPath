@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildAttribute;
 {
-  $TPath::Selector::Test::ChildAttribute::VERSION = '0.004';
+  $TPath::Selector::Test::ChildAttribute::VERSION = '0.005';
 }
 
 # ABSTRACT: handles C</@foo> where this is not the first step in the path, or C<child::@foo>
@@ -40,7 +40,7 @@ TPath::Selector::Test::ChildAttribute - handles C</@foo> where this is not the f
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 METHODS
 

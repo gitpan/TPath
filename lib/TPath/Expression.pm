@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.004';
+  $TPath::Expression::VERSION = '0.005';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -23,8 +23,9 @@ has _selectors =>
 
 
 sub select {
-    my ( $self, $n, $i ) = @_;
+    my ( $self, $n, $i, %opts ) = @_;
     confess 'select called on a null node' unless defined $n;
+	$n = $self->f->wrap($n, %opts);
     $self->f->_typecheck($n);
     $i //= $self->f->index($n);
     $i->index;
@@ -72,7 +73,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -94,11 +95,14 @@ The expression's L<TPath::Forester>.
 
 =head1 METHODS
 
-=head2 select
+=head2 select( $n, [$i], [%opts])
 
-Takes a tree and, optionally, an index and returns the nodes selected from this
-tree by the path if you want a list or the first node selected if you want a
+Takes a tree and, optionally, an index and options. Returns the nodes selected 
+from this tree by the path if you want a list or the first node selected if you want a
 scalar. 
+
+The options, if any, will be passed through to the forester's C<wrap> method to
+define any coercion necessary.
 
 If you are doing many selections on a particular tree, you may save some work by 
 using a common index for all selections.

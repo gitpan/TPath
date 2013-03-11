@@ -1,6 +1,6 @@
 package TPath::Selector::Self;
 {
-  $TPath::Selector::Self::VERSION = '0.004';
+  $TPath::Selector::Self::VERSION = '0.005';
 }
 
 # ABSTRACT: L<TPath::Selector> that implements C<.>
@@ -31,7 +31,7 @@ TPath::Selector::Self - L<TPath::Selector> that implements C<.>
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 ROLES
 

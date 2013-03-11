@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.004';
+  $TPath::Forester::VERSION = '0.005';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -19,7 +19,7 @@ use TPath::Test::Node::True;
 with qw(TPath::Attributes::Standard TPath::TypeCheck);
 
 
-requires qw(children has_tag matches_tag);
+requires qw(children tag);
 
 
 has log_stream => (
@@ -343,6 +343,25 @@ sub _children {
     grep { $t->passes( $_, $i ) ? $_ : () } @children;
 }
 
+
+sub has_tag {
+    my ( $self, $n, $tag ) = @_;
+    my $t = $self->tag($n);
+    return undef unless defined $t;
+    $t eq $tag;
+}
+
+
+sub matches_tag {
+    my ( $self, $n, $rx ) = @_;
+    my $t = $self->tag($n);
+    return undef unless defined $t;
+    $t =~ $rx;
+}
+
+
+sub wrap { return $_[1] }
+
 1;
 
 __END__
@@ -355,7 +374,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -511,6 +530,23 @@ node provides an C<is_root> method,
 
   sub is_root { $_[1]->is_root }
 
+=head2 has_tag
+
+Expects a node and a string. Returns whether the node, in whatever sense is appropriate
+to this sort of node, "has" the string as a tag. See the required C<tag> method.
+
+=head2 matches_tag
+
+Expects a node and a compiled regex. Returns whether the node, in whatever sense is appropriate
+to this sort of node, has a tag that matches the regex. See the required C<tag> method.
+
+=head2 wrap
+
+Expects a node and possibly an options hash. Returns a node of the type understood by the forester.
+
+If your forester must coerce things into a tree of the right type, override this method, which otherwise
+just passes through its second argument.
+
 =head1 ROLES
 
 L<TPath::Attributes::Standard>, L<TPath::TypeCheck>
@@ -521,15 +557,13 @@ L<TPath::Attributes::Standard>, L<TPath::TypeCheck>
 
 Expects a node and an index. Returns the children of the node as a list.
 
-=head2 has_tag
+=head2 tag
 
-Expects a node and a string. Returns whether the node, in whatever sense is appropriate
-to this sort of node, "has" the string as a tag.
+Expects a node and returns the value selectors are matched against, or C<undef> if the node
+has no tag.
 
-=head2 matches_tag
-
-Expects a node and a compiled regex. Returns whether the node, in whatever sense is appropriate
-to this sort of node, has a tag that matches the regex.
+If your node type cannot be so easily mapped to a particular tag, you may want to override the
+C<has_tag> and C<matches_tag> methods and supply a no-op method for C<tag>.
 
 =head1 AUTHOR
 
