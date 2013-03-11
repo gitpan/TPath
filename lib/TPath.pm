@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.003';
+  $TPath::VERSION = '0.004';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -70,7 +70,7 @@ version 0.003
   # implement a useful attribute -- @tag
   
   sub tag : Attr {
-      my ( $self, $n, $c, $i ) = @_;
+      my ( $self, $n, $i, $c ) = @_;
       $n->{tag};
   }
   
@@ -664,7 +664,7 @@ forester via the C<add_attribute> method:
 
   my $forester = MyForester->new;
   $forester->add_attribute( 'foo' => sub {
-     my ( $self, $node, $collection, $index, @params) = @_;
+     my ( $self, $node, $index, $collection, @params) = @_;
      ...
   });
 

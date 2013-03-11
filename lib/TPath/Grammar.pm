@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.003';
+  $TPath::Grammar::VERSION = '0.004';
 }
 
 use v5.10;
@@ -73,7 +73,7 @@ our $path_grammar = do {
        <token: wildcard> \* | <error:>
     
        <token: specific>
-          ((?>\\.|[\p{L}\$_])(?>[\p{L}\$\p{N}_]|[-:](?=[\p{L}_\$\p{N}])|\\.)*+)
+          ( <.name> )
           (?{ $MATCH = clean_escapes($^N) })
           | <error: Expected specific tag name>
     
@@ -83,9 +83,12 @@ our $path_grammar = do {
           | <error:>
     
        <token: aname>
-          @ ( (?>[\p{L}_\$]|\\.)(?>[\p{L}_\$\p{N}]|[-:](?=[\p{L}_\p{N}])|\\.)*+ )
+          @ ( <.name> )
           (?{ $MATCH = clean_escapes($^N ) })
           | <error: expected attribute name>
+       
+       <token: name>
+          (?>\\.|[\p{L}\$_])(?>[\p{L}\$\p{N}_]|[-.:](?=[\p{L}_\$\p{N}])|\\.)*+
     
        <rule: attribute> <aname> <args>? | <error:>
     
@@ -506,7 +509,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

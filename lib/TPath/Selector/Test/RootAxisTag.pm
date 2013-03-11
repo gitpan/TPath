@@ -1,6 +1,6 @@
 package TPath::Selector::Test::RootAxisTag;
 {
-  $TPath::Selector::Test::RootAxisTag::VERSION = '0.003';
+  $TPath::Selector::Test::RootAxisTag::VERSION = '0.004';
 }
 
 # ABSTRACT: handles C</ancestor::foo> or C</preceding::foo> where this is the first step in the path
@@ -12,8 +12,8 @@ use namespace::autoclean;
 extends 'TPath::Selector::Test::AxisTag';
 
 sub candidates {
-    my ( $self, undef, $c, $i ) = @_;
-    $self->SUPER::candidates( $i->root, $c, $i );
+    my ( $self, undef, $i, $c ) = @_;
+    $self->SUPER::candidates( $i->root, $i, $c );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -30,7 +30,7 @@ TPath::Selector::Test::RootAxisTag - handles C</ancestor::foo> or C</preceding::
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 AUTHOR
 

@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.003';
+  $TPath::Attribute::VERSION = '0.004';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -24,8 +24,8 @@ has code => ( is => 'ro', isa => 'CodeRef', required => 1 );
 
 
 sub apply {
-    my ( $self, $n, $c, $i ) = @_;
-    my @args = ( $n, $c, $i );
+    my ( $self, $n, $i, $c ) = @_;
+    my @args = ( $n, $i, $c );
 
     # invoke all code to reify arguments
     for my $a ( @{ $self->args } ) {
@@ -33,16 +33,16 @@ sub apply {
         my $type  = ref $a;
         if ( $type && $type !~ /ARRAY|HASH/ ) {
             if ( $a->isa('TPath::Attribute') ) {
-                $value = $a->apply( $n, $c, $i );
+                $value = $a->apply( $n, $i, $c );
             }
             elsif ( $a->isa('TPath::AttributeTest') ) {
-                $value = $a->test( $n, $c, $i );
+                $value = $a->test( $n, $i, $c );
             }
             elsif ( $a->isa('TPath::Expression') ) {
                 $value = [ $a->select( $n, $i ) ];
             }
             elsif ( $a->does('TPath::Test') ) {
-                $value = $a->test( $n, $c, $i );
+                $value = $a->test( $n, $i, $c );
             }
             else { confess 'unknown argument type: ' . ( ref $a ) }
         }
@@ -53,8 +53,8 @@ sub apply {
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $c, $i ) = @_;
-    defined $self->apply( $n, $c, $i );
+    my ( $self, $n, $i, $c ) = @_;
+    defined $self->apply( $n, $i, $c );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -71,7 +71,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 
@@ -95,7 +95,7 @@ The actual code reference invoked when C<apply> is called.
 
 =head2 apply
 
-Expects a node, a collection, and an index. Returns some value.
+Expects a node, and index, and a collection. Returns some value.
 
 =head1 ROLES
 

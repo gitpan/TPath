@@ -1,6 +1,6 @@
 package TPath::AttributeTest;
 {
-  $TPath::AttributeTest::VERSION = '0.003';
+  $TPath::AttributeTest::VERSION = '0.004';
 }
 
 # ABSTRACT: compares an attribute value to another value
@@ -77,8 +77,8 @@ sub _e_func {
             for ($r) {
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->apply( $n, $i, $c );
                         return 0 unless defined $v;
                         if ( my $type = ref $v ) {
                             for ($type) {
@@ -91,14 +91,14 @@ sub _e_func {
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->test( $n, $i, $c );
                         $lv == $v or undef;
                       }
                 }
                 when ('e') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $rv->select( $n, $i );
                         $lv == @c or undef;
                       }
@@ -112,21 +112,21 @@ sub _e_func {
             for ($r) {
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->apply( $n, $i, $c );
                         return unless defined $v;
                         return $lv eq $v or undef;
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->test( $n, $i, $c );
                         $lv eq $v or undef;
                       }
                 }
                 when ('e') {
-                    my ( undef, $n, undef, $i ) = @_;
+                    my ( undef, $n, $i ) = @_;
                     my @c = $rv->select( $n, $i );
                     $lv eq join( '', @c ) or undef;
                 }
@@ -139,8 +139,8 @@ sub _e_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $lv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $lv->apply( $n, $i, $c );
                         return unless defined $v;
                         if ( my $type = ref $v ) {
                             for ($type) {
@@ -153,32 +153,32 @@ sub _e_func {
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $lv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $lv->apply( $n, $i, $c );
                         return unless defined $v;
                         return $rv eq $v or undef;
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->apply( $n, $c, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->apply( $n, $i, $c );
+                        my $v2 = $rv->apply( $n, $i, $c );
                         return $ef->( $v1, $v2 ) or undef;
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->apply( $n, $c, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->apply( $n, $i, $c );
+                        my $v2 = $rv->test( $n, $i, $c );
                         return $ef->( $v1, $v2 ) or undef;
                       }
                 }
                 when ('e') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->apply( $n, $i, $c );
                         my @c = $rv->select( $n, $i );
                         return $ef->( $v1, \@c ) or undef;
                     };
@@ -192,37 +192,37 @@ sub _e_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
                         return $v1 == $rv or undef;
                     };
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
                         return $v1 eq $rv or undef;
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
+                        my $v2 = $rv->apply( $n, $i, $c );
                         return $ef->( $v1, $v2 ) or undef;
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
+                        my $v2 = $rv->test( $n, $i, $c );
                         return $v1 == $v2 or undef;
                       }
                 }
                 when ('e') {
-                    my ( undef, $n, $c, $i ) = @_;
-                    my $v1 = $lv->test( $n, $c, $i );
+                    my ( undef, $n, $i, $c ) = @_;
+                    my $v1 = $lv->test( $n, $i, $c );
                     my @c = $lv->select( $n, $i );
                     return $v1 == @c or undef;
                 }
@@ -235,36 +235,36 @@ sub _e_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $lv->select( $n, $i );
                         return @c == $rv or undef;
                     };
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $lv->select( $n, $i );
                         return $rv eq join( '', @c ) or undef;
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
+                        my ( undef, $n, $i, $c ) = @_;
                         my @c = $lv->select( $n, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
+                        my $v2 = $rv->apply( $n, $i, $c );
                         return $ef->( \@c, $v2 ) or undef;
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
+                        my ( undef, $n, $i, $c ) = @_;
                         my @c = $lv->select( $n, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
+                        my $v2 = $rv->test( $n, $i, $c );
                         return @c == $v2 or undef;
                       }
                 }
                 when ('e') {
-                    my ( undef, $n, undef, $i ) = @_;
+                    my ( undef, $n, $i ) = @_;
                     my @c1 = $lv->select( $n, $i );
                     my @c2 = $rv->select( $n, $i );
                     return @c1 == @c2 or undef;
@@ -298,8 +298,8 @@ sub _c_func {
             for ($r) {
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->apply( $n, $i, $c );
                         return unless defined $v;
                         if ( my $type = ref $v ) {
                             for ($type) {
@@ -314,14 +314,14 @@ sub _c_func {
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->test( $n, $i, $c );
                         $nf->( $lv, $v );
                       }
                 }
                 when ('e') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $rv->select( $n, $i );
                         $nf->( $lv, scalar @c );
                       }
@@ -335,21 +335,21 @@ sub _c_func {
             for ($r) {
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->apply( $n, $i, $c );
                         return unless defined $v;
                         return $sf->( $lv, $v );
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $rv->test( $n, $i, $c );
                         $sf->( $lv, $v );
                       }
                 }
                 when ('e') {
-                    my ( undef, $n, undef, $i ) = @_;
+                    my ( undef, $n, $i ) = @_;
                     my @c = $rv->select( $n, $i );
                     $sf->( $lv, join '', @c );
                 }
@@ -362,8 +362,8 @@ sub _c_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $lv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $lv->apply( $n, $i, $c );
                         return unless defined $v;
                         if ( my $type = ref $v ) {
                             for ($type) {
@@ -378,33 +378,33 @@ sub _c_func {
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v = $lv->apply( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v = $lv->apply( $n, $i, $c );
                         return unless defined $v;
                         return $sf->( $v, $rv );
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->apply( $n, $c, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
-                        return _reduce( $v1, $v2, $sf, $nf, $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->apply( $n, $i, $c );
+                        my $v2 = $rv->apply( $n, $i, $c );
+                        return _reduce( $v1, $v2, $sf, $nf, $n, $i, $c );
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->apply( $n, $c, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
-                        return _reduce( $v1, $v2, $sf, $nf, $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->apply( $n, $i, $c );
+                        my $v2 = $rv->test( $n, $i, $c );
+                        return _reduce( $v1, $v2, $sf, $nf, $n, $i, $c );
                       }
                 }
                 when ('e') {
-                    my ( undef, $n, $c, $i ) = @_;
-                    my $v1 = $lv->apply( $n, $c, $i );
+                    my ( undef, $n, $i, $c ) = @_;
+                    my $v1 = $lv->apply( $n, $i, $c );
                     my @c = $rv->select( $n, $i );
-                    return _reduce( $v1, \@c, $sf, $nf, $n, $c, $i );
+                    return _reduce( $v1, \@c, $sf, $nf, $n, $i, $c );
                 }
                 default {
                     confess "fatal logic error! unexpected argument type $r"
@@ -415,38 +415,38 @@ sub _c_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
                         return $nf->( $v1, $rv );
                     };
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
                         return $sf->( $v1, $rv );
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
-                        return _reduce( $v1, $v2, $sf, $nf, $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
+                        my $v2 = $rv->apply( $n, $i, $c );
+                        return _reduce( $v1, $v2, $sf, $nf, $n, $i, $c );
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
+                        my $v2 = $rv->test( $n, $i, $c );
                         return $nf->( $v1, $v2 );
                       }
                 }
                 when ('e') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
-                        my $v1 = $lv->test( $n, $c, $i );
+                        my ( undef, $n, $i, $c ) = @_;
+                        my $v1 = $lv->test( $n, $i, $c );
                         my @c = $rv->select( $n, $i );
                         return $nf->( $v1, scalar @c );
                     };
@@ -460,37 +460,37 @@ sub _c_func {
             for ($r) {
                 when ('n') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $lv->select( $n, $i );
                         return $nf->( scalar @c, $rv );
                     };
                 }
                 when ('s') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c = $lv->select( $n, $i );
                         return $sf->( join( '', @c ), $rv );
                     };
                 }
                 when ('a') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
+                        my ( undef, $n, $i, $c ) = @_;
                         my @c = $lv->select( $n, $i );
-                        my $v2 = $rv->apply( $n, $c, $i );
-                        return _reduce( \@c, $v2, $sf, $nf, $n, $c, $i );
+                        my $v2 = $rv->apply( $n, $i, $c );
+                        return _reduce( \@c, $v2, $sf, $nf, $n, $i, $c );
                     };
                 }
                 when ('t') {
                     return sub {
-                        my ( undef, $n, $c, $i ) = @_;
+                        my ( undef, $n, $i, $c ) = @_;
                         my @c = $lv->select( $n, $i );
-                        my $v2 = $rv->test( $n, $c, $i );
+                        my $v2 = $rv->test( $n, $i, $c );
                         return $nf->( scalar @c, $v2 );
                       }
                 }
                 when ('e') {
                     return sub {
-                        my ( undef, $n, undef, $i ) = @_;
+                        my ( undef, $n, $i ) = @_;
                         my @c1 = $lv->select( $n, $i );
                         my @c2 = $rv->select( $n, $i );
                         return $nf->( scalar @c1, scalar @c2 );
@@ -506,7 +506,7 @@ sub _c_func {
 }
 
 sub _reduce {
-    my ( $v1, $v2, $sf, $nf, $n, $c, $i ) = @_;
+    my ( $v1, $v2, $sf, $nf, $n, $i, $c ) = @_;
     my ( $l, $r ) = map { _type($_) } $v1, $v2;
     for ("$l$r") {
         when ('nn') { return $nf->( $v1, $v2 ) }
@@ -521,15 +521,15 @@ sub _reduce {
             my ( $v3, $v4 ) = ( $v1, $v2 );
             for ($l) {
                 when ('e') { $v3 = [ $v1->select( $n, $i ) ] }
-                when ('t') { $v3 = $v1->test( $n, $c, $i ) }
-                when ('a') { $v3 = $v1->apply( $n, $c, $i ) }
+                when ('t') { $v3 = $v1->test( $n, $i, $c ) }
+                when ('a') { $v3 = $v1->apply( $n, $i, $c ) }
             }
             for ($r) {
                 when ('e') { $v4 = [ $v2->select( $n, $i ) ] }
-                when ('t') { $v4 = $v2->test( $n, $c, $i ) }
-                when ('a') { $v4 = $v2->apply( $n, $c, $i ) }
+                when ('t') { $v4 = $v2->test( $n, $i, $c ) }
+                when ('a') { $v4 = $v2->apply( $n, $i, $c ) }
             }
-            return _reduce( $v3, $v4, $sf, $nf, $n, $c, $i );
+            return _reduce( $v3, $v4, $sf, $nf, $n, $i, $c );
         }
         default { return $sf->( $v1, $v2 ) }
     }
@@ -662,7 +662,7 @@ TPath::AttributeTest - compares an attribute value to another value
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 
@@ -692,7 +692,7 @@ The right value.
 The test function applied to the values. This method is constructed in C<BUILD> and
 assigned to the attribute test as a singleton method.
 
-Expects a node, a collection, and an index.
+Expects a node, an index, and a collection.
 
 =head1 AUTHOR
 

@@ -2,7 +2,7 @@
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '0.003';
+  $TPath::Index::VERSION = '0.004';
 }
 
 
@@ -53,7 +53,6 @@ sub BUILD {
       . ' while index node type is '
       . $self->node_type
       unless ( $self->f->node_type // '' ) eq ( $self->node_type // '' );
-    $self->walk( $self->root );
 }
 
 
@@ -118,7 +117,7 @@ TPath::Index - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

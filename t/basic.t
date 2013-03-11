@@ -208,7 +208,7 @@ END
 $f->add_attribute(
     'foobar',
     sub {
-        my ( $self, $n, $c, $i ) = @_;
+        my ( $self, $n, $i, $c ) = @_;
         my $v = defined $n->attribute('foo') && defined $n->attribute('bar');
         $v ? 1 : undef;
     }
@@ -297,7 +297,7 @@ $path = q{//b[c]};
 my @c = $f->path($path)->select($p);
 is @c, 1, "received expected from $p with $path";
 
-$p = parse('<a><b><c/><c/></b><b><c/><c/><c/></b></a>');
+$p        = parse('<a><b><c/><c/></b><b><c/><c/><c/></b></a>');
 $path     = q{//b/c[0]};
 @elements = $f->path($path)->select($p);
 is( scalar @elements, 2,

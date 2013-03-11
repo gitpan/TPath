@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.003';
+  $TPath::Expression::VERSION = '0.004';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -45,7 +45,7 @@ sub select {
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, undef, $i ) = @_;
+    my ( $self, $n, $i ) = @_;
     !!$self->select( $n, $i );
 }
 
@@ -72,7 +72,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

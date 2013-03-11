@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.003';
+  $TPath::Attributes::Standard::VERSION = '0.004';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -31,7 +31,7 @@ sub standard_this : Attr(this) {
 
 
 sub standard_uid : Attr(uid) {
-    my ( $self, $n, undef, $i ) = @_;
+    my ( $self, $n, $i ) = @_;
     my @list;
     my $node = $n;
     while ( !$i->is_root($node) ) {
@@ -57,7 +57,7 @@ sub standard_echo : Attr(echo) {
 
 
 sub standard_is_leaf : Attr(leaf) {
-    my ( undef, $n, undef, $i ) = @_;
+    my ( undef, $n, $i ) = @_;
     return $i->f->is_leaf( $n, $i ) ? 1 : undef;
 }
 
@@ -75,29 +75,29 @@ sub standard_size : Attr(size) {
 
 
 sub standard_tsize : Attr(tsize) {
-    my ( $self, $n, undef, $i ) = @_;
+    my ( $self, $n, $i ) = @_;
     my $size = 1;
     for my $kid ( $self->children( $n, $i ) ) {
-        $size += $self->standard_tsize( $kid, undef, $i );
+        $size += $self->standard_tsize( $kid, $i );
     }
     return $size;
 }
 
 
 sub standard_width : Attr(width) {
-    my ( $self, $n, $c, $i ) = @_;
-    return 1 if $self->standard_is_leaf( $n, $c, $i );
+    my ( $self, $n, $i ) = @_;
+    return 1 if $self->standard_is_leaf( $n, $i );
     my $width = 0;
     for my $kid ( $self->children( $n, $i ) ) {
-        $width += $self->standard_width( $kid, $c, $i );
+        $width += $self->standard_width( $kid, $i );
     }
     return $width;
 }
 
 
 sub standard_depth : Attr(depth) {
-    my ( $self, $n, $c, $i ) = @_;
-    return 0 if $self->standard_is_root( $n, $c, $i );
+    my ( $self, $n, $i ) = @_;
+    return 0 if $self->standard_is_root( $n, $i );
     my $depth = -1;
     do {
         $depth++;
@@ -108,11 +108,11 @@ sub standard_depth : Attr(depth) {
 
 
 sub standard_height : Attr(height) {
-    my ( $self, $n, undef, $i ) = @_;
-    return 1 if $self->standard_is_leaf( $n, undef, $i );
+    my ( $self, $n, $i ) = @_;
+    return 1 if $self->standard_is_leaf( $n, $i );
     my $max = 0;
     for my $kid ( $self->children( $n, $i ) ) {
-        my $m = $self->standard_height( $kid, undef, $i );
+        my $m = $self->standard_height( $kid, $i );
         $max = $m if $m > $max;
     }
     return $max + 1;
@@ -120,7 +120,7 @@ sub standard_height : Attr(height) {
 
 
 sub standard_is_root : Attr(root) {
-    my ( $self, $n, undef, $i ) = @_;
+    my ( $self, $n, $i ) = @_;
     return $i->is_root($n) ? 1 : undef;
 }
 
@@ -131,7 +131,7 @@ sub standard_null : Attr(null) {
 
 
 sub standard_index : Attr(index) {
-    my ( $self, $n, undef, $i ) = @_;
+    my ( $self, $n, $i ) = @_;
     return -1 if $i->is_root($n);
     my @siblings = $self->_kids( $self->parent( $n, $i ), $i );
     for my $index ( 0 .. $#siblings ) {
@@ -167,7 +167,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

@@ -1,6 +1,6 @@
 package TPath::Test::Not;
 {
-  $TPath::Test::Not::VERSION = '0.003';
+  $TPath::Test::Not::VERSION = '0.004';
 }
 
 # ABSTRACT: implements logical negation of a test
@@ -18,8 +18,8 @@ has t => ( is => 'ro', isa => 'CondArg', required => 1 );
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $c, $i ) = @_;
-    return $self->t->test( $n, $c, $i ) ? 0 : 1;
+    my ( $self, $n, $i, $c ) = @_;
+    return $self->t->test( $n, $i, $c ) ? 0 : 1;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -36,7 +36,7 @@ TPath::Test::Not - implements logical negation of a test
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

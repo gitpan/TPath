@@ -1,6 +1,6 @@
 package TPath::Test::Or;
 {
-  $TPath::Test::Or::VERSION = '0.003';
+  $TPath::Test::Or::VERSION = '0.004';
 }
 
 # ABSTRACT: implements logical disjunction of tests
@@ -13,9 +13,9 @@ with 'TPath::Test::Compound';
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $c, $i ) = @_;
+    my ( $self, $n, $i, $c ) = @_;
     for my $t ( @{ $self->tests } ) {
-        return 1 if $t->test( $n, $c, $i );
+        return 1 if $t->test( $n, $i, $c );
     }
     return 0;
 }
@@ -34,7 +34,7 @@ TPath::Test::Or - implements logical disjunction of tests
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

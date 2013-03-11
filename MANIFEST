@@ -8,7 +8,6 @@ README.md
 TODO
 demo.pl
 dist.ini
-junk.txt
 lib/TPath.pm
 lib/TPath/Attribute.pm
 lib/TPath/AttributeTest.pm
@@ -86,4 +85,3 @@ t/release-00element.t
 t/release-01parsing.t
 t/release-unused-vars.t
 tester.pl
-tester.pl.bak

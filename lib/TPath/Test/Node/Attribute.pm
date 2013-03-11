@@ -1,6 +1,6 @@
 package TPath::Test::Node::Attribute;
 {
-  $TPath::Test::Node::Attribute::VERSION = '0.003';
+  $TPath::Test::Node::Attribute::VERSION = '0.004';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
@@ -17,7 +17,7 @@ has a => ( is => 'ro', isa => 'TPath::Attribute', required => 1 );
 # required by TPath::Test::Node
 sub passes {
     my ( $self, $n, $i ) = @_;
-    return $self->a->test( $n, [], $i ) ? 1 : undef;
+    return $self->a->test( $n, $i, [] ) ? 1 : undef;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -34,7 +34,7 @@ TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing matching; e.g.,
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 ATTRIBUTES
 

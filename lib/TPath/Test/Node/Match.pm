@@ -1,6 +1,6 @@
 package TPath::Test::Node::Match;
 {
-  $TPath::Test::Node::Match::VERSION = '0.003';
+  $TPath::Test::Node::Match::VERSION = '0.004';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
@@ -34,7 +34,7 @@ TPath::Test::Node::Match - L<TPath::Test::Node> implementing matching; e.g., C</
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 ATTRIBUTES
 

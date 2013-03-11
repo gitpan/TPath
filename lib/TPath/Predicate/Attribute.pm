@@ -1,6 +1,6 @@
 package TPath::Predicate::Attribute;
 {
-  $TPath::Predicate::Attribute::VERSION = '0.003';
+  $TPath::Predicate::Attribute::VERSION = '0.004';
 }
 
 # ABSTRACT: implements the C<[@foo]> in C<//a/b[@foo]>
@@ -16,8 +16,8 @@ with 'TPath::Predicate';
 has a => ( is => 'ro', isa => 'TPath::Attribute', required => 1 );
 
 sub filter {
-    my ( $self, $c, $i ) = @_;
-    return grep { $self->a->test( $_, $c, $i ) } @$c;
+    my ( $self, $i, $c ) = @_;
+    return grep { $self->a->test( $_, $i, $c ) } @$c;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -34,7 +34,7 @@ TPath::Predicate::Attribute - implements the C<[@foo]> in C<//a/b[@foo]>
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

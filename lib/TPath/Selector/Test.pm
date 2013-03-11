@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.003';
+  $TPath::Selector::Test::VERSION = '0.004';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -50,7 +50,7 @@ sub select {
     my @candidates = $self->candidates( $n, $i );
     for my $p ( $self->predicates ) {
         last unless @candidates;
-        @candidates = $p->filter( \@candidates, $i );
+        @candidates = $p->filter( $i, \@candidates );
     }
     return @candidates;
 }
@@ -67,7 +67,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 
