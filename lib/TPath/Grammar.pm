@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.006';
+  $TPath::Grammar::VERSION = '0.007';
 }
 
 use v5.10;
@@ -465,36 +465,62 @@ sub normalize_item {
 sub clean_literal {
     my $m = shift;
     $m = substr $m, 1, -1;
-    $m =~ s/\\(.)/$1/g;
-    return $m;
+    return clean_escapes($m);
 }
 
 sub clean_pattern {
     my $m = shift;
     $m = substr $m, 1, -1;
-    $m =~ s/~~/~/g;
-    return $m;
+    my $r = '';
+    my $i = 0;
+    {
+        my $j = index $m, '~~', $i;
+        if ( $j > -1 ) {
+            $r .= substr $m, $i, $j - $i + 1;
+            $i = $j + 2;
+            redo;
+        }
+        else {
+            $r .= substr $m, $i;
+        }
+    }
+    return $r;
 }
 
 sub clean_not {
     my $m = shift;
-    $m =~ s/not/!/g;
-    $m =~ s/\s++//g;
+    return '!' if $m eq 'not';
     return $m;
 }
 
 sub clean_operator {
     my $m = shift;
-    $m =~ s/and/&/;
-    $m =~ s/xor/^/;
-    $m =~ s/or/||/;
+    for ($m) {
+        when ('and') { return '&' }
+        when ('or')  { return '||' }
+        when ('xor') { return '^' }
+    }
     return $m;
 }
 
 sub clean_escapes {
-    my $m = shift // '';
-    $m =~ s/\\(.)/$1/g;
-    return $m;
+    my $m = shift;
+    return '' unless $m;
+    my $r = '';
+    {
+        my $i = index $m, '\\';
+        if ( $i > -1 ) {
+            my $prefix = substr $m, 0, $i;
+            $prefix .= substr $m, $i + 1, 1;
+            $m = substr $m, $i + 2;
+            $r .= $prefix;
+            redo;
+        }
+        else {
+            $r .= $m;
+        }
+    }
+    return $r;
 }
 
 1;
@@ -509,7 +535,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
