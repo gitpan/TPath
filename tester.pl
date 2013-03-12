@@ -1,4 +1,6 @@
 #!/usr/bin/perl 
+#
+# for examining ASTs
 
 use lib qw(t lib);
 use TPath::Grammar qw(parse);

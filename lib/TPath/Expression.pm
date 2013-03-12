@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.005';
+  $TPath::Expression::VERSION = '0.006';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -73,7 +73,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -95,7 +95,7 @@ The expression's L<TPath::Forester>.
 
 =head1 METHODS
 
-=head2 select( $n, [$i], [%opts])
+=head2 select( $n, [$i], [%opts] )
 
 Takes a tree and, optionally, an index and options. Returns the nodes selected 
 from this tree by the path if you want a list or the first node selected if you want a

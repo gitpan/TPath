@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildMatch;
 {
-  $TPath::Selector::Test::ChildMatch::VERSION = '0.005';
+  $TPath::Selector::Test::ChildMatch::VERSION = '0.006';
 }
 
 # ABSTRACT: handles C</~foo~> where this is not the first step in the path, or C<child::~foo~>
@@ -39,7 +39,7 @@ TPath::Selector::Test::ChildMatch - handles C</~foo~> where this is not the firs
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 METHODS
 

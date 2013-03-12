@@ -1,6 +1,6 @@
 package TPath::Selector;
 {
-  $TPath::Selector::VERSION = '0.005';
+  $TPath::Selector::VERSION = '0.006';
 }
 
 # ABSTRACT: an interface for classes that select nodes from a candidate collection
@@ -22,7 +22,7 @@ TPath::Selector - an interface for classes that select nodes from a candidate co
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 REQUIRED METHODS
 

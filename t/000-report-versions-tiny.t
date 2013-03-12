@@ -69,7 +69,6 @@ eval { $v .= pmver('Test::Exception','any version') };
 eval { $v .= pmver('Test::More','0.88') };
 eval { $v .= pmver('Test::Trap','any version') };
 eval { $v .= pmver('Time::HiRes','any version') };
-eval { $v .= pmver('URI::Escape','any version') };
 eval { $v .= pmver('aliased','any version') };
 eval { $v .= pmver('feature','any version') };
 eval { $v .= pmver('namespace::autoclean','any version') };

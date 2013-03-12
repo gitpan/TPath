@@ -1,6 +1,6 @@
 package TPath::Selector::Test::RootAttribute;
 {
-  $TPath::Selector::Test::RootAttribute::VERSION = '0.005';
+  $TPath::Selector::Test::RootAttribute::VERSION = '0.006';
 }
 
 # ABSTRACT: handles C</@foo>
@@ -41,7 +41,7 @@ TPath::Selector::Test::RootAttribute - handles C</@foo>
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 ROLES
 

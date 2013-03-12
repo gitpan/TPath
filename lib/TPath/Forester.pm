@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.005';
+  $TPath::Forester::VERSION = '0.006';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -63,10 +63,8 @@ sub _collect_attributes {
                 $attributes{ $method->name } = $method->body;
             }
             else {
-                require URI::Escape;
-                if ( $annotation =~ /^Attr\(([^():]++)\)$/ ) {
-                    my $alias = URI::Escape::uri_unescape($1);
-                    $attributes{$alias} = $method->body;
+                if ( $annotation =~ /^Attr\((.*)\)$/ ) {
+                    $attributes{$1} = $method->body;
                 }
                 else {
                     confess "malformed annotation $annotation on method "
@@ -374,7 +372,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 

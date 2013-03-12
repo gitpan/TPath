@@ -42,7 +42,6 @@ my %WriteMakefileArgs = (
     "Regexp::Grammars" => "1.026",
     "Scalar::Util" => 0,
     "Time::HiRes" => 0,
-    "URI::Escape" => 0,
     "aliased" => 0,
     "feature" => 0,
     "namespace::autoclean" => 0,
@@ -50,7 +49,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.005",
+  "VERSION" => "0.006",
   "test" => {
     "TESTS" => "t/*.t"
   }
