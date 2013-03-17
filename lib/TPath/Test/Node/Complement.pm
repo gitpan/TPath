@@ -1,9 +1,9 @@
-package TPath::Test::Node::Tag;
+package TPath::Test::Node::Complement;
 {
-  $TPath::Test::Node::Tag::VERSION = '0.008';
+  $TPath::Test::Node::Complement::VERSION = '0.008';
 }
 
-# ABSTRACT: L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
+# ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
 
 use Moose;
 use namespace::autoclean;
@@ -12,12 +12,12 @@ use namespace::autoclean;
 with 'TPath::Test::Node';
 
 
-has tag => ( is => 'ro', isa => 'Str', required => 1 );
+has nt => ( is => 'ro', isa => 'TPath::Test::Node', required => 1 );
 
 # required by TPath::Test::Node
 sub passes {
     my ( $self, $n, $i ) = @_;
-    return $i->f->has_tag( $n, $self->tag );
+    return $self->nt->passes( $n, $i ) ? undef : 1;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -30,7 +30,7 @@ __END__
 
 =head1 NAME
 
-TPath::Test::Node::Tag - L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
+TPath::Test::Node::Complement - L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
 
 =head1 VERSION
 
@@ -38,9 +38,9 @@ version 0.008
 
 =head1 ATTRIBUTES
 
-=head2 tag
+=head2 a
 
-Tag or value to match.
+Attribute to detect.
 
 =head1 ROLES
 

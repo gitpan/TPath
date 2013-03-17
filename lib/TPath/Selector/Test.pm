@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.007';
+  $TPath::Selector::Test::VERSION = '0.008';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -8,6 +8,7 @@ package TPath::Selector::Test;
 
 use Moose::Role;
 use TPath::TypeConstraints;
+use TPath::Test::Node::Complement;
 
 
 with 'TPath::Selector';
@@ -36,6 +37,12 @@ has faxis => (
 
 has node_test =>
   ( is => 'ro', isa => 'TPath::Test::Node', writer => '_node_test' );
+
+sub _invert {
+    my $self = shift;
+    $self->_node_test(
+        TPath::Test::Node::Complement->new( nt => $self->node_test ) );
+}
 
 
 sub candidates {
@@ -67,7 +74,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 DESCRIPTION
 

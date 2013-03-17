@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.007';
+  $TPath::Attributes::Standard::VERSION = '0.008';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -167,7 +167,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 DESCRIPTION
 

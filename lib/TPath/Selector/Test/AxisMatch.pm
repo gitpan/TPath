@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisMatch;
 {
-  $TPath::Selector::Test::AxisMatch::VERSION = '0.007';
+  $TPath::Selector::Test::AxisMatch::VERSION = '0.008';
 }
 
 # ABSTRACT: handles C</ancestor::~foo~> or C</preceding::~foo~> where this is not the first step in the path, or C<ancestor::~foo~>, etc.
@@ -33,7 +33,7 @@ TPath::Selector::Test::AxisMatch - handles C</ancestor::~foo~> or C</preceding::
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 ROLES
 

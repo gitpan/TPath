@@ -14,7 +14,6 @@ lib/TPath/AttributeTest.pm
 lib/TPath/Attributes/Extended.pm
 lib/TPath/Attributes/Standard.pm
 lib/TPath/Compiler.pm
-lib/TPath/Compiler.pm.bak
 lib/TPath/Expression.pm
 lib/TPath/Forester.pm
 lib/TPath/Grammar.pm
@@ -60,6 +59,7 @@ lib/TPath/Test/Boolean.pm
 lib/TPath/Test/Compound.pm
 lib/TPath/Test/Node.pm
 lib/TPath/Test/Node/Attribute.pm
+lib/TPath/Test/Node/Complement.pm
 lib/TPath/Test/Node/Match.pm
 lib/TPath/Test/Node/Tag.pm
 lib/TPath/Test/Node/True.pm
@@ -68,6 +68,7 @@ lib/TPath/Test/Or.pm
 lib/TPath/Test/XOr.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
+perltidy.LOG
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm

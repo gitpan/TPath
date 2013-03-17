@@ -1,6 +1,6 @@
 package TPath::Selector::Test::RootAxisWildcard;
 {
-  $TPath::Selector::Test::RootAxisWildcard::VERSION = '0.007';
+  $TPath::Selector::Test::RootAxisWildcard::VERSION = '0.008';
 }
 
 # ABSTRACT: handles C</ancestor::*> or C</preceding::*> where this is the first step in the path
@@ -30,7 +30,7 @@ TPath::Selector::Test::RootAxisWildcard - handles C</ancestor::*> or C</precedin
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 AUTHOR
 

@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.007';
+  $TPath::Grammar::VERSION = '0.008';
 }
 
 use v5.10;
@@ -67,8 +67,8 @@ our $path_grammar = do {
     
        <token: abbreviated> (?<!/[/>]) (?: \.{1,2}+ | <id> )
     
-       <token: forward> <wildcard> | <specific> | <pattern> | <attribute>
-           | <error: Expecting tag selector>
+       <token: forward> <wildcard> | <complement=(\^)>? (?: <specific> | <pattern> | <attribute> )
+           | <error: Expecting selector>
     
        <token: wildcard> \* | <error:>
     
@@ -168,6 +168,7 @@ sub parse {
     my ($expr) = @_;
     if ( $expr =~ $path_grammar ) {
         my $ref = \%/;
+        complement_to_boolean($ref);
         if ( contains_condition($ref) ) {
             normalize_parens($ref);
             operator_precedence($ref);
@@ -179,6 +180,20 @@ sub parse {
     else {
         confess "could not parse '$expr' as a TPath expression:\n" . join "\n",
           @!;
+    }
+}
+
+# converts complement => '^' to complement => 1 simply to make AST function clearer
+sub complement_to_boolean {
+    my $ref = shift;
+    for ( ref $ref ) {
+        when ('HASH') {
+            for my $k ( keys %$ref ) {
+                if ( $k eq 'complement' ) { $ref->{$k} &&= 1 }
+                else { complement_to_boolean( $ref->{$k} ) }
+            }
+        }
+        when ('ARRAY') { complement_to_boolean($_) for @$ref }
     }
 }
 
@@ -535,7 +550,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 SYNOPSIS
 

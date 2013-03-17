@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.007';
+  $TPath::Forester::VERSION = '0.008';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -372,7 +372,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 SYNOPSIS
 
@@ -433,6 +433,12 @@ C<TPath::Forester> is a role. It provides most, but not all, methods and attribu
 required to construct L<TPath::Expression> objects. You must specify how to find a node's
 children and its parent (you may have to rely on a L<TPath::Index> for this), and you
 must define how a tag string or regex may match a node, if at all.
+
+=head2 Why "Forester"
+
+Foresters are people who can tell you about trees. A class with the role C<TPath::Forester>
+can also tell you about trees. I think know "arborist" sounds better, but I don't feel like
+refactoring everything to use a new name.
 
 =head1 ATTRIBUTES
 
