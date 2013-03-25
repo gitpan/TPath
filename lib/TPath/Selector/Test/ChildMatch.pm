@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildMatch;
 {
-  $TPath::Selector::Test::ChildMatch::VERSION = '0.008';
+  $TPath::Selector::Test::ChildMatch::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C</~foo~> where this is not the first step in the path, or C<child::~foo~>
@@ -19,12 +19,6 @@ sub BUILD {
     $self->_node_test( TPath::Test::Node::Match->new( rx => $self->rx ) );
 }
 
-
-sub candidates {
-    my ( $self, $n, $i ) = @_;
-    return $i->f->_children( $n, $self->node_test, $i );
-}
-
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -39,13 +33,7 @@ TPath::Selector::Test::ChildMatch - handles C</~foo~> where this is not the firs
 
 =head1 VERSION
 
-version 0.008
-
-=head1 METHODS
-
-=head2 candidates
-
-Expects node and index. Returns root node if it has the specified tag.
+version 0.009
 
 =head1 ROLES
 

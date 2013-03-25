@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestAttribute;
 {
-  $TPath::Selector::Test::ClosestAttribute::VERSION = '0.008';
+  $TPath::Selector::Test::ClosestAttribute::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C</E<gt>@foo>
@@ -22,8 +22,8 @@ sub BUILD {
 
 # required by TPath::Selector::Test
 sub candidates {
-    my ( $self, $n, $i ) = @_;
-    return $i->f->closest( $n, $self->node_test, $i );
+    my ( $self, $n, $i, $first ) = @_;
+    return $i->f->closest( $n, $self->node_test, $i, !$first );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -40,7 +40,7 @@ TPath::Selector::Test::ClosestAttribute - handles C</E<gt>@foo>
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

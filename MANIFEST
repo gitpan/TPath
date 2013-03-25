@@ -26,8 +26,10 @@ lib/TPath/Predicate/Boolean.pm
 lib/TPath/Predicate/Expression.pm
 lib/TPath/Predicate/Index.pm
 lib/TPath/Selector.pm
+lib/TPath/Selector/Expression.pm
 lib/TPath/Selector/Id.pm
 lib/TPath/Selector/Parent.pm
+lib/TPath/Selector/Quantified.pm
 lib/TPath/Selector/Self.pm
 lib/TPath/Selector/Test.pm
 lib/TPath/Selector/Test/Anywhere.pm
@@ -45,13 +47,6 @@ lib/TPath/Selector/Test/ClosestAttribute.pm
 lib/TPath/Selector/Test/ClosestMatch.pm
 lib/TPath/Selector/Test/ClosestTag.pm
 lib/TPath/Selector/Test/Root.pm
-lib/TPath/Selector/Test/RootAttribute.pm
-lib/TPath/Selector/Test/RootAxisAttribute.pm
-lib/TPath/Selector/Test/RootAxisMatch.pm
-lib/TPath/Selector/Test/RootAxisTag.pm
-lib/TPath/Selector/Test/RootAxisWildcard.pm
-lib/TPath/Selector/Test/RootMatch.pm
-lib/TPath/Selector/Test/RootTag.pm
 lib/TPath/StderrLog.pm
 lib/TPath/Test.pm
 lib/TPath/Test/And.pm
@@ -68,7 +63,6 @@ lib/TPath/Test/Or.pm
 lib/TPath/Test/XOr.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
-perltidy.LOG
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm
@@ -78,6 +72,7 @@ t/attribute_tests.t
 t/attributes.t
 t/axis.t
 t/basic.t
+t/compound.t
 t/extended_attributes.t
 t/parsing.t
 t/precedence.t

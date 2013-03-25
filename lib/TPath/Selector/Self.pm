@@ -1,6 +1,6 @@
 package TPath::Selector::Self;
 {
-  $TPath::Selector::Self::VERSION = '0.008';
+  $TPath::Selector::Self::VERSION = '0.009';
 }
 
 # ABSTRACT: L<TPath::Selector> that implements C<.>
@@ -13,8 +13,8 @@ with 'TPath::Selector';
 
 # required by TPath::Selector
 sub select {
-    my ( undef, $n ) = @_;
-    $n;
+	my ( undef, $n ) = @_;
+	$n;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -31,7 +31,7 @@ TPath::Selector::Self - L<TPath::Selector> that implements C<.>
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

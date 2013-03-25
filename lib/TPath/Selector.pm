@@ -1,6 +1,6 @@
 package TPath::Selector;
 {
-  $TPath::Selector::VERSION = '0.008';
+  $TPath::Selector::VERSION = '0.009';
 }
 
 # ABSTRACT: an interface for classes that select nodes from a candidate collection
@@ -22,13 +22,14 @@ TPath::Selector - an interface for classes that select nodes from a candidate co
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 REQUIRED METHODS
 
 =head2 select
 
-Takes a node an an index and returns a collection of nodes.
+Takes a node, an index, and whether the selection concerns the initial node
+and returns a collection of nodes.
 
 =head1 AUTHOR
 

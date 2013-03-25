@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereMatch;
 {
-  $TPath::Selector::Test::AnywhereMatch::VERSION = '0.008';
+  $TPath::Selector::Test::AnywhereMatch::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C<//~foo~> expression
@@ -12,16 +12,21 @@ use namespace::autoclean;
 
 with 'TPath::Selector::Test';
 
-has first => ( is => 'ro', isa => 'Bool', required => 1 );
-
 has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
+
+around BUILDARGS => sub {
+	my ( $orig, $class, %args ) = @_;
+	$class->$orig(
+		%args,
+		first_sensitive => 1,
+		axis            => 'descendant',
+	);
+};
 
 sub BUILD {
     my $self = shift;
     my $nt = TPath::Test::Node::Match->new( rx => $self->rx );
     $self->_node_test($nt);
-    my $axis = $self->first ? 'descendant-or-self' : 'descendant';
-    $self->_axis($axis);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -38,7 +43,7 @@ TPath::Selector::Test::AnywhereMatch - handles C<//~foo~> expression
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

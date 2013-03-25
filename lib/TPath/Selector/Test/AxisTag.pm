@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisTag;
 {
-  $TPath::Selector::Test::AxisTag::VERSION = '0.008';
+  $TPath::Selector::Test::AxisTag::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C</ancestor::foo> or C</preceding::foo> where this is not the first step in the path, or C<ancestor::foo>
@@ -15,8 +15,8 @@ with 'TPath::Selector::Test';
 has tag => ( is => 'ro', isa => 'Str', required => 1 );
 
 sub BUILD {
-    my $self = shift;
-    $self->_node_test( TPath::Test::Node::Tag->new( tag => $self->tag ) );
+	my $self = shift;
+	$self->_node_test( TPath::Test::Node::Tag->new( tag => $self->tag ) );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -33,7 +33,7 @@ TPath::Selector::Test::AxisTag - handles C</ancestor::foo> or C</preceding::foo>
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

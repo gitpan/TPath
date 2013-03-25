@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Anywhere;
 {
-  $TPath::Selector::Test::Anywhere::VERSION = '0.008';
+  $TPath::Selector::Test::Anywhere::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C<//*> expression
@@ -13,16 +13,16 @@ use namespace::autoclean;
 
 with 'TPath::Selector::Test';
 
-# whether it is the first step in a path
-has first => ( is => 'ro', isa => 'Bool', required => 1 );
-
-sub BUILD {
-    my $self = shift;
-    state $nt = TPath::Test::Node::True->new;
-    $self->_node_test( $nt );
-    my $axis = $self->first ? 'descendant-or-self' : 'descendant';
-    $self->_axis($axis);
-}
+around BUILDARGS => sub {
+	my ( $orig, $class, %args ) = @_;
+	state $nt = TPath::Test::Node::True->new;
+	$class->$orig(
+		%args,
+		first_sensitive => 1,
+		axis            => 'descendant',
+		node_test       => $nt
+	);
+};
 
 __PACKAGE__->meta->make_immutable;
 
@@ -38,7 +38,7 @@ TPath::Selector::Test::Anywhere - handles C<//*> expression
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

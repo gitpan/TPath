@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisWildcard;
 {
-  $TPath::Selector::Test::AxisWildcard::VERSION = '0.008';
+  $TPath::Selector::Test::AxisWildcard::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C</ancestor::*> or C</preceding::*> where this is not the first step in the path, or C<ancestor::*>, etc.
@@ -14,9 +14,9 @@ use namespace::autoclean;
 with 'TPath::Selector::Test';
 
 sub BUILD {
-    my $self = shift;
-    state $nt = TPath::Test::Node::True->new;
-    $self->_node_test( $nt );
+	my $self = shift;
+	state $nt = TPath::Test::Node::True->new;
+	$self->_node_test($nt);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -33,7 +33,7 @@ TPath::Selector::Test::AxisWildcard - handles C</ancestor::*> or C</preceding::*
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

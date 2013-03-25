@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.008';
+  $TPath::Forester::VERSION = '0.009';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -191,12 +191,12 @@ sub axis_sibling { my $self = shift; $self->_siblings(@_) }
 sub axis_sibling_or_self { my $self = shift; $self->_siblings_or_self(@_) }
 
 sub closest {
-    my ( $self, $n, $t, $i ) = @_;
-    return $n if $t->passes( $n, $i );
+    my ( $self, $n, $t, $i, $first ) = @_;
+    return $n if !$first && $t->passes( $n, $i );
     my @children = $self->_kids( $n, $i );
     my @closest;
     for my $c (@children) {
-        push @closest, $self->closest( $c, $t, $i );
+        push @closest, $self->closest( $c, $t, $i, 0 );
     }
     return @closest;
 }
@@ -372,7 +372,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 SYNOPSIS
 

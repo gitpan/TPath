@@ -1,6 +1,6 @@
 package TPath::Test::XOr;
 {
-  $TPath::Test::XOr::VERSION = '0.008';
+  $TPath::Test::XOr::VERSION = '0.009';
 }
 
 # ABSTRACT: implements logical function of tests which returns true iff only one test is true
@@ -37,14 +37,14 @@ TPath::Test::XOr - implements logical function of tests which returns true iff o
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 DESCRIPTION
 
 For use by compiled TPath expressions. Not for external consumption.
 
-NOTE: though this is called C<TPath::Test::XOr> and corresponds to the C<^> operator,
-it is really best understood as a one-of or uniqueness test. If it governs two operands,
+NOTE: though this is called C<TPath::Test::XOr> it corresponds to the C<`> operator
+and is really best understood as a one-of or uniqueness test. If it governs two operands,
 it is logically equivalent to exclusive or. If it governs more than one, it is B<not> necessarily
 equivalent to evaluating a sequence of pairwise exclusive or constructs. I have written things
 this way because I figure this is more useful in general and the true exclusive or logic can

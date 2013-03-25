@@ -1,6 +1,6 @@
 package TPath::Selector::Parent;
 {
-  $TPath::Selector::Parent::VERSION = '0.008';
+  $TPath::Selector::Parent::VERSION = '0.009';
 }
 
 # ABSTRACT: L<TPath::Selector> that implements C<..>
@@ -31,7 +31,7 @@ TPath::Selector::Parent - L<TPath::Selector> that implements C<..>
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

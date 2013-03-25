@@ -1,6 +1,6 @@
 package TPath::TypeCheck;
 {
-  $TPath::TypeCheck::VERSION = '0.008';
+  $TPath::TypeCheck::VERSION = '0.009';
 }
 
 # ABSTRACT: applies type constraint on nodes
@@ -32,7 +32,7 @@ TPath::TypeCheck - applies type constraint on nodes
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 DESCRIPTION
 

@@ -1,11 +1,12 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.008';
+  $TPath::Selector::Test::VERSION = '0.009';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
 
 
+use v5.10;
 use Moose::Role;
 use TPath::TypeConstraints;
 use TPath::Test::Node::Complement;
@@ -15,23 +16,25 @@ with 'TPath::Selector';
 
 
 has predicates => (
-    is         => 'ro',
-    isa        => 'ArrayRef[TPath::Predicate]',
-    default    => sub { [] },
-    auto_deref => 1
+	is         => 'ro',
+	isa        => 'ArrayRef[TPath::Predicate]',
+	default    => sub { [] },
+	auto_deref => 1
 );
 
 
-has axis =>
-  ( is => 'ro', isa => 'Axis', writer => '_axis', default => sub { 'child' } );
+has axis => ( is => 'ro', isa => 'Axis', writer => '_axis', default => 'child' );
+
+
+has first_sensitive => ( is => 'ro', isa => 'Bool', default => 0 );
 
 # axis translated into a forester method name
 has faxis => (
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-    default =>
-      sub { my $self = shift; ( my $v = $self->axis ) =~ tr/-/_/; "axis_$v" }
+	is   => 'ro',
+	isa  => 'Str',
+	lazy => 1,
+	default =>
+	  sub { my $self = shift; ( my $v = $self->axis ) =~ tr/-/_/; "axis_$v" }
 );
 
 
@@ -39,27 +42,38 @@ has node_test =>
   ( is => 'ro', isa => 'TPath::Test::Node', writer => '_node_test' );
 
 sub _invert {
-    my $self = shift;
-    $self->_node_test(
-        TPath::Test::Node::Complement->new( nt => $self->node_test ) );
+	my $self = shift;
+	$self->_node_test(
+		TPath::Test::Node::Complement->new( nt => $self->node_test ) );
 }
 
 
 sub candidates {
-    my ( $self, $n, $i ) = @_;
-    my $axis = $self->faxis;
-    $i->f->$axis( $n, $self->node_test, $i );
+	my ( $self, $n, $i, $first ) = @_;
+	my $axis = $self->_select_axis($first);
+	$i->f->$axis( $n, $self->node_test, $i );
+}
+
+sub _select_axis {
+	my ( $self, $first ) = @_;
+	if ( $first && $self->first_sensitive ) {
+		for ( $self->axis ) {
+			when ('child')      { return 'axis_self' }
+			when ('descendant') { return 'axis_descendant_or_self' }
+		}
+	}
+	return $self->faxis;
 }
 
 # implements method required by TPath::Selector
 sub select {
-    my ( $self, $n, $i ) = @_;
-    my @candidates = $self->candidates( $n, $i );
-    for my $p ( $self->predicates ) {
-        last unless @candidates;
-        @candidates = $p->filter( $i, \@candidates );
-    }
-    return @candidates;
+	my ( $self, $n, $i, $first ) = @_;
+	my @candidates = $self->candidates( $n, $i, $first );
+	for my $p ( $self->predicates ) {
+		last unless @candidates;
+		@candidates = $p->filter( $i, \@candidates );
+	}
+	return @candidates;
 }
 
 1;
@@ -74,7 +88,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 DESCRIPTION
 
@@ -90,6 +104,11 @@ by this selector.
 =head2 axis
 
 The axis on which nodes are sought; C<child> by default.
+
+=head2 first_sensitive
+
+Whether this this test may use a different axis depending on whether it is the first
+step in a path.
 
 =head2 node_test
 

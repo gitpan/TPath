@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereAttribute;
 {
-  $TPath::Selector::Test::AnywhereAttribute::VERSION = '0.008';
+  $TPath::Selector::Test::AnywhereAttribute::VERSION = '0.009';
 }
 
 # ABSTRACT: handles C<//@foo> expression
@@ -13,16 +13,21 @@ use namespace::autoclean;
 
 with 'TPath::Selector::Test';
 
-has first => ( is => 'ro', isa => 'Bool', required => 1 );
-
 has a => ( is => 'ro', isa => 'TPath::Attribute', required => 1 );
+
+around BUILDARGS => sub {
+	my ( $orig, $class, %args ) = @_;
+	$class->$orig(
+		%args,
+		first_sensitive => 1,
+		axis            => 'descendant',
+	);
+};
 
 sub BUILD {
     my $self = shift;
     my $nt = TPath::Test::Node::Attribute->new( a => $self->a );
     $self->_node_test( $nt );
-    my $axis = $self->first ? 'descendant-or-self' : 'descendant';
-    $self->_axis($axis);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -39,7 +44,7 @@ TPath::Selector::Test::AnywhereAttribute - handles C<//@foo> expression
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 ROLES
 

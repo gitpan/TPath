@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.008';
+  $TPath::Expression::VERSION = '0.009';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -10,7 +10,9 @@ use TPath::TypeCheck;
 use TPath::TypeConstraints;
 use Scalar::Util qw(refaddr);
 use Moose;
-use namespace::autoclean -also => qr/^_/;
+use namespace::autoclean;
+
+sub uniq(@);
 
 
 with 'TPath::Test';
@@ -23,40 +25,52 @@ has _selectors =>
 
 
 sub select {
-    my ( $self, $n, $i, %opts ) = @_;
-    confess 'select called on a null node' unless defined $n;
-	$n = $self->f->wrap($n, %opts);
-    $self->f->_typecheck($n);
-    $i //= $self->f->index($n);
-    $i->index;
-    my @sel;
-    for my $fork ( @{ $self->_selectors } ) {
-        push @sel, _sel( $n, $i, $fork, 0 );
-    }
-    if ( @{ $self->_selectors } > 1 ) {
-        my %uniques;
-        @sel = map {
-            my $ra = refaddr $_;
-            if   ( $uniques{$ra} ) { () }
-            else                   { $uniques{$ra} = 1; $_ }
-        } @sel;
-    }
-    return wantarray ? @sel : $sel[0];
+	my ( $self, $n, $i, %opts ) = @_;
+	confess 'select called on a null node' unless defined $n;
+	$n = $self->f->wrap( $n, %opts );
+	$self->f->_typecheck($n);
+	$i //= $self->f->index($n);
+	$i->index;
+	my $sel = $self->_select( $n, $i, 1 );
+	return wantarray ? @$sel : $sel->[0];
+}
+
+# select minus the initialization steps
+sub _select {
+	my ( $self, $n, $i, $first ) = @_;
+
+	my @sel;
+	for my $fork ( @{ $self->_selectors } ) {
+		push @sel, @{ _sel( $n, $i, $fork, 0, $first ) };
+	}
+	@sel = uniq @sel if @{ $self->_selectors } > 1;
+
+	return \@sel;
 }
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $i ) = @_;
-    !!$self->select( $n, $i );
+	my ( $self, $n, $i ) = @_;
+	!!$self->select( $n, $i );
 }
 
+# goes down steps of path
 sub _sel {
-    my ( $n, $i, $fork, $idx ) = @_;
-    my @c = $fork->[ $idx++ ]->select( $n, $i );
-    return @c if $idx == @$fork;
-    my @sel;
-    push @sel, _sel( $_, $i, $fork, $idx ) for @c;
-    return @sel;
+	my ( $n, $i, $fork, $idx, $first ) = @_;
+	my $selector = $fork->[ $idx++ ];
+	my @c = uniq $selector->select( $n, $i, $first );
+	return \@c if $idx == @$fork;
+
+	my @sel;
+	push @sel, @{ _sel( $_, $i, $fork, $idx, 0 ) } for @c;
+	return \@sel;
+}
+
+# a substitute for List::MoreUtils::uniq which uses reference address rather than stringification to establish identity
+sub uniq(@) {
+	return @_ if @_ < 2;
+	my %seen = ();
+	grep { not $seen{ refaddr $_ }++ } @_;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -73,7 +87,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 SYNOPSIS
 

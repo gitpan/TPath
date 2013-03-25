@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.008';
+  $TPath::Attribute::VERSION = '0.009';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -39,7 +39,7 @@ sub apply {
                 $value = $a->test( $n, $i, $c );
             }
             elsif ( $a->isa('TPath::Expression') ) {
-                $value = [ $a->select( $n, $i ) ];
+                $value = $a->_select( $n, $i, 0 );
             }
             elsif ( $a->does('TPath::Test') ) {
                 $value = $a->test( $n, $i, $c );
@@ -71,7 +71,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 DESCRIPTION
 

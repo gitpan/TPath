@@ -1,9 +1,9 @@
 package TPath::Selector::Test::Root;
 {
-  $TPath::Selector::Test::Root::VERSION = '0.008';
+  $TPath::Selector::Test::Root::VERSION = '0.009';
 }
 
-# ABSTRACT: handles C</.>
+# ABSTRACT: handles C<root()>
 
 use Moose;
 use namespace::autoclean;
@@ -27,11 +27,11 @@ __END__
 
 =head1 NAME
 
-TPath::Selector::Test::Root - handles C</.>
+TPath::Selector::Test::Root - handles C<root()>
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 METHODS
 
