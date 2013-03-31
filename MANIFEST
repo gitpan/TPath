@@ -74,6 +74,7 @@ t/axis.t
 t/basic.t
 t/compound.t
 t/extended_attributes.t
+t/match.t
 t/parsing.t
 t/precedence.t
 t/release-00element.t

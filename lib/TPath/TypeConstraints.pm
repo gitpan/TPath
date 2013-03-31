@@ -1,6 +1,6 @@
 package TPath::TypeConstraints;
 {
-  $TPath::TypeConstraints::VERSION = '0.009';
+  $TPath::TypeConstraints::VERSION = '0.010';
 }
 
 # ABSTRACT: assorted type constraints
@@ -16,7 +16,7 @@ union 'ATArg', [qw( Num TPath::Attribute Str )];
 
 union 'CondArg', [qw(TPath::Attribute TPath::Expression TPath::AttributeTest TPath::Test::Boolean)];
 
-enum 'Quantifier' => qw( * + ? );
+enum 'Quantifier' => qw( * + ? e );
 
 enum 'Axis' => keys %AXES;
 
@@ -30,7 +30,7 @@ TPath::TypeConstraints - assorted type constraints
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 AUTHOR
 

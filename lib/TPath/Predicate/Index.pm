@@ -1,6 +1,6 @@
 package TPath::Predicate::Index;
 {
-  $TPath::Predicate::Index::VERSION = '0.009';
+  $TPath::Predicate::Index::VERSION = '0.010';
 }
 
 # ABSTRACT: implements the C<[0]> in C<//a/b[0]>
@@ -33,7 +33,7 @@ TPath::Predicate::Index - implements the C<[0]> in C<//a/b[0]>
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 DESCRIPTION
 

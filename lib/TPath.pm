@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.009';
+  $TPath::VERSION = '0.010';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 SYNOPSIS
 
@@ -640,7 +640,7 @@ tests that filter the candidate nodes selected by the selectors.
 
 There may be space inside the square brackets.
 
-=head2 Index Predicates
+=head3 Index Predicates
 
   //foo/bar[0]
 
@@ -649,6 +649,118 @@ index is 0, unlike in XML, so the expression above selects the first bar under e
 
 The index rules are the same as those for Perl arrays: 0 is the first item; negative indices
 count from the end, so -1 retrieves the last item.
+
+=head3 Path Predicates
+
+  a[b]
+
+A path predicate is true if the node set it selects starting at the context node is
+not empty. Given the tree
+
+    a
+   / \
+  b   a
+  |   |
+  a   b
+
+the path C<//a[b]> would select only the two non-leaf C<a> nodes.
+
+=head4 Attribute Predicates
+
+  a[@leaf]
+
+An attribute predicate is true if its context node bears the given attribute. (For the
+definition of attributes, see below.) Given the tree
+
+    a
+   / \
+  b   a
+  |   |
+  a   b
+
+the path C<//a[@leaf]> would select only the leaf C<a> nodes.
+
+=head3 Attribute Tests
+
+Attribute tests are predicaters which compare attributes to literals, numbers, or other 
+attributes.
+
+=head4 equality and inequality
+
+  a[@b = 1]
+  a[@b = "c"]
+  a[@b = @c]
+  a[@b == @c]
+  a[@b != @c]
+  ...
+
+=head4 ranking
+
+  a[@b < 1]
+  a[@b < "c"]
+  a[@b < @c]
+  a[@b > 1]
+  a[@b <= 1]
+  ...
+
+=head4 matching
+
+  a[@b =~ '(?<!c)d']
+  a[@b !~ '(?<!c)d']
+  a[@b =~ @c]
+  ...
+
+If you wish to test a path instead of an attribute -- to test against the cardinality
+of the node set collected, say -- you can use the C<@echo> attribute. This attribute
+returns the value of its parameter, thus converting anything that can be the parameter
+of an attribute, including expressions, into attributes.
+
+TODO: complete this section by describing the definitions of equality and rank used.
+
+=head3 Boolean Predicates
+
+Boolean predicates combine various terms -- attributes, attribute tests, or tpath expressions --
+via boolean operators:
+
+=over 8
+
+=item C<!> or C<not>
+
+True iff the attribute is undefined, the attribute test returns false, the expression returns
+no nodes, or the boolean expression is false.
+
+=item C<&> or C<and>
+
+True iff all conjoined operands are true.
+
+=item C<||> or C<or>
+
+True iff any of the conjoined operands is true.
+
+Note that boolean or is two pipe characters. This is to disambiguate the path expression
+C<a|b> from the boolean expression C<a||b>.
+
+=item C<`> or C<one>
+
+True B<if one and only one of the conjoined operands is true>. The expression
+
+  @a ` @b
+
+behaves like ordinary exclusive or. But if more than two operands are conjoined
+this way, the entire expression is a uniqueness test.
+
+=item C<( ... )>
+
+Groups the contained boolean operations. True iff they evaluate to true.
+
+=back
+
+The normal precedence rules of logical operators applies to these:
+
+  () < ! < & < ` < ||
+
+Space is required around operators only where necessary to prevent their being
+interpreted as part of a path or attribute.
 
 =head2 Attributes
 
@@ -678,58 +790,31 @@ forester via the C<add_attribute> method:
      ...
   });
 
-TODO: explain other means to define new attributes.
+Other methods are to defined them as annotated methods of the forester
 
-=head2 Attribute Tests
+  sub foo :Attr {
+  	 my ( $self, $node, $index, $collection, @params) = @_;
+  	 ...
+  }
 
-Attribute tests compare attributes to literals, numbers, or other attributes
+If this would cause a namespace collision or is not a possible method name, you can provide 
+the attribute name as a parameter of the method attribute:
 
-TODO: complete this section.
+  sub foo :Attr(problem:name) {
+  	 my ( $self, $node, $index, $collection, @params) = @_;
+  	 ...
+  }
 
-=head2 Boolean Predicates
+Defining attributes as annotated methods is particularly useful if you wish to
+create an attribute library that you can mix into various foresters. In this case
+you define the attributes within a role instead of the forester itself.
 
-Boolean predicates combine various terms -- attributes, attribute tests, or tpath expressions --
-via boolean operators:
-
-=over 8
-
-=item C<!> or C<not>
-
-True iff the attribute is undefined, the attribute test returns false, the expression returns
-no nodes, or the boolean expression is false.
-
-=item C<&> or C<and>
-
-True iff all conjoined operands are true.
-
-=item C<||> or C<or>
-
-True iff any of the conjoined operands is true.
-
-Note that boolean or is two pipe characters. This is to disambiguate the path expression
-C<a|b> from the boolean expression C<a||b>.
-
-=item C<^> or C<xor>
-
-True B<if one and only one of the conjoined operands is true>. The expression
-
-  @a ^ @b
-
-Behaves like ordinary exclusive or. But if more than two operands are conjoined
-this way, the entire expression is a uniqueness test.
-
-=item C<( ... )>
-
-Groups the contained boolean operations. True iff they evaluate to true.
-
-=back
-
-The normal precedence rules of logical operators applies to these:
-
-  () < ! < & < ^ < ||
-
-Space is required around operators only where necessary to prevent their being
-interpreted as part of a path or attribute.
+  package PimpedForester;
+  use Moose;
+  extends 'TPath::Forester';
+  with qw(TheseAttributes ThoseAttributes YonderAttributes Etc);
+  sub tag { ... }
+  sub children { ... }
 
 =head2 Special Selectors
 
@@ -754,6 +839,39 @@ by C<//*[@id = 'foo']> but this is much less efficient.
 This expression selects the root of the tree. It doesn't make much sense except as the
 first step in an expression.
 
+=head2 Grouping and Repetition
+
+TPath expressions may contain sub-paths consisting of grouped alternates and steps or sub-paths
+may be quantified as in regular expressions
+
+=over 2
+
+=item C<//aB<(/b|/c)>/d>
+
+=item C<//aB<?>/bB<*>/cB<+>>
+
+=item C<//aB<(/b/c)+>/d>
+
+=item C<//aB<(/b/c){3}>/d>
+
+=item C<//aB<{3,}>>
+
+=item C<//aB<{0,3}>>
+
+=item C<//aB<{,3}>>
+
+=back
+
+The last expression, C<{,3}>, one does not see in regular expressions. It is the short form
+of C<{0,3}>.
+
+Despite this similarity it should be remembered that TPath expression differ from regular 
+expressions in that they always return all possible matches, not just the first match
+discovered or, for those regular expression engines that provide longest token matching or
+other optimality criteria, the optimal match. On the other hand, the first node selected
+will correspond to the first match using greedy repetition. And if you have optimality 
+criteria you are free to re-rank the nodes selected and pick the first node by this ranking.
+
 =head2 Hiding Nodes
 
 In some cases there may be nodes -- spaces, comments, hidden directories and files -- that you
@@ -768,6 +886,36 @@ object that generates expressions.
 
 One can put this in the forester's C<BUILD> method to make them invisible to all instances of the
 class.
+
+=head2 Potentially Confusing Dissimilarities Between TPath and XPath
+
+For most uses, where TPath and XPath provide similar functionality they will behave
+identically. Where you may be led astray is in the semantics of separators beginning
+paths.
+
+  /foo/foo
+  //foo//foo
+
+In both TPath and XPath, when applied to the root of a tree the first expression will
+select the root itself if this root has the tag C<foo> and the second will select all
+C<foo> nodes, including the root if it bears this tag. This is notably different from the
+behavior of the second step in each path. The second C</foo> will select a C<foo>
+B<child> of the root node, not the root node itself, and the second C<//foo> will select
+C<foo> descendants of other C<foo> nodes, not the nodes themselves.
+
+Where the two formalisms may differ is in the nodes they return when these paths are applied
+to some sub-node. In XPath, C</foo> always refers to the root node, provided this is a
+C<foo> node. In TPath it always refers to the node the path is applied to, provided it is
+a C<foo> node. (TODO: confirm this for XPath.) In XPath, if you require that the first step
+refer to the root node you must use the root selector C<:root>. If you also require that
+this node bear the tag C<foo> you must combine the root selector with the C<self::> axis.
+
+  :root/self::foo
+
+This is verbose, but then this is not likely to be a common requirement.
+
+The TPath semantics facilitate the implementation of repetition, which is absent from
+XPath.
 
 =head1 HISTORY
 
