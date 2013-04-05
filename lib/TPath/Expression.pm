@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.010';
+  $TPath::Expression::VERSION = '0.011';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -87,7 +87,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 SYNOPSIS
 

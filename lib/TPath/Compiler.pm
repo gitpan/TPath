@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '0.010';
+  $TPath::Compiler::VERSION = '0.011';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -395,7 +395,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 

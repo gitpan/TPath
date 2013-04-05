@@ -1,6 +1,6 @@
 package TPath::Predicate::Attribute;
 {
-  $TPath::Predicate::Attribute::VERSION = '0.010';
+  $TPath::Predicate::Attribute::VERSION = '0.011';
 }
 
 # ABSTRACT: implements the C<[@foo]> in C<//a/b[@foo]>
@@ -34,7 +34,7 @@ TPath::Predicate::Attribute - implements the C<[@foo]> in C<//a/b[@foo]>
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 

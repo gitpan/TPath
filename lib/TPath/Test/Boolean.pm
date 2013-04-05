@@ -1,6 +1,6 @@
 package TPath::Test::Boolean;
 {
-  $TPath::Test::Boolean::VERSION = '0.010';
+  $TPath::Test::Boolean::VERSION = '0.011';
 }
 
 # ABSTRACT: any empty role used to tag boolean TPath::Tests
@@ -21,7 +21,7 @@ TPath::Test::Boolean - any empty role used to tag boolean TPath::Tests
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 AUTHOR
 

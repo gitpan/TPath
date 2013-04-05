@@ -1,5 +1,9 @@
 Revision history for TPath
 
+0.011     2013-04-04 20:06:57 America/New_York
+  * added :'quote' style quoting
+  * improved error message in event of failure to parse
+
 0.010     2013-03-30 22:22:12 America/New_York
   * added enumerated repetition -- a{2}, a{,2}, a{2,}, a{2,3}
   * added matching as attribute test
