@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereTag;
 {
-  $TPath::Selector::Test::AnywhereTag::VERSION = '0.011';
+  $TPath::Selector::Test::AnywhereTag::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C<//foo> expression
@@ -15,18 +15,26 @@ with 'TPath::Selector::Test';
 has tag => ( is => 'ro', isa => 'Str', required => 1 );
 
 around BUILDARGS => sub {
-	my ( $orig, $class, %args ) = @_;
-	$class->$orig(
-		%args,
-		first_sensitive => 1,
-		axis            => 'descendant',
-	);
+    my ( $orig, $class, %args ) = @_;
+    $class->$orig(
+        %args,
+        first_sensitive => 1,
+        axis            => 'descendant',
+    );
 };
 
 sub BUILD {
-	my $self = shift;
-	my $nt = TPath::Test::Node::Tag->new( tag => $self->tag );
-	$self->_node_test($nt);
+    my $self = shift;
+    my $nt = TPath::Test::Node::Tag->new( tag => $self->tag );
+    $self->_node_test($nt);
+}
+
+sub to_string {
+    my $self = shift;
+    return
+        '//'
+      . ( $self->is_inverted ? '^' : '' )
+      . $self->_stringify_label( $self->tag );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -43,7 +51,7 @@ TPath::Selector::Test::AnywhereTag - handles C<//foo> expression
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

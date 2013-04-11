@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildAttribute;
 {
-  $TPath::Selector::Test::ChildAttribute::VERSION = '0.011';
+  $TPath::Selector::Test::ChildAttribute::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C</@foo> where this is not the first step in the path, or C<child::@foo>
@@ -20,6 +20,14 @@ sub BUILD {
     $self->_node_test( TPath::Test::Node::Attribute->new( a => $self->a ) );
 }
 
+sub to_string {
+    my ( $self, $first ) = @_;
+    my $s = $first ? '' : '/';
+    $s .= '^' if $self->is_inverted;
+    $s .= $self->a->to_string;
+    return $s;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -34,7 +42,7 @@ TPath::Selector::Test::ChildAttribute - handles C</@foo> where this is not the f
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

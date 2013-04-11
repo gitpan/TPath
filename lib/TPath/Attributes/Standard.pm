@@ -1,11 +1,12 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.011';
+  $TPath::Attributes::Standard::VERSION = '0.012';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
 
 
+use v5.10;
 use Moose::Role;
 use MooseX::MethodAttributes::Role;
 use Scalar::Util qw(refaddr);
@@ -155,6 +156,25 @@ sub standard_id : Attr(id) {
     $self->id($n);
 }
 
+
+sub standard_card : Attr(card) {
+    my ( undef, undef, undef, undef, $o ) = @_;
+    return 0 unless defined $o;
+    for (ref $o) {
+        when ('HASH') {return scalar keys %$o } 
+        when ('ARRAY') {return scalar @$o}
+        default { return 1 }
+    }
+}
+
+
+sub standard_attr :Attr(at) {
+    my ( $self, undef, $i, $c, $nodes, $attr, @params ) = @_;
+    my @nodes = @$nodes;
+    return undef unless @nodes;
+    $self->attribute($nodes[0], $attr, $i, $c, @params);
+}
+
 1;
 
 __END__
@@ -167,7 +187,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 
@@ -198,7 +218,7 @@ child is C</1/0>. And so on.
 
 =head2 C<@echo(//a)>
 
-Returns is parameter. C<@echo> is useful because it can in effect turn anything
+Returns its parameter. C<@echo> is useful because it can in effect turn anything
 into an attribute. You want a predicate that passes when a path returns a node
 set of a particular cardinality?
 
@@ -259,6 +279,34 @@ See attribute C<log_stream> in L<TPath::Forester>.
 =head2 C<@id>
 
 Returns the id of the current node, if any.
+
+=head2 C<@card(//a)>
+
+Returns the cardinality of its parameter. If its parameter evaluates to a list reference, it is the
+number of items in the list. If it evaluates to a hash reference, it is the number of mappings. The
+usual parameters are expressions or attributes. Anything which evaluates to C<undef> will have a
+cardinality of 0. Anything which does not evaluate to a collection reference will have a cardinality
+of 1. 
+
+  //foo[@card(bar) = @card(@quux)]
+
+=head2 C<@at(foo//bar, 'baz', 1, 2, 3)>
+
+Returns the value of the named attribute with the given parameters at the first node selected by
+the path parameter evaluated relative to the context node. In the case of
+
+  @at(foo//bar, 'baz', 1, 2, 3)
+
+The path parameter is C<foo//bar>, the relevant attribute is C<@baz>, and it will be evaluated using
+the parameters 1, 2, and 3. Other examples:
+
+  @at(leaf::*[1], 'id')   # the id of the second leaf under this node
+  @at(*/*, 'height')      # the height of the first grandchild of this node
+  @at(/>foo, 'depth')     # the depth of the closest foo node
+
+It is the first node selected by the path whose attribute is evaluated, that is, the first node returned,
+so it is relevant that paths are evaluated left-to-right, depth-first, and post-ordered, descendants being
+returned before their ancestors.
 
 =head1 REQUIRED METHODS
 

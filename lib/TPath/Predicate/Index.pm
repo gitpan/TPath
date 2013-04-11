@@ -1,6 +1,6 @@
 package TPath::Predicate::Index;
 {
-  $TPath::Predicate::Index::VERSION = '0.011';
+  $TPath::Predicate::Index::VERSION = '0.012';
 }
 
 # ABSTRACT: implements the C<[0]> in C<//a/b[0]>
@@ -13,10 +13,13 @@ with 'TPath::Predicate';
 
 
 has idx => ( is => 'ro', isa => 'Int', required => 1 );
-
 sub filter {
     my ( $self, undef, $c ) = @_;
     return $c->[ $self->idx ];
+}
+
+sub to_string {
+    $_[0]->idx;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -33,7 +36,7 @@ TPath::Predicate::Index - implements the C<[0]> in C<//a/b[0]>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 

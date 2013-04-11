@@ -1,6 +1,6 @@
 package TPath::Test::Or;
 {
-  $TPath::Test::Or::VERSION = '0.011';
+  $TPath::Test::Or::VERSION = '0.012';
 }
 
 # ABSTRACT: implements logical disjunction of tests
@@ -20,6 +20,11 @@ sub test {
     return 0;
 }
 
+sub to_string {
+    my $self = shift;
+    return $self->_compound_to_string('||');
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -34,7 +39,7 @@ TPath::Test::Or - implements logical disjunction of tests
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 

@@ -1,12 +1,15 @@
 package TPath::Test;
 {
-  $TPath::Test::VERSION = '0.011';
+  $TPath::Test::VERSION = '0.012';
 }
 
 # ABSTRACT: interface of conditional expressions in predicates
 
 
 use Moose::Role;
+
+
+with 'TPath::Stringifiable';
 
 
 requires 'test';
@@ -23,13 +26,17 @@ TPath::Test - interface of conditional expressions in predicates
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 
 Interface of objects expressing tests in predicate expressions. E.g., the C<@a or @b> in 
 C<//foo[@a or @b]>. Not to be confused with L<TPath::Test::Node>, which is used to implement
 the C<foo> portion of this expression.
+
+=head1 ROLES
+
+L<TPath::Stringifiable>
 
 =head1 REQUIRED METHODS
 

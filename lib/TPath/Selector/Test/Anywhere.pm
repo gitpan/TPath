@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Anywhere;
 {
-  $TPath::Selector::Test::Anywhere::VERSION = '0.011';
+  $TPath::Selector::Test::Anywhere::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C<//*> expression
@@ -14,15 +14,17 @@ use namespace::autoclean;
 with 'TPath::Selector::Test';
 
 around BUILDARGS => sub {
-	my ( $orig, $class, %args ) = @_;
-	state $nt = TPath::Test::Node::True->new;
-	$class->$orig(
-		%args,
-		first_sensitive => 1,
-		axis            => 'descendant',
-		node_test       => $nt
-	);
+    my ( $orig, $class, %args ) = @_;
+    state $nt = TPath::Test::Node::True->new;
+    $class->$orig(
+        %args,
+        first_sensitive => 1,
+        axis            => 'descendant',
+        node_test       => $nt
+    );
 };
+
+sub to_string { '//*' }
 
 __PACKAGE__->meta->make_immutable;
 
@@ -38,7 +40,7 @@ TPath::Selector::Test::Anywhere - handles C<//*> expression
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

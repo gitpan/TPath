@@ -1,9 +1,9 @@
 package TPath::Selector::Test::Root;
 {
-  $TPath::Selector::Test::Root::VERSION = '0.011';
+  $TPath::Selector::Test::Root::VERSION = '0.012';
 }
 
-# ABSTRACT: handles C<root()>
+# ABSTRACT: handles C<:root>
 
 use Moose;
 use namespace::autoclean;
@@ -17,6 +17,8 @@ sub candidates {
     return $i->root;
 }
 
+sub to_string { ':root' }
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -27,11 +29,11 @@ __END__
 
 =head1 NAME
 
-TPath::Selector::Test::Root - handles C<root()>
+TPath::Selector::Test::Root - handles C<:root>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 METHODS
 

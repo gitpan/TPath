@@ -1,9 +1,9 @@
 package TPath::Test::Node::Attribute;
 {
-  $TPath::Test::Node::Attribute::VERSION = '0.011';
+  $TPath::Test::Node::Attribute::VERSION = '0.012';
 }
 
-# ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
+# ABSTRACT: L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
 
 use Moose;
 use namespace::autoclean;
@@ -20,6 +20,8 @@ sub passes {
     return $self->a->test( $n, $i, [] ) ? 1 : undef;
 }
 
+sub to_string { $_[0]->a->to_string }
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -30,11 +32,11 @@ __END__
 
 =head1 NAME
 
-TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
+TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ATTRIBUTES
 

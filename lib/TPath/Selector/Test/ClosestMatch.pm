@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestMatch;
 {
-  $TPath::Selector::Test::ClosestMatch::VERSION = '0.011';
+  $TPath::Selector::Test::ClosestMatch::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C</E<gt>~foo~>
@@ -25,6 +25,14 @@ sub candidates {
     return $i->f->closest( $n, $self->node_test, $i, !$first );
 }
 
+sub to_string {
+    my $self = shift;
+    return
+        '/>'
+      . ( $self->is_inverted ? '^' : '' )
+      . $self->_stringify_match( $self->rx );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -39,7 +47,7 @@ TPath::Selector::Test::ClosestMatch - handles C</E<gt>~foo~>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

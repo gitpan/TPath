@@ -1,6 +1,6 @@
 package TPath::Test::Compound;
 {
-  $TPath::Test::Compound::VERSION = '0.011';
+  $TPath::Test::Compound::VERSION = '0.012';
 }
 
 # ABSTRACT: role of TPath::Tests that combine multiple other tests under some boolean operator
@@ -14,6 +14,18 @@ with 'TPath::Test::Boolean';
 
 has tests => ( is => 'ro', isa => 'ArrayRef[CondArg]', required => 1 );
 
+sub _compound_to_string {
+    my ( $self, $op ) = @_;
+    my $s     = '(';
+    my @tests = @{ $self->tests };
+    $s .= $tests[0]->to_string;
+    for my $t ( @tests[ 1 .. $#tests ] ) {
+        $s .= " $op " . $t->to_string;
+    }
+    $s .= ')';
+    return $s;
+}
+
 1;
 
 __END__
@@ -26,7 +38,7 @@ TPath::Test::Compound - role of TPath::Tests that combine multiple other tests u
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ATTRIBUTES
 

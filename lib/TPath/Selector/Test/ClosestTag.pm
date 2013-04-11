@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestTag;
 {
-  $TPath::Selector::Test::ClosestTag::VERSION = '0.011';
+  $TPath::Selector::Test::ClosestTag::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C</E<gt>foo>
@@ -25,6 +25,14 @@ sub candidates {
     return $i->f->closest( $n, $self->node_test, $i, !$first );
 }
 
+sub to_string {
+    my $self = shift;
+    return
+        '/>'
+      . ( $self->is_inverted ? '^' : '' )
+      . $self->_stringify_label( $self->tag );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -39,7 +47,7 @@ TPath::Selector::Test::ClosestTag - handles C</E<gt>foo>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

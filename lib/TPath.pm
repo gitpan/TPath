@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.011';
+  $TPath::VERSION = '0.012';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 SYNOPSIS
 
@@ -703,6 +703,26 @@ attributes.
   a[@b != @c]
   ...
 
+The equality and inequality attribute tests, as you would expect, determine whether the left
+argument is equal to the right by some definition of equality. If one operator is a number
+and the other a collection, it's equality of cardinality. If one is a string, it is whether 
+their printed forms are identical. If they are both objects or collections, either referential or
+semantic identity is measured. Referential identity means the collections or objects must be the
+same individual, must be stored at the same memory address. This is the meaning of the double
+equals sign. The single equals sign designates semantic identity, meaning, in the case of collections,
+that they are deeply equal -- the same values stored under the same indices or keys. If one of the items
+compared is an object and it has an C<equals> method, this method is invoked as a semantic equality
+test (this is the Java convention). Otherwise, referential identity is required. Objects are not treated
+as containers.
+
+The C<!=> comparator behaves as you would expect so long as one or the other of the two operands is either
+a string or a number. That is, it is the negation of C<=> or C<==>. Otherwise, collections are converted to
+cardinalities and objects to strings, with string comparison being used if either argument is an object. If
+you wish the negation of C<=> or C<==> with collections or objects, you must negate the positive form:
+
+  a[!(@b = @c)]
+  a[!(@b == @c)]
+
 =head4 ranking
 
   a[@b < 1]
@@ -712,19 +732,58 @@ attributes.
   a[@b <= 1]
   ...
 
+The ranking operators require some partial order of the operands. If both evaluate to numbers or strings, the
+respective orders of these are used. If one is a string, string sort order dominates. If both are collections,
+numeric sorting by cardinality is used. Objects are sorted by string comparison.
+
 =head4 matching
 
-  a[@b =~ '(?<!c)d']
+The matching operators look for character patterns within strings. They fall into two groups: the regex matchers
+and the index matchers.
+
+  a[@b =~ '(?<!c)d']  # regex matching
   a[@b !~ '(?<!c)d']
   a[@b =~ @c]
   ...
+  a[@b |= 'c']        # index matching
+  a[@b =|= 'c']
+  a[@b =| 'c']
+  a[@b |= @c]
+  ...
+
+B<regex matching>
+
+The two regex matching operators, C<=~> and C<!~>, function as you would expect: the right operand is stringified
+and compiled into a regular expression and matched against the left operand. If the left operand is constant -- a
+string or a number -- this regex compilation occurs at compile time. Otherwise, it must be performed for every match,
+at some cost to efficiency.
+
+B<index matching>
+
+Index matching uses the string index function, so it only finds whether one literal string occurs as a substring of
+another -- the right as a substring of the left. There are three variants for the three most common uses of index
+matching:
+
+=over 2
+
+=item C<|=> prefix
+
+True if the left operand starts with the right operand.
+
+=item C<=|=> infix (anywhere)
+
+True if the right operand occurs anywhere in the left.
+
+=item C<=|> suffix
+
+True if the right operand ends the left operand.
+
+=back
 
 If you wish to test a path instead of an attribute -- to test against the cardinality
 of the node set collected, say -- you can use the C<@echo> attribute. This attribute
 returns the value of its parameter, thus converting anything that can be the parameter
 of an attribute, including expressions, into attributes.
-
-TODO: complete this section by describing the definitions of equality and rank used.
 
 =head3 Boolean Predicates
 
@@ -749,11 +808,11 @@ True iff any of the conjoined operands is true.
 Note that boolean or is two pipe characters. This is to disambiguate the path expression
 C<a|b> from the boolean expression C<a||b>.
 
-=item C<`> or C<one>
+=item C<;> or C<one>
 
 True B<if one and only one of the conjoined operands is true>. The expression
 
-  @a ` @b
+  @a ; @b
 
 behaves like ordinary exclusive or. But if more than two operands are conjoined
 this way, the entire expression is a uniqueness test.
@@ -766,7 +825,7 @@ Groups the contained boolean operations. True iff they evaluate to true.
 
 The normal precedence rules of logical operators applies to these:
 
-  () < ! < & < ` < ||
+  () < ! < & < ; < ||
 
 Space is required around operators only where necessary to prevent their being
 interpreted as part of a path or attribute.
@@ -937,7 +996,7 @@ and adjust the construction of the abstract syntax tree produced by the parser.
     
        <rule: treepath> <[path]> ( \| <[path]> )*
     
-       <token: path> (?!@) <segment>+
+       <token: path> (?![\@"']) <segment>+
     
        <token: segment> <separator>? <step> | <cs>
        
@@ -992,6 +1051,7 @@ and adjust the construction of the abstract syntax tree produced by the parser.
        
        <token: name>
           (\\.|[\p{L}\$_])(?>[\p{L}\$\p{N}_]|[-.:](?=[\p{L}_\$\p{N}])|\\.)*+
+          | <literal>
           | <qname>
        
        <token: qname> 
@@ -1034,7 +1094,7 @@ and adjust the construction of the abstract syntax tree produced by the parser.
           ( <or> | <xor> | <and> )
        
        <token: xor>
-          ( ` | (?<=\s) one (?=\s) )
+          ( ; | (?<=\s) one (?=\s) )
            
        <token: and>
           ( & | (?<=\s) and (?=\s) )
@@ -1068,7 +1128,11 @@ these characters or numbers, or dashes, dots, or colons followed by these charac
 violate this basic rule by escaping a character that would put one in violation with the backslash character, which
 thus cannot itself appear except when escaped.
 
-Alternatively, one can "quote" the entire expression following the C<qname> convention:
+One can also use a quoted expression, with either single or double quotes. The usual escaping convention holds, so
+"a\"a" would represent two a's with a " between them. However neither single nor double quotes may begin a path as
+this would make certain expressions ambiguous -- is C<a[@b = 'c']> comparing C<@b> to a path or a literal?
+
+Finally, one can "quote" the entire expression following the C<qname> convention:
 
           : (\p{PosixPunct}.+?\p{PosixPunct}) 
           <require: (?{qname_test($^N)})> 
@@ -1076,19 +1140,51 @@ Alternatively, one can "quote" the entire expression following the C<qname> conv
 A quoted name begins with a colon followed by some delimiter character, which must be a POSIX punctuation mark. These
 are the symbols
 
-  [!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]
+  <>[](){}\/!"#$%&'*+,-.:;=?@^_`|~
 
-B<Note that brackets are not expected to be balanced!> The entire delimited name is bracketed by a pair of these delimiter
-characters. Within these delimiters any characters may occur. The delimiters themselves, and \, may occur if they are
-escaped in the usual way. Since the C<qname> convention commits you to 3 extra-name characters before any escapes, it
+If the character after the colon is the first of one of the bracket pairs, the trailing delimiter must be the other member of
+the pair, so
+
+  :<a>
+  :[a]
+  :(a)
+  :{a}
+
+are correct but
+
+  :<a<
+
+and so forth are bad. However,
+
+  :>a>
+  :]a]
+  :)a)
+  :}a}
+
+are all fine, as are
+
+  :;a;
+  ::a:
+  :-a-
+
+and so forth. The C<qname> convention is a solution where you want to avoid the unreadability of escapes but have to do
+this at the beginning of a path or your tag name contains both sorts of ordinary quote characters. And again one may use
+the backslash to escape characters within the expression. If you use the backslash itself as the delimiter, you do not need
+to escape it.
+
+  :\a\    # good!
+  :\a\\a\ # also good! equivalent to a\\a
+
+Since the C<qname> convention commits you to 3 extra-name characters before any escapes, it
 is generally not advisable unless you otherwise would have to escape more than 3 characters or you feel that whatever
 escaping you would have to do would mar legibility. Double and single quotes make particularly legible C<qname> delimiters
 if it comes to that. Compare
 
-  /home/bob//file\ name\ with\ spaces
-  /home/bob//:"file name with spaces"
+  file\ name\ with\ spaces
+  :"file name with spaces"
 
-One uses the same number of characters in each case but the second is clearly easier on the eye.
+One uses the same number of characters in each case but the second is clearly easier on the eye. In this case the colon
+is necessary because " cannot begin a path expression.
 
 =head1 HISTORY
 

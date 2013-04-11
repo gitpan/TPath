@@ -24,18 +24,17 @@ construct(
 
 construct(
     vals  => [ 0, 0, 1 ],
-    ops   => [qw(& `)],
+    ops   => [qw(& ;)],
     group => 'right',
     expected => [ 1, 0 ],
 );
 
 construct(
     vals  => [ 1, 0, 1 ],
-    ops   => [qw(` ||)],
+    ops   => [qw(; ||)],
     group => 'right',
     expected => [ 1, 0 ],
 );
-
 construct(
     vals  => [ 1, 0, 0 ],
     ops   => [qw(|| &)],
@@ -45,7 +44,7 @@ construct(
 
 construct(
     vals  => [ 1, 0, 0 ],
-    ops   => [qw(` &)],
+    ops   => [qw(; &)],
     group => 'left',
     expected => [ 1, 0 ],
 );

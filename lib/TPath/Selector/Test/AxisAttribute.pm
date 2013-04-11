@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisAttribute;
 {
-  $TPath::Selector::Test::AxisAttribute::VERSION = '0.011';
+  $TPath::Selector::Test::AxisAttribute::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C</ancestor::@foo> or C</preceding::@foo> where this is not the first step in the path, or C<ancestor::@foo>, etc.
@@ -16,9 +16,18 @@ with 'TPath::Selector::Test';
 has a => ( is => 'ro', isa => 'TPath::Attribute', required => 1 );
 
 sub BUILD {
-	my $self = shift;
-	my $nt = TPath::Test::Node::Attribute->new( a => $self->a );
-	$self->_node_test($nt);
+    my $self = shift;
+    my $nt = TPath::Test::Node::Attribute->new( a => $self->a );
+    $self->_node_test($nt);
+}
+
+sub to_string {
+    my ( $self, $first ) = @_;
+    my $s = $first ? '' : '/';
+    $s .= $self->axis . '::';
+    $s .= '^' if $self->is_inverted;
+    $s .= $self->a->to_string;
+    return $s;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -35,7 +44,7 @@ TPath::Selector::Test::AxisAttribute - handles C</ancestor::@foo> or C</precedin
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

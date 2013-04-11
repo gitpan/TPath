@@ -1,6 +1,6 @@
 package TPath::TypeCheck;
 {
-  $TPath::TypeCheck::VERSION = '0.011';
+  $TPath::TypeCheck::VERSION = '0.012';
 }
 
 # ABSTRACT: applies type constraint on nodes
@@ -11,7 +11,7 @@ use Moose::Role;
 
 has node_type =>
   ( isa => 'Maybe[Str]', is => 'ro', writer => '_node_type', default => undef );
-  
+
 
 sub _typecheck {
     my ( $self, $n ) = @_;
@@ -32,7 +32,7 @@ TPath::TypeCheck - applies type constraint on nodes
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 

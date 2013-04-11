@@ -1,6 +1,6 @@
 package TPath::Selector::Id;
 {
-  $TPath::Selector::Id::VERSION = '0.011';
+  $TPath::Selector::Id::VERSION = '0.012';
 }
 
 # ABSTRACT: C<TPath::Selector> that implements C<id(foo)>
@@ -20,6 +20,11 @@ sub select {
     $n // ();
 }
 
+sub to_string {
+    my $self = shift;
+    return ':id(' . $self->_escape( $self->id, ')' ) . ')';
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -34,7 +39,7 @@ TPath::Selector::Id - C<TPath::Selector> that implements C<id(foo)>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

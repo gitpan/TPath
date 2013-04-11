@@ -1,11 +1,14 @@
 package TPath::Predicate;
 {
-  $TPath::Predicate::VERSION = '0.011';
+  $TPath::Predicate::VERSION = '0.012';
 }
 
 # ABSTRACT: interface of square bracket sub-expressions in TPath expressions
 
 use Moose::Role;
+
+
+with 'TPath::Stringifiable';
 
 
 requires 'filter';
@@ -22,7 +25,7 @@ TPath::Predicate - interface of square bracket sub-expressions in TPath expressi
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 METHODS
 
@@ -30,6 +33,10 @@ version 0.011
 
 Takes an index and  a collection of nodes and returns the collection of nodes
 for which the predicate is true.
+
+=head1 ROLES
+
+L<TPath::Stringifiable>
 
 =head1 AUTHOR
 

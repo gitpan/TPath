@@ -1,17 +1,17 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.011';
+  $TPath::Attribute::VERSION = '0.012';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
 
 
-use feature qw(switch);
+use v5.10;
 use Moose;
 use namespace::autoclean;
 
 
-with 'TPath::Test';
+with qw(TPath::Test TPath::Stringifiable);
 
 
 has name => ( is => 'ro', isa => 'Str', required => 1 );
@@ -57,6 +57,20 @@ sub test {
     defined $self->apply( $n, $i, $c );
 }
 
+sub to_string {
+    my $self = shift;
+    my $s    = '@' . $self->_stringify_label( $self->name );
+    my @args = @{ $self->args };
+    if (@args) {
+        $s .= '(' . $self->_stringify( $args[0] );
+        for my $arg ( @args[ 1 .. $#args ] ) {
+            $s .= ', ' . $self->_stringify($arg);
+        }
+        $s .= ')';
+    }
+    return $s;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -71,7 +85,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 
@@ -99,7 +113,7 @@ Expects a node, and index, and a collection. Returns some value.
 
 =head1 ROLES
 
-L<TPath::Test>
+L<TPath::Test>, L<TPath::Stringifiable>
 
 =head1 AUTHOR
 

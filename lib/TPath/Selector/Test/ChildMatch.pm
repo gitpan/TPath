@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildMatch;
 {
-  $TPath::Selector::Test::ChildMatch::VERSION = '0.011';
+  $TPath::Selector::Test::ChildMatch::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C</~foo~> where this is not the first step in the path, or C<child::~foo~>
@@ -19,6 +19,14 @@ sub BUILD {
     $self->_node_test( TPath::Test::Node::Match->new( rx => $self->rx ) );
 }
 
+sub to_string {
+    my ( $self, $first ) = @_;
+    my $s = $first ? '' : '/';
+    $s .= '^' if $self->is_inverted;
+    $s .= $self->_stringify_match( $self->rx );
+    return $s;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -33,7 +41,7 @@ TPath::Selector::Test::ChildMatch - handles C</~foo~> where this is not the firs
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

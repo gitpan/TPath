@@ -1,6 +1,6 @@
 package TPath::Selector::Parent;
 {
-  $TPath::Selector::Parent::VERSION = '0.011';
+  $TPath::Selector::Parent::VERSION = '0.012';
 }
 
 # ABSTRACT: L<TPath::Selector> that implements C<..>
@@ -16,6 +16,7 @@ sub select {
     my ( $self, $n, $i ) = @_;
     return $n == $i->root ? () : $i->f->parent( $n, $i );
 }
+sub to_string { '..' }
 
 __PACKAGE__->meta->make_immutable;
 
@@ -31,7 +32,7 @@ TPath::Selector::Parent - L<TPath::Selector> that implements C<..>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

@@ -35,6 +35,7 @@ my %WriteMakefileArgs = (
     "aliased" => 0,
     "feature" => 0,
     "namespace::autoclean" => 0,
+    "overload" => 0,
     "parent" => 0,
     "strict" => 0,
     "warnings" => 0
@@ -47,10 +48,9 @@ my %WriteMakefileArgs = (
     "MooseX::MethodAttributes" => 0,
     "Test::Exception" => 0,
     "Test::More" => "0.88",
-    "Test::Trap" => 0,
-    "overload" => 0
+    "Test::Trap" => 0
   },
-  "VERSION" => "0.011",
+  "VERSION" => "0.012",
   "test" => {
     "TESTS" => "t/*.t"
   }

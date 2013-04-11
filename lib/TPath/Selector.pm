@@ -1,11 +1,14 @@
 package TPath::Selector;
 {
-  $TPath::Selector::VERSION = '0.011';
+  $TPath::Selector::VERSION = '0.012';
 }
 
 # ABSTRACT: an interface for classes that select nodes from a candidate collection
 
 use Moose::Role;
+
+
+with 'TPath::Stringifiable';
 
 
 requires 'select';
@@ -22,7 +25,11 @@ TPath::Selector - an interface for classes that select nodes from a candidate co
 
 =head1 VERSION
 
-version 0.011
+version 0.012
+
+=head1 ROLES
+
+L<TPath::Stringifiable>
 
 =head1 REQUIRED METHODS
 

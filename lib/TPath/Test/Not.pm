@@ -1,6 +1,6 @@
 package TPath::Test::Not;
 {
-  $TPath::Test::Not::VERSION = '0.011';
+  $TPath::Test::Not::VERSION = '0.012';
 }
 
 # ABSTRACT: implements logical negation of a test
@@ -22,6 +22,11 @@ sub test {
     return $self->t->test( $n, $i, $c ) ? 0 : 1;
 }
 
+sub to_string {
+    my $self = shift;
+    return '!' . $self->t->to_string;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -36,7 +41,7 @@ TPath::Test::Not - implements logical negation of a test
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 

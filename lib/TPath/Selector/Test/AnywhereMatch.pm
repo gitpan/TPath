@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereMatch;
 {
-  $TPath::Selector::Test::AnywhereMatch::VERSION = '0.011';
+  $TPath::Selector::Test::AnywhereMatch::VERSION = '0.012';
 }
 
 # ABSTRACT: handles C<//~foo~> expression
@@ -15,18 +15,26 @@ with 'TPath::Selector::Test';
 has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
 
 around BUILDARGS => sub {
-	my ( $orig, $class, %args ) = @_;
-	$class->$orig(
-		%args,
-		first_sensitive => 1,
-		axis            => 'descendant',
-	);
+    my ( $orig, $class, %args ) = @_;
+    $class->$orig(
+        %args,
+        first_sensitive => 1,
+        axis            => 'descendant',
+    );
 };
 
 sub BUILD {
     my $self = shift;
     my $nt = TPath::Test::Node::Match->new( rx => $self->rx );
     $self->_node_test($nt);
+}
+
+sub to_string {
+    my $self = shift;
+    return
+        '//'
+      . ( $self->is_inverted ? '^' : '' )
+      . $self->_stringify_match( $self->rx );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -43,7 +51,7 @@ TPath::Selector::Test::AnywhereMatch - handles C<//~foo~> expression
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 ROLES
 

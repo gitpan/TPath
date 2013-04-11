@@ -1,6 +1,6 @@
-package TPath::Test::XOr;
+package TPath::Test::One;
 {
-  $TPath::Test::XOr::VERSION = '0.011';
+  $TPath::Test::One::VERSION = '0.012';
 }
 
 # ABSTRACT: implements logical function of tests which returns true iff only one test is true
@@ -23,6 +23,11 @@ sub test {
     return $count;
 }
 
+sub to_string {
+    my $self = shift;
+    return $self->_compound_to_string(';');
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -33,22 +38,15 @@ __END__
 
 =head1 NAME
 
-TPath::Test::XOr - implements logical function of tests which returns true iff only one test is true
+TPath::Test::One - implements logical function of tests which returns true iff only one test is true
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 
 For use by compiled TPath expressions. Not for external consumption.
-
-NOTE: though this is called C<TPath::Test::XOr> it corresponds to the C<`> operator
-and is really best understood as a one-of or uniqueness test. If it governs two operands,
-it is logically equivalent to exclusive or. If it governs more than one, it is B<not> necessarily
-equivalent to evaluating a sequence of pairwise exclusive or constructs. I have written things
-this way because I figure this is more useful in general and the true exclusive or logic can
-be recreated easily enough by adding parentheses to group operands.
 
 =head1 AUTHOR
 

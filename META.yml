@@ -11,7 +11,6 @@ build_requires:
   Test::Exception: 0
   Test::More: 0.88
   Test::Trap: 0
-  overload: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
@@ -38,8 +37,9 @@ requires:
   aliased: 0
   feature: 0
   namespace::autoclean: 0
+  overload: 0
   parent: 0
   perl: v5.10.0
   strict: 0
   warnings: 0
-version: 0.011
+version: 0.012

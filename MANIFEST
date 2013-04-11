@@ -48,6 +48,7 @@ lib/TPath/Selector/Test/ClosestMatch.pm
 lib/TPath/Selector/Test/ClosestTag.pm
 lib/TPath/Selector/Test/Root.pm
 lib/TPath/StderrLog.pm
+lib/TPath/Stringifiable.pm
 lib/TPath/Test.pm
 lib/TPath/Test/And.pm
 lib/TPath/Test/Boolean.pm
@@ -59,8 +60,8 @@ lib/TPath/Test/Node/Match.pm
 lib/TPath/Test/Node/Tag.pm
 lib/TPath/Test/Node/True.pm
 lib/TPath/Test/Not.pm
+lib/TPath/Test/One.pm
 lib/TPath/Test/Or.pm
-lib/TPath/Test/XOr.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
 t/00-compile.t
@@ -73,11 +74,14 @@ t/attributes.t
 t/axis.t
 t/basic.t
 t/compound.t
+t/equality.t
 t/extended_attributes.t
+t/index_functions.t
 t/match.t
 t/parsing.t
 t/precedence.t
 t/release-00element.t
 t/release-01parsing.t
 t/release-unused-vars.t
+t/stringification.t
 tester.pl

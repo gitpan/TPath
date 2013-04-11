@@ -1,6 +1,6 @@
 package TPath::Predicate::Expression;
 {
-  $TPath::Predicate::Expression::VERSION = '0.011';
+  $TPath::Predicate::Expression::VERSION = '0.012';
 }
 
 # ABSTRACT: implements the C<[c]> in C<//a/b[c]>
@@ -20,6 +20,10 @@ sub filter {
     return grep { $self->e->test( $_, $i, $c ) } @$c;
 }
 
+sub to_string {
+    $_[0]->e->to_string;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -34,7 +38,7 @@ TPath::Predicate::Expression - implements the C<[c]> in C<//a/b[c]>
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 DESCRIPTION
 
