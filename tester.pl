@@ -7,9 +7,8 @@ use TPath::Grammar qw(parse);
 use Data::Dumper;
 use Perl::Tidy;
 
-my $parse = parse(q{:root});
+my $parse = parse(q{a{}});
 my $code  = Dumper $parse;
 my $ds;
-Perl::Tidy::perltidy( source => \$code, destination => \$ds );
+Perl::Tidy::perltidy( argv => ['-l=0'], source => \$code, destination => \$ds );
 print $ds;
-

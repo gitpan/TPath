@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '0.012';
+  $TPath::Compiler::VERSION = '0.013';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -8,7 +8,6 @@ package TPath::Compiler;
 
 use strict;
 use warnings;
-use Carp;
 use v5.10;
 
 use parent 'Exporter';
@@ -129,10 +128,10 @@ sub full {
                     }
                 }
                 when ('//') {
-                    croak 'axes disallowed with // separator' if defined $axis;
+                    die 'axes disallowed with // separator' if defined $axis;
                     $rv = Anywhere->new( predicates => \@predicates );
                 }
-                when ('/>') { croak '/>* disallowed' }
+                when ('/>') { die '/>* disallowed' }
                 default {
                     $rv =
                       $axis
@@ -163,14 +162,14 @@ sub full {
                     }
                 }
                 when ('//') {
-                    croak 'axes disallowed with // separator' if defined $axis;
+                    die 'axes disallowed with // separator' if defined $axis;
                     $rv = AnywhereTag->new(
                         tag        => $val,
                         predicates => \@predicates
                     );
                 }
                 when ('/>') {
-                    croak 'axes disallowed with /> separator' if defined $axis;
+                    die 'axes disallowed with /> separator' if defined $axis;
                     $rv = ClosestTag->new(
                         tag        => $val,
                         predicates => \@predicates
@@ -211,14 +210,14 @@ sub full {
                     }
                 }
                 when ('//') {
-                    croak 'axes disallowed with // separator' if defined $axis;
+                    die 'axes disallowed with // separator' if defined $axis;
                     $rv = TPath::Selector::Test::AnywhereMatch->new(
                         rx         => $rx,
                         predicates => \@predicates
                     );
                 }
                 when ('/>') {
-                    croak 'axes disallowed with /> separator' if defined $axis;
+                    die 'axes disallowed with /> separator' if defined $axis;
                     $rv = ClosestMatch->new(
                         rx         => $rx,
                         predicates => \@predicates
@@ -258,14 +257,14 @@ sub full {
                       );
                 }
                 when ('//') {
-                    croak 'axes disallowed with // separator' if defined $axis;
+                    die 'axes disallowed with // separator' if defined $axis;
                     $rv = AnywhereAttribute->new(
                         a          => $a,
                         predicates => \@predicates
                     );
                 }
                 when ('/>') {
-                    croak 'axes disallowed with /> separator' if defined $axis;
+                    die 'axes disallowed with /> separator' if defined $axis;
                     $rv = ClosestAttribute->new(
                         a          => $a,
                         predicates => \@predicates
@@ -296,7 +295,7 @@ sub predicates {
     return () unless $predicates;
     my @predicates = map { predicate( $_, $forester ) } @$predicates;
     if ( 1 < grep { $_->isa('TPath::Predicate::Index') } @predicates ) {
-        croak 'a step may only have one index predicate';
+        die 'a step may only have one index predicate';
     }
     return @predicates;
 }
@@ -324,7 +323,7 @@ sub attribute {
     }
     my $name = $attribute->{aname};
     my $code = $forester->_attributes->{$name};
-    confess 'unkown attribute @' . $name unless defined $code;
+    die 'unkown attribute @' . $name unless defined $code;
     return Attribute->new( name => $name, args => \@args, code => $code );
 }
 
@@ -340,7 +339,7 @@ sub arg {
     return attribute_test( $at, $forester ) if defined $at;
     my $op = $arg->{condition}{operator};
     return condition( $arg, $forester, $op ) if defined $op;
-    croak
+    die
       'fatal compilation error; could not compile parsable argument with keys '
       . ( join ', ', sort keys %$arg );
 }
@@ -395,7 +394,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 0.012
+version 0.013
 
 =head1 DESCRIPTION
 

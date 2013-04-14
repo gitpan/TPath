@@ -20,7 +20,6 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "TPath",
   "PREREQ_PM" => {
-    "Carp" => 0,
     "Exporter" => 0,
     "List::Util" => 0,
     "Moose" => "2.0604",
@@ -41,6 +40,7 @@ my %WriteMakefileArgs = (
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
+    "Carp" => 0,
     "File::Basename" => 0,
     "File::Find" => 0,
     "File::Temp" => 0,
@@ -50,7 +50,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.88",
     "Test::Trap" => 0
   },
-  "VERSION" => "0.012",
+  "VERSION" => "0.013",
   "test" => {
     "TESTS" => "t/*.t"
   }

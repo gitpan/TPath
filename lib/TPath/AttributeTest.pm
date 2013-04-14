@@ -1,6 +1,6 @@
 package TPath::AttributeTest;
 {
-  $TPath::AttributeTest::VERSION = '0.012';
+  $TPath::AttributeTest::VERSION = '0.013';
 }
 
 # ABSTRACT: compares an attribute value to another value
@@ -832,7 +832,7 @@ TPath::AttributeTest - compares an attribute value to another value
 
 =head1 VERSION
 
-version 0.012
+version 0.013
 
 =head1 DESCRIPTION
 

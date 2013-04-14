@@ -2,13 +2,12 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.012';
+  $TPath::Grammar::VERSION = '0.013';
 }
 
 use v5.10;
 use strict;
 use warnings;
-use Carp;
 
 use parent qw(Exporter);
 
@@ -40,49 +39,44 @@ our $path_grammar = do {
        <nocontext:>
        <timeout: 10>
     
-    ^ <treepath> $
+    \A <.ws> <treepath> <.ws> \Z
     
        <rule: treepath> <[path]> (?: \| <[path]> )*
     
-       <token: path> (?![\@'"]) <[segment]>+ (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: path> (?![\@'"]) <[segment]> (?: (?= / | \( <.ws> / ) <[segment]> )*
     
-       <token: segment> (?: <separator>? <step> | <cs> ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: segment> (?: <separator>? <step> | <cs> ) <.ws>
        
-       <token: quantifier> (?: [?+*] | <enum> ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: quantifier> (?: [?+*] | <enum> ) <.cp>
        
        <rule: enum> [{] <start=(\d*+)> (?: , <end=(\d*+)> )? [}]
        
-       <token: grouped_step> \( \s*+ <treepath> \s*+ \) <quantifier>? (?{ $offset = $INDEX if $INDEX > $offset })
+       <rule: grouped_step> \( <treepath> \) <quantifier>?
     
        <token: id>
           :id\( ( (?>[^\)\\]|\\.)++ ) \)
-          (?{ $MATCH=clean_escapes($^N) })
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          (?{ $MATCH=clean_escapes($^N) }) <.cp>
     
        <token: cs>
-          (?:
-          <separator>? <step> <quantifier>
+           <separator>? <step> <quantifier>
           | <grouped_step>
-          ) (?{ $offset = $INDEX if $INDEX > $offset })
     
-       <token: separator> \/[\/>]?+ (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: separator> \/[\/>]?+ <.cp>
     
-       <token: step> (?: <full> <[predicate]>* | <abbreviated> ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: step> <full> (?: <.ws> <[predicate]> )* | <abbreviated>
     
-       <token: full> <axis>? <forward> (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: full> <axis>? <forward>
     
        <token: axis> 
           (?<!//) (?<!/>) (<%AXES>) ::
-          (?{ $MATCH = $^N })
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          (?{ $MATCH = $^N }) <.cp>
     
-       <token: abbreviated> (?<!/[/>]) (?: \.{1,2}+ | <id> | :root ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: abbreviated> (?<!/[/>]) (?: \.{1,2}+ | <id> | :root ) <.cp>
     
        <token: forward> 
-           (?: <wildcard> | <complement=(\^)>? (?: <specific> | <pattern> | <attribute> ) )
-           (?{ $offset = $INDEX if $INDEX > $offset })
+           <wildcard> | <complement=(\^)>? (?: <specific> | <pattern> | <attribute> )
     
-       <token: wildcard> \* <.start_of_path> (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: wildcard> \* <.start_of_path> <.cp>
        
        <token: start_of_path> # somewhat lame way to make sure * quantifier isn't misinterpreted as the wildcard character
           (?<=[/:>].)
@@ -99,106 +93,89 @@ our $path_grammar = do {
     
        <token: specific>
           <name>
-          (?{ $MATCH = $MATCH{name} })
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          (?{ $MATCH = $MATCH{name} }) <.cp>
     
        <token: pattern>
           (~(?>[^~]|~~)++~)
-          (?{ $MATCH = clean_pattern($^N) })
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          (?{ $MATCH = clean_pattern($^N) }) <.cp>
     
        <token: aname>
           @ <name>
           (?{ $MATCH = $MATCH{name} })
-          (?{ $offset = $INDEX if $INDEX > $offset })
        
        <token: name>
-          (?:
           ((?>\\.|[\p{L}\$_])(?>[\p{L}\$\p{N}_]|[-.:](?=[\p{L}_\$\p{N}])|\\.)*+)  (?{ $MATCH = clean_escapes($^N ) })
           | <literal> (?{ $MATCH = $MATCH{literal} })
           | (<.qname>) (?{ $MATCH = clean_escapes( substr $^N, 2, length($^N) -3 ) })
-          ) (?{ $offset = $INDEX if $INDEX > $offset })
        
        <token: qname> 
-          : (\p{PosixPunct}.+?\p{PosixPunct}) 
-          <require: (?{qname_test($^N)})>
-          (?{ $offset = $INDEX if $INDEX > $offset }) 
+          : ([[:punct:]].+?[[:punct:]]) 
+          <require: (?{qname_test($^N)})> <.cp> 
      
-       <rule: attribute> <aname> <args>? (?{ $offset = $INDEX if $INDEX > $offset })
+       <rule: attribute> <aname> <args>?
     
-       <rule: args> \( <[arg]> (?: , <[arg]> )* \) (?{ $offset = $INDEX if $INDEX > $offset })
+       <rule: args> \( <[arg]> (?: , <[arg]> )* \) <.cp>
     
        <token: arg>
-          (?:
-          <treepath> | <v=literal> | <v=num> | <attribute> | <attribute_test> | <condition>
-          ) (?{ $offset = $INDEX if $INDEX > $offset })
+           <v=literal> | <v=num> | <attribute> | <treepath> | <attribute_test> | <condition>
     
-       <token: num> (?: <.signed_int> | <.float> ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: num> <.signed_int> | <.float>
     
-       <token: signed_int> [+-]?+ <.int> (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: signed_int> [+-]?+ <.int> <.cp>
     
-       <token: float> [+-]?+ <.int>? \.\d++ (?: [Ee][+-]?+ <.int> )?+ (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: float> [+-]?+ <.int>? \.\d++ (?: [Ee][+-]?+ <.int> )?+ <.cp>
     
        <token: literal>
           ((?> <.squote> | <.dquote> ))
           (?{ $MATCH = clean_literal($^N) })
-          (?{ $offset = $INDEX if $INDEX > $offset })
     
-       <token: squote> ' (?>[^'\\]|\\.)*+ ' (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: squote> ' (?>[^'\\]|\\.)*+ ' <.cp>
     
-       <token: dquote> " (?>[^"\\]|\\.)*+ " (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: dquote> " (?>[^"\\]|\\.)*+ " <.cp>
     
        <rule: predicate>
-          \[ (*COMMIT) (?: <idx=signed_int> | <condition> ) \]
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          \[ (*COMMIT) (?: <idx=signed_int> | <condition> ) \] <.cp>
     
-       <token: int> \b(?:0|[1-9][0-9]*+)\b (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: int> \b(?:0|[1-9][0-9]*+)\b <.cp>
     
        <rule: condition> 
           <[item=not]>? <[item]> (?: <[item=operator]> <[item=not]>? <[item]> )*
-          (?{ $offset = $INDEX if $INDEX > $offset })
 
        <token: not>
           ( 
              (?: ! | (?<=[\s\[(]) not (?=\s) ) 
              (?: \s*+ (?: ! | (?<=\s) not (?=\s) ) )*+ 
           )
-          (?{$MATCH = clean_not($^N)})
-          (?{ $offset = $INDEX if $INDEX > $offset })
+          (?{$MATCH = clean_not($^N)}) <.cp>
        
        <token: operator>
           (?: <.or> | <.xor> | <.and> )
           (?{$MATCH = clean_operator($^N)})
-          (?{ $offset = $INDEX if $INDEX > $offset })
        
-       <token: xor>
-          ( ; | (?<=\s) one (?=\s) ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: xor> (?: ; | (?<=\s) one (?=\s) ) <.cp>
            
-       <token: and>
-          ( & | (?<=\s) and (?=\s) ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: and> (?: & | (?<=\s) and (?=\s) ) <.cp>
            
-       <token: or>
-          ( \|{2} | (?<=\s) or (?=\s) ) (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: or> (?: \|{2} | (?<=\s) or (?=\s) ) <.cp>
     
-       <token: term> 
-          (?: <attribute> | <attribute_test> | <treepath> )
-          (?{ $offset = $INDEX if $INDEX > $offset })
+       <token: term> <attribute> | <attribute_test> | <treepath>
     
        <rule: attribute_test>
-          (?: <[args=attribute]> <cmp> <[args=value]> | <[args=value]> <cmp> <[args=attribute]> )
+          <[args=attribute]> <cmp> <[args=value]> | <[args=value]> <cmp> <[args=attribute]>
+    
+       <token: cmp> (?: [<>=]=?+ | ![=~] | =~ | =?\|= | =\| ) <.cp>
+    
+       <token: value> <v=literal> | <v=num> | <attribute>
+    
+       <rule: group> \( <condition> \) <.cp>
+    
+       <token: item> <term> | <group>
+          
+       <token: ws> (?: \s*+ (?: \#.*? $ )?+ )*+ <.cp>
+       
+       <token: cp> # "checkpoint"
           (?{ $offset = $INDEX if $INDEX > $offset })
-    
-       <token: cmp> [<>=]=?+ | ![=~] | =~ | =?\|= | =\| (?{ $offset = $INDEX if $INDEX > $offset })
-    
-       <token: value> 
-          (?: <v=literal> | <v=num> | <attribute> )
-          (?{ $offset = $INDEX if $INDEX > $offset })
-    
-       <rule: group> \( <condition> \) (?{ $offset = $INDEX if $INDEX > $offset })
-    
-       <token: item>
-          (?: <term> | <group> ) (?{ $offset = $INDEX if $INDEX > $offset })
-    }x;
+    }xms;
 };
 
 
@@ -216,11 +193,10 @@ sub parse {
             fix_predicates($ref);
         }
         optimize($ref);
-        confirm_separators( $ref, 0 );
         return $ref;
     }
     else {
-        confess "could not parse '$expr' as a TPath expression; "
+        die "could not parse '$expr' as a TPath expression; "
           . error_message( $expr, $offset );
     }
 }
@@ -241,46 +217,6 @@ sub error_message {
     $error .= $suffix if $suffix;
     $error .= '...'   if $end < length $expr;
     return $error;
-}
-
-# require a separator before all non-initial steps
-sub confirm_separators {
-    my ( $ref, $non_initial ) = @_;
-    for ( ref $ref ) {
-        when ('ARRAY') { confirm_separators( $_, $non_initial ) for @$ref }
-        when ('HASH') {
-            my ($path) = $ref->{path};
-            if ($path) {
-                for my $i ( 0 .. $#$path ) {
-                    my @steps = @{ $path->[$i]{segment} };
-                    for my $j ( 0 .. $#steps ) {
-                        my $step = $steps[$j];
-                        if (   ( $j || $non_initial )
-                            && $step->{step}
-                            && !$step->{separator} )
-                        {
-                            confess
-'every non-initial step must be preceded by one of the separators "/", "//", or "/>"';
-                        }
-                        confirm_separators( $step, $i ? 1 : $non_initial );
-                    }
-                }
-            }
-            else {
-                my $attribute = $ref->{attribute};
-                if ($attribute) { confirm_separators( $attribute, 0 ) }
-                else {
-                    my $predicate = $ref->{predicate};
-                    if ($predicate) {
-                        confirm_separators( $predicate, 0 );
-                    }
-                    else {
-                        confirm_separators( $_, $non_initial ) for values %$ref;
-                    }
-                }
-            }
-        }
-    }
 }
 
 # convert (/foo) to /foo and (/foo)? to /foo?
@@ -401,9 +337,8 @@ sub normalize_enums {
         }
         return;
     }
-    confess 'empty {x,y} quantifier ' . $enum->{''}
-      unless $start || $end;
-    confess 'in {x,y} quantifier ' . $enum->{''} . ' end is less than start'
+    die 'empty {x,y} quantifier' unless $start || $end;
+    die 'in {x,y} quantifier end is less than start'
       if $start > $end && ( $enum->{end} // '' ) ne '';
     $enum->{end} = $end;
 }
@@ -567,7 +502,7 @@ sub merge_conditions {
             }
         }
         when ('ARRAY') { merge_conditions($_) for @$ref }
-        default { confess "unexpected type $type" }
+        default { die "unexpected type $type" }
     }
 }
 
@@ -617,7 +552,7 @@ sub operator_precedence {
                                           {
                                             condition => {
                                                 operator => $op,
-                                                args => [
+                                                args     => [
                                                     $ar[ $i - 1 ],
                                                     $ar[ $i + 1 ]
                                                 ]
@@ -639,7 +574,7 @@ sub operator_precedence {
             }
         }
         when ('ARRAY') { operator_precedence($_) for @$ref }
-        default { confess "unexpected type $type" }
+        default { die "unexpected type $type" }
     }
     return $ref;
 }
@@ -686,7 +621,7 @@ sub normalize_parens {
             }
         }
         default {
-            confess "unexpected type: $type";
+            die "unexpected type: $type";
         }
     }
     return $ref;
@@ -710,8 +645,7 @@ sub normalize_item {
         return normalize_parens( $item->{group} // $item->{term} );
     }
     else {
-        confess
-          'items in a condition are expected to be either <term> or <group>';
+        die 'items in a condition are expected to be either <term> or <group>';
     }
 }
 
@@ -814,8 +748,6 @@ sub qname_test {
 
 __END__
 
-__END__
-
 =pod
 
 =head1 NAME
@@ -824,7 +756,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.012
+version 0.013
 
 =head1 SYNOPSIS
 
