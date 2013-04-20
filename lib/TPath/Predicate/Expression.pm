@@ -1,6 +1,6 @@
 package TPath::Predicate::Expression;
 {
-  $TPath::Predicate::Expression::VERSION = '0.013';
+  $TPath::Predicate::Expression::VERSION = '0.014';
 }
 
 # ABSTRACT: implements the C<[c]> in C<//a/b[c]>
@@ -16,8 +16,8 @@ with 'TPath::Predicate';
 has e => ( is => 'ro', isa => 'TPath::Expression', required => 1 );
 
 sub filter {
-    my ( $self, $i, $c ) = @_;
-    return grep { $self->e->test( $_, $i, $c ) } @$c;
+    my ( $self, $c ) = @_;
+    return grep { $self->e->test($_) } @$c;
 }
 
 sub to_string {
@@ -38,7 +38,7 @@ TPath::Predicate::Expression - implements the C<[c]> in C<//a/b[c]>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

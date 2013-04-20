@@ -1,6 +1,6 @@
 package TPath::Test;
 {
-  $TPath::Test::VERSION = '0.013';
+  $TPath::Test::VERSION = '0.014';
 }
 
 # ABSTRACT: interface of conditional expressions in predicates
@@ -26,7 +26,7 @@ TPath::Test - interface of conditional expressions in predicates
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 
@@ -42,8 +42,7 @@ L<TPath::Stringifiable>
 
 =head2 test
 
-Takes a node, an index, and a collection of nodes and returns whether the node
-passes the predicate.
+Takes a L<TPath::Context> and returns whether the node passes the predicate.
 
 =head1 AUTHOR
 

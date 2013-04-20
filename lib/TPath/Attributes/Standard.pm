@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.013';
+  $TPath::Attributes::Standard::VERSION = '0.014';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -26,51 +26,54 @@ sub standard_false : Attr(false) {
 
 
 sub standard_this : Attr(this) {
-    my ( undef, $n ) = @_;
-    return $n;
+    my ( undef, $ctx ) = @_;
+    return $ctx->n;
 }
 
 
 sub standard_uid : Attr(uid) {
-    my ( $self, $n, $i ) = @_;
+    my ( $self, $ctx ) = @_;
+    my $original = $ctx;
     my @list;
-    my $node = $n;
+    my ( $node, $i ) = ( $ctx->n, $ctx->i );
     while ( !$i->is_root($node) ) {
-        my $ra       = refaddr $node;
-        my $parent   = $self->parent( $node, $i );
-        my @children = $self->children( $parent, $i );
+        my $ra = refaddr $node;
+        $ctx = $ctx->wrap($node);
+        my $parent = $self->parent( $original, $ctx );
+        last unless $parent;
+        my @children = $self->children( $parent->n, $i );
         for my $index ( 0 .. $#children ) {
-            if ( refaddr $children[$index] eq $ra ) {
+            if ( refaddr $children[$index] == $ra ) {
                 push @list, $index;
                 last;
             }
         }
-        $node = $parent;
+        $node = $parent->n;
     }
     return '/' . join( '/', @list );
 }
 
 
 sub standard_echo : Attr(echo) {
-    my ( undef, undef, undef, undef, $o ) = @_;
+    my ( undef, undef, $o ) = @_;
     return $o;
 }
 
 
 sub standard_is_leaf : Attr(leaf) {
-    my ( undef, $n, $i ) = @_;
-    return $i->f->is_leaf( $n, $i ) ? 1 : undef;
+    my ( undef, $ctx ) = @_;
+    return $ctx->i->f->is_leaf($ctx) ? 1 : undef;
 }
 
 
 sub standard_pick : Attr(pick) {
-    my ( undef, undef, undef, undef, $collection, $index ) = @_;
+    my ( undef, undef, $collection, $index ) = @_;
     return $collection->[ $index // 0 ];
 }
 
 
 sub standard_size : Attr(size) {
-    my ( undef, undef, undef, undef, $collection ) = @_;
+    my ( undef, undef, $collection ) = @_;
     return scalar @$collection;
 }
 
@@ -78,6 +81,7 @@ sub standard_size : Attr(size) {
 sub standard_tsize : Attr(tsize) {
     my ( $self, $n, $i ) = @_;
     my $size = 1;
+    ( $n, $i ) = ( $n->n, $n->i ) if blessed $n && $n->isa('TPath::Context');
     for my $kid ( $self->children( $n, $i ) ) {
         $size += $self->standard_tsize( $kid, $i );
     }
@@ -86,34 +90,37 @@ sub standard_tsize : Attr(tsize) {
 
 
 sub standard_width : Attr(width) {
-    my ( $self, $n, $i ) = @_;
-    return 1 if $self->standard_is_leaf( $n, $i );
+    my ( $self, $ctx ) = @_;
+    return 1 if $self->standard_is_leaf($ctx);
+    my ( $n, $i ) = ( $ctx->n, $ctx->i );
     my $width = 0;
     for my $kid ( $self->children( $n, $i ) ) {
-        $width += $self->standard_width( $kid, $i );
+        $width += $self->standard_width( $ctx->wrap($kid) );
     }
     return $width;
 }
 
 
 sub standard_depth : Attr(depth) {
-    my ( $self, $n, $i ) = @_;
-    return 0 if $self->standard_is_root( $n, $i );
-    my $depth = -1;
+    my ( $self, $ctx ) = @_;
+    return 0 if $self->standard_is_root($ctx);
+    my $depth    = -1;
+    my $original = $ctx;
     do {
         $depth++;
-        $n = $self->parent( $n, $i );
-    } while ( defined $n );
+        $ctx = $self->parent( $original, $ctx );
+    } while ( defined $ctx );
     return $depth;
 }
 
 
 sub standard_height : Attr(height) {
-    my ( $self, $n, $i ) = @_;
-    return 1 if $self->standard_is_leaf( $n, $i );
+    my ( $self, $ctx ) = @_;
+    return 1 if $self->standard_is_leaf($ctx);
+    my ( $n, $i ) = ( $ctx->n, $ctx->i );
     my $max = 0;
     for my $kid ( $self->children( $n, $i ) ) {
-        my $m = $self->standard_height( $kid, $i );
+        my $m = $self->standard_height( $ctx->wrap($kid) );
         $max = $m if $m > $max;
     }
     return $max + 1;
@@ -121,8 +128,8 @@ sub standard_height : Attr(height) {
 
 
 sub standard_is_root : Attr(root) {
-    my ( $self, $n, $i ) = @_;
-    return $i->is_root($n) ? 1 : undef;
+    my ( $self, $ctx ) = @_;
+    return $ctx->i->is_root( $ctx->n ) ? 1 : undef;
 }
 
 
@@ -132,18 +139,22 @@ sub standard_null : Attr(null) {
 
 
 sub standard_index : Attr(index) {
-    my ( $self, $n, $i ) = @_;
+    my ( $self, $ctx ) = @_;
+    my ( $n, $i ) = ( $ctx->n, $ctx->i );
     return -1 if $i->is_root($n);
-    my @siblings = $self->_kids( $self->parent( $n, $i ), $i );
+    my $original = $ctx;
+    my $parent   = $self->parent( $original, $ctx );
+    my @siblings = $self->_kids( $original, $parent );
+    my $ra       = refaddr $n;
     for my $index ( 0 .. $#siblings ) {
-        return $index if refaddr $siblings[$index] eq refaddr $n;
+        return $index if refaddr $siblings[$index]->n == $ra;
     }
     confess "$n not among children of its parent";
 }
 
 
 sub standard_log : Attr(log) {
-    my ( $self, undef, undef, undef, @messages ) = @_;
+    my ( $self, undef, @messages ) = @_;
     for my $m (@messages) {
         $self->log_stream->put($m);
     }
@@ -152,27 +163,27 @@ sub standard_log : Attr(log) {
 
 
 sub standard_id : Attr(id) {
-    my ( $self, $n ) = @_;
-    $self->id($n);
+    my ( $self, $ctx ) = @_;
+    $self->id( $ctx->n );
 }
 
 
 sub standard_card : Attr(card) {
-    my ( undef, undef, undef, undef, $o ) = @_;
+    my ( undef, undef, $o ) = @_;
     return 0 unless defined $o;
-    for (ref $o) {
-        when ('HASH') {return scalar keys %$o } 
-        when ('ARRAY') {return scalar @$o}
-        default { return 1 }
+    for ( ref $o ) {
+        when ('HASH')  { return scalar keys %$o }
+        when ('ARRAY') { return scalar @$o }
+        default        { return 1 }
     }
 }
 
 
-sub standard_attr :Attr(at) {
-    my ( $self, undef, $i, $c, $nodes, $attr, @params ) = @_;
+sub standard_attr : Attr(at) {
+    my ( $self, $ctx, $nodes, $attr, @params ) = @_;
     my @nodes = @$nodes;
     return undef unless @nodes;
-    $self->attribute($nodes[0], $attr, $i, $c, @params);
+    $self->attribute( $ctx->wrap( $nodes[0] ), $attr, @params );
 }
 
 1;
@@ -187,7 +198,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 
@@ -228,6 +239,10 @@ Attribute test expressions like this require that the left and right operands be
 attributes or constants, but this is no restriction because C<@echo> turns everything
 into an attribute.
 
+Note that L<TPath::Expression> parameters evaluate not to a list of nodes but to a
+list of L<TPath::Context> objects. Each context's node can be obtained by its C<n>
+accessor.
+
 =head2 C<@leaf>
 
 Returns whether the node is without children.
@@ -252,7 +267,7 @@ Returns the number of leave under the context node.
 
 Returns the number of ancestors of the context node.
 
-=head2 C<@depth>
+=head2 C<@height>
 
 Returns the greatest number of generations, inclusive, separating this
 node from a leaf. Leaf nodes have a height of 1, their parents, 2, etc.
@@ -292,7 +307,7 @@ of 1.
 
 =head2 C<@at(foo//bar, 'baz', 1, 2, 3)>
 
-Returns the value of the named attribute with the given parameters at the first node selected by
+Returns the value of the named attribute with the given parameters at the first L<TPath::Context> selected by
 the path parameter evaluated relative to the context node. In the case of
 
   @at(foo//bar, 'baz', 1, 2, 3)
@@ -304,9 +319,9 @@ the parameters 1, 2, and 3. Other examples:
   @at(*/*, 'height')      # the height of the first grandchild of this node
   @at(/>foo, 'depth')     # the depth of the closest foo node
 
-It is the first node selected by the path whose attribute is evaluated, that is, the first node returned,
-so it is relevant that paths are evaluated left-to-right, depth-first, and post-ordered, descendants being
-returned before their ancestors.
+It is the first L<TPath::Context> selected by the path whose attribute is evaluated, that is, 
+the first node returned, so it is relevant that paths are evaluated left-to-right, depth-first, and 
+post-ordered, descendants being returned before their ancestors.
 
 =head1 REQUIRED METHODS
 

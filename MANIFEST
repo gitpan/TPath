@@ -14,6 +14,7 @@ lib/TPath/AttributeTest.pm
 lib/TPath/Attributes/Extended.pm
 lib/TPath/Attributes/Standard.pm
 lib/TPath/Compiler.pm
+lib/TPath/Context.pm
 lib/TPath/Expression.pm
 lib/TPath/Forester.pm
 lib/TPath/Grammar.pm
@@ -29,6 +30,7 @@ lib/TPath/Selector.pm
 lib/TPath/Selector/Expression.pm
 lib/TPath/Selector/Id.pm
 lib/TPath/Selector/Parent.pm
+lib/TPath/Selector/Previous.pm
 lib/TPath/Selector/Quantified.pm
 lib/TPath/Selector/Self.pm
 lib/TPath/Selector/Test.pm
@@ -80,6 +82,7 @@ t/index_functions.t
 t/match.t
 t/parsing.t
 t/precedence.t
+t/previous.t
 t/release-00element.t
 t/release-01parsing.t
 t/release-unused-vars.t

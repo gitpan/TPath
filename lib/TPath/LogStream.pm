@@ -1,6 +1,6 @@
 package TPath::LogStream;
 {
-  $TPath::LogStream::VERSION = '0.013';
+  $TPath::LogStream::VERSION = '0.014';
 }
 
 # ABSTRACT: role of log-like things
@@ -23,7 +23,7 @@ TPath::LogStream - role of log-like things
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

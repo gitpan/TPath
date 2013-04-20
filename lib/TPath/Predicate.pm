@@ -1,6 +1,6 @@
 package TPath::Predicate;
 {
-  $TPath::Predicate::VERSION = '0.013';
+  $TPath::Predicate::VERSION = '0.014';
 }
 
 # ABSTRACT: interface of square bracket sub-expressions in TPath expressions
@@ -25,13 +25,13 @@ TPath::Predicate - interface of square bracket sub-expressions in TPath expressi
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 METHODS
 
 =head2 filter
 
-Takes an index and  a collection of nodes and returns the collection of nodes
+Takes an index and  a collection of L<TPath::Context> objects and returns the collection of contexts
 for which the predicate is true.
 
 =head1 ROLES

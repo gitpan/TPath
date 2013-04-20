@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Anywhere;
 {
-  $TPath::Selector::Test::Anywhere::VERSION = '0.013';
+  $TPath::Selector::Test::Anywhere::VERSION = '0.014';
 }
 
 # ABSTRACT: handles C<//*> expression
@@ -40,7 +40,7 @@ TPath::Selector::Test::Anywhere - handles C<//*> expression
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 ROLES
 

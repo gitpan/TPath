@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestTag;
 {
-  $TPath::Selector::Test::ClosestTag::VERSION = '0.013';
+  $TPath::Selector::Test::ClosestTag::VERSION = '0.014';
 }
 
 # ABSTRACT: handles C</E<gt>foo>
@@ -21,8 +21,8 @@ sub BUILD {
 
 # required by TPath::Selector::Test
 sub candidates {
-    my ( $self, $n, $i, $first ) = @_;
-    return $i->f->closest( $n, $self->node_test, $i, !$first );
+    my ( $self, $ctx, $first ) = @_;
+    return $ctx->i->f->closest( $ctx, $self->node_test, !$first );
 }
 
 sub to_string {
@@ -47,7 +47,7 @@ TPath::Selector::Test::ClosestTag - handles C</E<gt>foo>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 ROLES
 

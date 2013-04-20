@@ -1,6 +1,6 @@
 package TPath::Predicate::Boolean;
 {
-  $TPath::Predicate::Boolean::VERSION = '0.013';
+  $TPath::Predicate::Boolean::VERSION = '0.014';
 }
 
 # ABSTRACT: implements the C<[@foo or @bar ]> in C<//a/b[@foo or @bar]>
@@ -16,8 +16,8 @@ with 'TPath::Predicate';
 has t => ( is => 'ro', does => 'TPath::Test', required => 1 );
 
 sub filter {
-    my ( $self, $i, $c ) = @_;
-    return grep { $self->t->test( $_, $i, $c ) } @$c;
+    my ( $self, $c ) = @_;
+    return grep { $self->t->test($_) } @$c;
 }
 
 sub to_string { $_[0]->t->to_string }
@@ -36,7 +36,7 @@ TPath::Predicate::Boolean - implements the C<[@foo or @bar ]> in C<//a/b[@foo or
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

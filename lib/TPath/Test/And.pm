@@ -1,6 +1,6 @@
 package TPath::Test::And;
 {
-  $TPath::Test::And::VERSION = '0.013';
+  $TPath::Test::And::VERSION = '0.014';
 }
 
 # ABSTRACT: implements logical conjunction of tests
@@ -13,9 +13,9 @@ with 'TPath::Test::Compound';
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $i, $c ) = @_;
+    my ( $self, $ctx ) = @_;
     for my $t ( @{ $self->tests } ) {
-        return 0 unless $t->test( $n, $i, $c );
+        return 0 unless $t->test($ctx);
     }
     return 1;
 }
@@ -39,7 +39,7 @@ TPath::Test::And - implements logical conjunction of tests
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

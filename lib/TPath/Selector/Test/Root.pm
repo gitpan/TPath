@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Root;
 {
-  $TPath::Selector::Test::Root::VERSION = '0.013';
+  $TPath::Selector::Test::Root::VERSION = '0.014';
 }
 
 # ABSTRACT: handles C<:root>
@@ -13,8 +13,8 @@ with 'TPath::Selector::Test';
 
 
 sub candidates {
-    my ( $self, undef, $i ) = @_;
-    return $i->root;
+    my ( $self, $ctx ) = @_;
+    return $ctx->i->root;
 }
 
 sub to_string { ':root' }
@@ -33,7 +33,7 @@ TPath::Selector::Test::Root - handles C<:root>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 METHODS
 

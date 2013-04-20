@@ -116,6 +116,10 @@ child::*
 //a[@foo == @echo(*)]
 //a [ @foo == 1 ]
 //a [0] //b [ c ]
+/a/:p
+/a/:p[@foo]
+/a/:p{2}
+//a/previous::*
 END
 
 push @parsable, q{

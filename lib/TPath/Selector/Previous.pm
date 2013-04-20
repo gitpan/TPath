@@ -1,23 +1,23 @@
-package TPath::Selector::Self;
+package TPath::Selector::Previous;
 {
-  $TPath::Selector::Self::VERSION = '0.014';
+  $TPath::Selector::Previous::VERSION = '0.014';
 }
 
-# ABSTRACT: L<TPath::Selector> that implements C<.>
+# ABSTRACT: C<TPath::Selector> that implements C<:p>
 
 use Moose;
 use namespace::autoclean;
 
 
-with 'TPath::Selector';
+with 'TPath::Selector::Test';
 
 # required by TPath::Selector
 sub select {
-    my ( undef, $ctx ) = @_;
-    $ctx;
+    my ( $self, $ctx ) = @_;
+    $ctx->previous;
 }
 
-sub to_string { '.' }
+sub to_string { return '/:p' }
 
 __PACKAGE__->meta->make_immutable;
 
@@ -29,7 +29,7 @@ __END__
 
 =head1 NAME
 
-TPath::Selector::Self - L<TPath::Selector> that implements C<.>
+TPath::Selector::Previous - C<TPath::Selector> that implements C<:p>
 
 =head1 VERSION
 
@@ -37,7 +37,7 @@ version 0.014
 
 =head1 ROLES
 
-L<TPath::Selector>
+L<TPath::Selector::Test>
 
 =head1 AUTHOR
 

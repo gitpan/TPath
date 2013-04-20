@@ -1,6 +1,6 @@
 package TPath::Test::Not;
 {
-  $TPath::Test::Not::VERSION = '0.013';
+  $TPath::Test::Not::VERSION = '0.014';
 }
 
 # ABSTRACT: implements logical negation of a test
@@ -18,8 +18,8 @@ has t => ( is => 'ro', isa => 'CondArg', required => 1 );
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $i, $c ) = @_;
-    return $self->t->test( $n, $i, $c ) ? 0 : 1;
+    my ( $self, $ctx ) = @_;
+    return $self->t->test($ctx) ? 0 : 1;
 }
 
 sub to_string {
@@ -41,7 +41,7 @@ TPath::Test::Not - implements logical negation of a test
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

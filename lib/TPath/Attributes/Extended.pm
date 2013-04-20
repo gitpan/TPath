@@ -1,6 +1,6 @@
 package TPath::Attributes::Extended;
 {
-  $TPath::Attributes::Extended::VERSION = '0.013';
+  $TPath::Attributes::Extended::VERSION = '0.014';
 }
 
 # ABSTRACT: a collection of attributes beyond the standard set
@@ -12,116 +12,115 @@ use List::Util qw(max min sum reduce);
 
 
 sub extended_abs : Attr(m:abs) {
-    abs $_[4];
+    abs $_[2];
 }
-
 
 
 sub extended_ceil : Attr(m:ceil) {
     require POSIX;
-    POSIX::ceil( $_[4] );
+    POSIX::ceil( $_[2] );
 }
 
 
 sub extended_floor : Attr(m:floor) {
     require POSIX;
-    POSIX::floor( $_[4] );
+    POSIX::floor( $_[2] );
 }
 
 
 sub extended_int : Attr(m:int) {
-    int $_[4];
+    int $_[2];
 }
 
 
 sub extended_round : Attr(m:round) {
-    sprintf '%.0f', $_[4];
+    sprintf '%.0f', $_[2];
 }
 
 
 sub extended_max : Attr(m:max) {
-    max @_[ 4 .. $#_ ];
+    max @_[ 2 .. $#_ ];
 }
 
 
 sub extended_min : Attr(m:min) {
-    min @_[ 4 .. $#_ ];
+    min @_[ 2 .. $#_ ];
 }
 
 
 sub extended_sum : Attr(m:sum) {
-    sum @_[ 4 .. $#_ ];
+    sum @_[ 2 .. $#_ ];
 }
 
 
 sub extended_prod : Attr(m:prod) {
-    0 + reduce { $a * $b } @_[ 4 .. $#_ ];
+    0 + reduce { $a * $b } @_[ 2 .. $#_ ];
 }
 
 
 sub extended_matches : Attr(s:matches) {
-    my ( $str, $re ) = @_[ 4, 5 ];
+    my ( $str, $re ) = @_[ 2, 3 ];
     ( $str // '' ) =~ /^$re$/ ? 1 : undef;
 }
 
 
 sub extended_looking_at : Attr(s:looking-at) {
-    my ( $str, $re ) = @_[ 4, 5 ];
+    my ( $str, $re ) = @_[ 2, 3 ];
     $str =~ /^$re/ ? 1 : undef;
 }
 
 
 sub extended_find : Attr(s:find) {
-    my ( $str, $re ) = @_[ 4, 5 ];
+    my ( $str, $re ) = @_[ 2, 3 ];
     $str =~ /$re/ ? 1 : undef;
 }
 
 
 sub extended_starts_with : Attr(s:starts-with) {
-    my ( $str, $prefix ) = @_[ 4, 5 ];
+    my ( $str, $prefix ) = @_[ 2, 3 ];
     0 == index $str, $prefix ? 1 : undef;
 }
 
 
 sub extended_ends_with : Attr(s:ends-with) {
-    my ( $str, $suffix ) = @_[ 4, 5 ];
+    my ( $str, $suffix ) = @_[ 2, 3 ];
     -1 < index( $str, $suffix, length($str) - length($suffix) ) ? 1 : undef;
 }
 
 
 sub extended_contains : Attr(s:contains) {
-    my ( $str, $infix ) = @_[ 4, 5 ];
+    my ( $str, $infix ) = @_[ 2, 3 ];
     -1 < index( $str, $infix ) ? 1 : undef;
 }
 
 
 sub extended_index : Attr(s:index) {
-    my ( $str, $infix ) = @_[ 4, 5 ];
+    my ( $str, $infix ) = @_[ 2, 3 ];
     index $str, $infix;
 }
 
 
 sub extended_concat : Attr(s:concat) {
-    join '', @_[ 4 .. $#_ ];
+    join '', @_[ 2 .. $#_ ];
 }
 
 
 sub extended_replace_first : Attr(s:replace-first) {
-    my ( $str, $rx, $rep ) = @_[ 4 .. 6 ];
+    my ( $str, $rx, $rep ) = @_[ 2 .. 4 ];
     $str =~ s/$rx/$rep/;
     $str;
 }
 
 
 sub extended_replace_all : Attr(s:replace-all) {
-    my ( $str, $rx, $rep ) = @_[ 4 .. 6 ];
+    my ( $str, $rx, $rep ) = @_[ 2 .. 4 ];
     $str =~ s/$rx/$rep/g;
     $str;
 }
 
 
 sub extended_replace : Attr(s:replace) {
-    my ( $str, $ss, $rep ) = @_[ 4 .. 6 ];
+    my ( $str, $ss, $rep ) = @_[ 2 .. 4 ];
     my $l     = length $ss;
     my $start = 0;
     my $ns    = '';
@@ -137,13 +136,13 @@ sub extended_replace : Attr(s:replace) {
 
 
 sub extended_compare : Attr(s:cmp) {
-    my ( $s1, $s2 ) = @_[ 4, 5 ];
+    my ( $s1, $s2 ) = @_[ 2, 3 ];
     $s1 cmp $s2;
 }
 
 
 sub extended_substr : Attr(s:substr) {
-    my ( $s, $i1, $i2 ) = @_[ 4 .. 6 ];
+    my ( $s, $i1, $i2 ) = @_[ 2 .. 4 ];
     if ( defined $i2 ) {
         substr $s, $i1, $i2 - $i1;
     }
@@ -154,27 +153,27 @@ sub extended_substr : Attr(s:substr) {
 
 
 sub extended_len : Attr(s:len) {
-    length $_[4];
+    length $_[2];
 }
 
 
 sub extended_uc : Attr(s:uc) {
-    uc $_[4];
+    uc $_[2];
 }
 
 
 sub extended_lc : Attr(s:lc) {
-    lc $_[4];
+    lc $_[2];
 }
 
 
 sub extended_uc_first : Attr(s:ucfirst) {
-    ucfirst $_[4];
+    ucfirst $_[2];
 }
 
 
 sub extended_trim : Attr(s:trim) {
-    ( my $s = $_[4] ) =~ s/^\s++|\s++$//g;
+    ( my $s = $_[2] ) =~ s/^\s++|\s++$//g;
     $s;
 }
 
@@ -187,7 +186,7 @@ sub extended_nspace : Attr(s:nspace) {
 
 
 sub extended_join : Attr(s:join) {
-    my ( $sep, @strings ) = @_[ 4 .. $#_ ];
+    my ( $sep, @strings ) = @_[ 2 .. $#_ ];
     $sep //= 'null';
     join "$sep", @strings;
 }
@@ -202,7 +201,7 @@ sub extended_millis : Attr(u:millis) {
 
 
 sub extended_udef : Attr(u:def) {
-    defined $_[4] ? 1 : undef;
+    defined $_[2] ? 1 : undef;
 }
 
 1;
@@ -217,7 +216,7 @@ TPath::Attributes::Extended - a collection of attributes beyond the standard set
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 SYNOPSIS
 
@@ -268,10 +267,6 @@ Absolute value of numeric argument.
 
 Returns smallest whole number greater than or equal to the numeric argument.
 
-=head2 C<@m:ceil(1.5)>
-
-Returns smallest whole number greater than or equal to the numeric argument.
-
 =head2 C<@m:floor(1.5)>
 
 Returns largest whole number less than or equal to the numeric argument.
@@ -305,29 +300,47 @@ An empty list returns 0.
 =head2 C<@s:matches('str','re')>
 
 Returns whether the given string matches the given regex. That is,
-if the regex is C<$re>, the regex tested against is C<^$re$>.
+if the regex is C<$re>, the regex tested against is C<^$re$>. Note that this is
+redundant: one can also use the C<=~> operator for this purpose.
+
+  //foo[@bar =~ '^baz$']
 
 =head2 C<@s:looking-at('str','re')>
 
 Returns whether a prefix of the given string matches the given regex.
 That is, if the regex given is C<$re>, the regex tested against is
-C<^$re>.
+C<^$re>.  Note that this is redundant: one can also use the C<=~> operator 
+for this purpose.
+
+  //foo[@bar =~ '^baz']
 
 =head2 C<@s:find('str','re')>
 
-Returns whether a prefix of the given string matches the given regex anywhere.
+Returns whether a prefix of the given string matches the given regex anywhere.  Note that this is
+redundant: one can also use the C<=~> operator for this purpose.
+
+  //foo[@bar =~ 'baz']
 
 =head2 C<@s:starts-with('str','prefix')>
 
-Whether the string has the given prefix.
+Whether the string has the given prefix. Note that this is
+redundant: one can also use the C<|=> operator for this purpose.
+
+  //foo[@bar |= 'baz']
 
 =head2 C<@s:ends-with('str','suffix')>
 
-Whether the string has the given suffix.
+Whether the string has the given suffix. Note that this is
+redundant: one can also use the C<=|> operator for this purpose.
+
+  //foo[@bar =| 'baz']
 
 =head2 C<@s:contains('str','infix')>
 
-Whether the string contains the given substring.
+Whether the string contains the given substring. Note that this is
+redundant: one can also use the C<=|=> operator for this purpose.
+
+  //foo[@bar =|= 'baz']
 
 =head2 C<@s:index('str','substr')>
 

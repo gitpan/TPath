@@ -1,6 +1,6 @@
 package TPath::Selector::Parent;
 {
-  $TPath::Selector::Parent::VERSION = '0.013';
+  $TPath::Selector::Parent::VERSION = '0.014';
 }
 
 # ABSTRACT: L<TPath::Selector> that implements C<..>
@@ -13,8 +13,9 @@ with 'TPath::Selector';
 
 # required by TPath::Selector
 sub select {
-    my ( $self, $n, $i ) = @_;
-    return $n == $i->root ? () : $i->f->parent( $n, $i );
+    my ( $self, $ctx ) = @_;
+    my ( $n, $i ) = ( $ctx->n, $ctx->i );
+    return $n == $i->root ? () : $i->f->parent( $ctx, $ctx );
 }
 sub to_string { '..' }
 
@@ -32,7 +33,7 @@ TPath::Selector::Parent - L<TPath::Selector> that implements C<..>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 ROLES
 

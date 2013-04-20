@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestMatch;
 {
-  $TPath::Selector::Test::ClosestMatch::VERSION = '0.013';
+  $TPath::Selector::Test::ClosestMatch::VERSION = '0.014';
 }
 
 # ABSTRACT: handles C</E<gt>~foo~>
@@ -21,10 +21,9 @@ sub BUILD {
 
 # implements method required by TPath::Selector::Test
 sub candidates {
-    my ( $self, $n, $i, $first ) = @_;
-    return $i->f->closest( $n, $self->node_test, $i, !$first );
+    my ( $self, $ctx, $first ) = @_;
+    return $ctx->i->f->closest( $ctx, $self->node_test, !$first );
 }
-
 sub to_string {
     my $self = shift;
     return
@@ -47,7 +46,7 @@ TPath::Selector::Test::ClosestMatch - handles C</E<gt>~foo~>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 ROLES
 

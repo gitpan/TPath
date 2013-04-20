@@ -1,6 +1,6 @@
 package TPath::Test::One;
 {
-  $TPath::Test::One::VERSION = '0.013';
+  $TPath::Test::One::VERSION = '0.014';
 }
 
 # ABSTRACT: implements logical function of tests which returns true iff only one test is true
@@ -12,10 +12,10 @@ with 'TPath::Test::Compound';
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $i, $c ) = @_;
+    my ( $self, $ctx ) = @_;
     my $count = 0;
     for my $t ( @{ $self->tests } ) {
-        if ( $t->test( $n, $i, $c ) ) {
+        if ( $t->test($ctx) ) {
             return 0 if $count;
             $count++;
         }
@@ -42,7 +42,7 @@ TPath::Test::One - implements logical function of tests which returns true iff o
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

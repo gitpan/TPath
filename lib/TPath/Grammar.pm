@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.013';
+  $TPath::Grammar::VERSION = '0.014';
 }
 
 use v5.10;
@@ -26,6 +26,7 @@ our %AXES = map { $_ => 1 } qw(
   parent
   preceding
   preceding-sibling
+  previous
   self
   sibling
   sibling-or-self
@@ -65,7 +66,7 @@ our $path_grammar = do {
     
        <token: step> <full> (?: <.ws> <[predicate]> )* | <abbreviated>
     
-       <token: full> <axis>? <forward>
+       <token: full> <axis>? <forward> | (?<=(?<!/)/) <previous=(:p)> <.cp>
     
        <token: axis> 
           (?<!//) (?<!/>) (<%AXES>) ::
@@ -756,7 +757,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 SYNOPSIS
 

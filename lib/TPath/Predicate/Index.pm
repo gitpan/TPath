@@ -1,6 +1,6 @@
 package TPath::Predicate::Index;
 {
-  $TPath::Predicate::Index::VERSION = '0.013';
+  $TPath::Predicate::Index::VERSION = '0.014';
 }
 
 # ABSTRACT: implements the C<[0]> in C<//a/b[0]>
@@ -14,7 +14,7 @@ with 'TPath::Predicate';
 
 has idx => ( is => 'ro', isa => 'Int', required => 1 );
 sub filter {
-    my ( $self, undef, $c ) = @_;
+    my ( $self, $c ) = @_;
     return $c->[ $self->idx ];
 }
 
@@ -36,7 +36,7 @@ TPath::Predicate::Index - implements the C<[0]> in C<//a/b[0]>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

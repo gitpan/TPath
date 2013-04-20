@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.013';
+  $TPath::Attribute::VERSION = '0.014';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -24,8 +24,8 @@ has code => ( is => 'ro', isa => 'CodeRef', required => 1 );
 
 
 sub apply {
-    my ( $self, $n, $i, $c ) = @_;
-    my @args = ( $n, $i, $c );
+    my ( $self, $ctx ) = @_;
+    my @args = ($ctx);
 
     # invoke all code to reify arguments
     for my $a ( @{ $self->args } ) {
@@ -33,28 +33,29 @@ sub apply {
         my $type  = ref $a;
         if ( $type && $type !~ /ARRAY|HASH/ ) {
             if ( $a->isa('TPath::Attribute') ) {
-                $value = $a->apply( $n, $i, $c );
+                $value = $a->apply($ctx);
             }
             elsif ( $a->isa('TPath::AttributeTest') ) {
-                $value = $a->test( $n, $i, $c );
+                $value = $a->test($ctx);
             }
             elsif ( $a->isa('TPath::Expression') ) {
-                $value = $a->_select( $n, $i, 0 );
+                $value =
+                  [ map { $_->n } @{ $a->_select( $ctx, 0 ) } ];
             }
             elsif ( $a->does('TPath::Test') ) {
-                $value = $a->test( $n, $i, $c );
+                $value = $a->test($ctx);
             }
             else { confess 'unknown argument type: ' . ( ref $a ) }
         }
         push @args, $value;
     }
-    $self->code->( $i->f, @args );
+    $self->code->( $ctx->i->f, @args );
 }
 
 # required by TPath::Test
 sub test {
-    my ( $self, $n, $i, $c ) = @_;
-    defined $self->apply( $n, $i, $c );
+    my ( $self, $ctx ) = @_;
+    defined $self->apply($ctx);
 }
 
 sub to_string {
@@ -85,7 +86,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

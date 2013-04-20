@@ -2,7 +2,7 @@
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '0.013';
+  $TPath::Index::VERSION = '0.014';
 }
 
 
@@ -43,7 +43,7 @@ has _root_ref => (
 
 sub is_root {
     my ( $self, $n ) = @_;
-    return refaddr $n eq $self->_root_ref;
+    return refaddr $n == $self->_root_ref;
 }
 
 sub BUILD {
@@ -65,7 +65,7 @@ sub index {
 
 sub walk {
     my ( $self, $n ) = @_;
-    my @children = $self->f->_kids( $n, $self );
+    my @children = $self->f->_decontextualized_kids( $n, $self );
     $self->n_index($n);
     for my $c (@children) {
         $self->pc_index( $n, $c );
@@ -117,7 +117,7 @@ TPath::Index - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package TPath::Selector::Expression;
 {
-  $TPath::Selector::Expression::VERSION = '0.013';
+  $TPath::Selector::Expression::VERSION = '0.014';
 }
 
 # ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>
@@ -18,8 +18,8 @@ with 'TPath::Selector';
 has e => ( is => 'ro', isa => 'TPath::Expression', required => 1 );
 
 sub select {
-    my ( $self, $n, $i, $first ) = @_;
-    return @{ $self->e->_select( $n, $i, $first ) };
+    my ( $self, $ctx, $first ) = @_;
+    return @{ $self->e->_select( $ctx, $first ) };
 }
 
 sub to_string {
@@ -41,7 +41,7 @@ TPath::Selector::Expression - selector that handles the parenthesized portion of
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 

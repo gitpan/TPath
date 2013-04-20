@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.013';
+  $TPath::Selector::Test::VERSION = '0.014';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -55,7 +55,12 @@ sub _stringify_match {
     my ( $self, $re ) = @_;
 
     # chop off the "(?-xism:" prefix and ")" suffix
-    $re = substr $re, 8, length($re) - 9;
+    if ( $re =~ /^\Q(?-xism:\E/ ) {
+        $re = substr $re, 8, length($re) - 9;
+    }
+    elsif ( $re =~ /^\Q(?^:\E/ ) {
+        $re = substr $re, 4, length($re) - 5;
+    }
     $re =~ s/~/~~/g;
     return "~$re~";
 }
@@ -73,9 +78,9 @@ sub _invert {
 
 
 sub candidates {
-    my ( $self, $n, $i, $first ) = @_;
+    my ( $self, $ctx, $first ) = @_;
     my $axis = $self->_select_axis($first);
-    $i->f->$axis( $n, $self->node_test, $i );
+    return $ctx->i->f->$axis( $ctx, $self->node_test );
 }
 
 sub _select_axis {
@@ -91,11 +96,11 @@ sub _select_axis {
 
 # implements method required by TPath::Selector
 sub select {
-    my ( $self, $n, $i, $first ) = @_;
-    my @candidates = $self->candidates( $n, $i, $first );
+    my ( $self, $ctx, $first ) = @_;
+    my @candidates = $self->candidates( $ctx, $first );
     for my $p ( $self->predicates ) {
         last unless @candidates;
-        @candidates = $p->filter( $i, \@candidates );
+        @candidates = $p->filter( \@candidates );
     }
     return @candidates;
 }
@@ -112,7 +117,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 
@@ -146,7 +151,8 @@ The test that is applied to select candidates on an axis.
 
 =head2 candidates
 
-Expects a node and an index and returns nodes selected before filtering by predicates.
+Expects an L<TPath::Context> and whether this is the first selector in its path
+and returns nodes selected before filtering by predicates.
 
 =head1 ROLES
 

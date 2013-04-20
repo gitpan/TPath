@@ -1,6 +1,6 @@
 package TPath::Selector::Id;
 {
-  $TPath::Selector::Id::VERSION = '0.013';
+  $TPath::Selector::Id::VERSION = '0.014';
 }
 
 # ABSTRACT: C<TPath::Selector> that implements C<id(foo)>
@@ -15,9 +15,9 @@ has id => ( isa => 'Str', is => 'ro', required => 1 );
 
 # required by TPath::Selector
 sub select {
-    my ( $self, undef, $idx ) = @_;
-    my $n = $idx->indexed->{ $self->id };
-    $n // ();
+    my ( $self, $ctx ) = @_;
+    my $n = $ctx->i->indexed->{ $self->id };
+    $ctx->bud($n) // ();
 }
 
 sub to_string {
@@ -39,7 +39,7 @@ TPath::Selector::Id - C<TPath::Selector> that implements C<id(foo)>
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 ROLES
 

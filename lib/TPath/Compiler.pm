@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '0.013';
+  $TPath::Compiler::VERSION = '0.014';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -24,6 +24,7 @@ use aliased 'TPath::Selector';
 use aliased 'TPath::Selector::Expression' => 'SE';
 use aliased 'TPath::Selector::Id';
 use aliased 'TPath::Selector::Parent';
+use aliased 'TPath::Selector::Previous';
 use aliased 'TPath::Selector::Quantified';
 use aliased 'TPath::Selector::Self';
 use aliased 'TPath::Selector::Test::Anywhere';
@@ -103,12 +104,14 @@ sub cs {
 sub full {
     my ( $step, $forester ) = @_;
     my @predicates = predicates( $step->{step}{predicate}, $forester );
+    return Previous->new( predicates => \@predicates )
+      if $step->{step}{full}{previous};
     my $sep        = $step->{separator};
     my $type       = $step->{step}{full}{forward};
     my $complement = $step->{step}{full}{forward}{complement};
     my $axis       = $step->{step}{full}{axis};
     my ( $key, $val ) = each %$type;
-    my $rv;    # return value
+    my $rv;                                # return value
 
     for ($key) {
         when ('wildcard') {
@@ -394,7 +397,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 DESCRIPTION
 
