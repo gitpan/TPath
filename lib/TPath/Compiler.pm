@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '0.014';
+  $TPath::Compiler::VERSION = '0.015';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -9,12 +9,15 @@ package TPath::Compiler;
 use strict;
 use warnings;
 use v5.10;
+use TPath::Grammar qw(%FUNCTIONS);
 
 use parent 'Exporter';
 
 use aliased 'TPath::Attribute';
 use aliased 'TPath::AttributeTest';
 use aliased 'TPath::Expression';
+use aliased 'TPath::Function';
+use aliased 'TPath::Math';
 use aliased 'TPath::Predicate::Attribute'     => 'PA';
 use aliased 'TPath::Predicate::AttributeTest' => 'PAT';
 use aliased 'TPath::Predicate::Boolean'       => 'PB';
@@ -111,7 +114,7 @@ sub full {
     my $complement = $step->{step}{full}{forward}{complement};
     my $axis       = $step->{step}{full}{axis};
     my ( $key, $val ) = each %$type;
-    my $rv;                                # return value
+    my $rv;    # return value
 
     for ($key) {
         when ('wildcard') {
@@ -334,12 +337,18 @@ sub arg {
     my ( $arg, $forester ) = @_;
     my $v = $arg->{v};
     return $v if defined $v;
+    my $num = $arg->{num};
+    return $num if defined $num;
     return attribute( $arg, $forester ) if exists $arg->{aname};
     my $a = $arg->{attribute};
     return attribute( $a, $forester ) if defined $a;
     return treepath( $arg, $forester ) if exists $arg->{treepath};
     my $at = $arg->{attribute_test};
     return attribute_test( $at, $forester ) if defined $at;
+    my $m = $arg->{math};
+    return math( $m, $forester ) if defined $m;
+    my $f = $arg->{function};
+    return function( $f, $forester ) if defined $f;
     my $op = $arg->{condition}{operator};
     return condition( $arg, $forester, $op ) if defined $op;
     die
@@ -347,10 +356,26 @@ sub arg {
       . ( join ', ', sort keys %$arg );
 }
 
+sub function {
+    my ( $f, $forester ) = @_;
+    my $name = $f->{f};
+    return Function->new(
+        f    => $FUNCTIONS{$name},
+        name => $name,
+        arg => arg( $f->{arg}, $forester )
+    );
+}
+
+sub math {
+    my ( $m, $forester ) = @_;
+    my @args = map { arg( $_, $forester ) } @{ $m->{item} };
+    return Math->new( operator => $m->{operator}, args => \@args );
+}
+
 sub attribute_test {
     my ( $at, $forester ) = @_;
     my $op    = $at->{cmp};
-    my @args  = @{ $at->{args} };
+    my @args  = @{ $at->{value} };
     my $left  = arg( $args[0], $forester );
     my $right = arg( $args[1], $forester );
     return AttributeTest->new( op => $op, left => $left, right => $right );
@@ -397,7 +422,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 DESCRIPTION
 

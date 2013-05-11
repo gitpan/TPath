@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.014';
+  $TPath::Selector::Test::VERSION = '0.015';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -46,7 +46,7 @@ around 'to_string' => sub {
     my ( $orig, $self, @args ) = @_;
     my $s = $self->$orig(@args);
     for my $p ( @{ $self->predicates } ) {
-        $s .= '[' . $p->to_string . ']';
+        $s .= '[ ' . $p->to_string . ' ]';
     }
     return $s;
 };
@@ -117,7 +117,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 DESCRIPTION
 

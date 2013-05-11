@@ -6,6 +6,7 @@ Makefile.PL
 README
 README.md
 TODO
+compilation-tester.pl
 demo.pl
 dist.ini
 lib/TPath.pm
@@ -17,9 +18,12 @@ lib/TPath/Compiler.pm
 lib/TPath/Context.pm
 lib/TPath/Expression.pm
 lib/TPath/Forester.pm
+lib/TPath/Function.pm
 lib/TPath/Grammar.pm
 lib/TPath/Index.pm
 lib/TPath/LogStream.pm
+lib/TPath/Math.pm
+lib/TPath/Numifiable.pm
 lib/TPath/Predicate.pm
 lib/TPath/Predicate/Attribute.pm
 lib/TPath/Predicate/AttributeTest.pm
@@ -66,6 +70,8 @@ lib/TPath/Test/One.pm
 lib/TPath/Test/Or.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
+parsing-tester.pl
+perltidy.LOG
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm
@@ -87,4 +93,3 @@ t/release-00element.t
 t/release-01parsing.t
 t/release-unused-vars.t
 t/stringification.t
-tester.pl

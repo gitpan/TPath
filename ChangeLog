@@ -1,5 +1,9 @@
 Revision history for TPath
 
+0.015     2013-05-11 18:28:56 America/New_York
+  * added math in attribute tests
+  * allowing bare expressions in attribute tests
+
 0.014     2013-04-20 13:20:03 America/New_York
   * added :p selector
   * added previous:: axis

@@ -1,0 +1,24 @@
+perltidy version 20121207 log file on a darwin system, OLD_PERL_VERSION=5.012004
+Configuration and command line parameters for this run:
+-l=0
+To find error messages search for 'WARNING' with your editor
+Indentation will be with 4 spaces
+Line 1 implies starting-indentation-level = 0
+The nesting depths in the table below are at the start of the lines.
+The indicated output line numbers are not always exact.
+ci = levels of continuation indentation; bk = 1 if in BLOCK, 0 if not.
+
+in:out indent c b  nesting   code + messages; (messages begin with >>>)
+lines  levels i k            (code begins with one '.' per indent level)
+------  ----- - - --------   -------------------------------------------
+L2:1     i2:1 0 0 {          >>>Start indentation disagreement: input=2; output=1
+L22:1    i2:0 1 1 {          >>>Last line
+
+First indentation disagreement seen at input line 2
+Ending with indentation disagreement which started at input line 2
+Note: Indentation disagreement detection is not accurate for outdenting and -lp.
+
+No lines exceeded 1000000 characters
+  Maximum output line length was 57 at line 11
+Suggest including 'use warnings;'
+Suggest including 'use strict;'

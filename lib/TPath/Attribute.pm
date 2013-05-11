@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.014';
+  $TPath::Attribute::VERSION = '0.015';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -11,7 +11,7 @@ use Moose;
 use namespace::autoclean;
 
 
-with qw(TPath::Test TPath::Stringifiable);
+with qw(TPath::Test TPath::Numifiable);
 
 
 has name => ( is => 'ro', isa => 'Str', required => 1 );
@@ -52,6 +52,17 @@ sub apply {
     $self->code->( $ctx->i->f, @args );
 }
 
+
+sub to_num {
+    my ( $self, $ctx ) = @_;
+    my $val = $self->apply($ctx);
+    for ( ref $val ) {
+        when ('ARRAY') { return scalar @$val }
+        when ('HASH')  { return scalar keys %$val }
+        default        { return 0 + $val }
+    }
+}
+
 # required by TPath::Test
 sub test {
     my ( $self, $ctx ) = @_;
@@ -86,7 +97,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 DESCRIPTION
 
@@ -111,6 +122,10 @@ The actual code reference invoked when C<apply> is called.
 =head2 apply
 
 Expects a node, and index, and a collection. Returns some value.
+
+=head2 to_num
+
+Basically an alias for C<apply>. Required by L<TPath::Numifiable>.
 
 =head1 ROLES
 

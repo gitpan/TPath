@@ -1,6 +1,6 @@
 package TPath::Stringifiable;
 {
-  $TPath::Stringifiable::VERSION = '0.014';
+  $TPath::Stringifiable::VERSION = '0.015';
 }
 
 # ABSTRACT: role requiring that a class have a to_string method
@@ -28,8 +28,9 @@ sub _escape {
 
 # general stringification procedure
 sub _stringify {
-    my ( $self, $arg ) = @_;
-    return $arg->to_string if blessed $arg && $arg->can('to_string');
+    my ( $self, $arg, @args ) = @_;
+    return $arg->to_string(@args)
+      if blessed $arg && $arg->can('to_string');
     confess 'unexpected argument type: ' . ref $arg if ref $arg;
     return $arg if looks_like_number $arg;
     return "'" . $self->_escape( $arg, "'" ) . "'";
@@ -62,14 +63,14 @@ TPath::Stringifiable - role requiring that a class have a to_string method
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 DESCRIPTION
 
 Role that enforces the presence of a to_string method. Makes sure the absence of this method
 where it is expected will be a compile time rather than run time error.
 
-=head1 REQUIRED ROLES
+=head1 REQUIRED METHODS
 
 =head2 to_string
 

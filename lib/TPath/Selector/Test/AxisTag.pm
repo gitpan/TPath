@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisTag;
 {
-  $TPath::Selector::Test::AxisTag::VERSION = '0.014';
+  $TPath::Selector::Test::AxisTag::VERSION = '0.015';
 }
 
 # ABSTRACT: handles C</ancestor::foo> or C</preceding::foo> where this is not the first step in the path, or C<ancestor::foo>
@@ -42,7 +42,7 @@ TPath::Selector::Test::AxisTag - handles C</ancestor::foo> or C</preceding::foo>
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 ROLES
 

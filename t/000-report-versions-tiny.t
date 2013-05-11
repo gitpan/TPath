@@ -56,6 +56,7 @@ eval { $v .= pmver('File::Find','any version') };
 eval { $v .= pmver('File::Temp','any version') };
 eval { $v .= pmver('List::MoreUtils','any version') };
 eval { $v .= pmver('List::Util','any version') };
+eval { $v .= pmver('Math::Trig','any version') };
 eval { $v .= pmver('Moose','2.0604') };
 eval { $v .= pmver('Moose::Role','2.0604') };
 eval { $v .= pmver('Moose::Util::TypeConstraints','2.0604') };

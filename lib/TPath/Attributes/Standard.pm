@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.014';
+  $TPath::Attributes::Standard::VERSION = '0.015';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -198,7 +198,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 DESCRIPTION
 
@@ -229,19 +229,7 @@ child is C</1/0>. And so on.
 
 =head2 C<@echo(//a)>
 
-Returns its parameter. C<@echo> is useful because it can in effect turn anything
-into an attribute. You want a predicate that passes when a path returns a node
-set of a particular cardinality?
-
-  //foo[@echo(bar) = 3]
-
-Attribute test expressions like this require that the left and right operands be either
-attributes or constants, but this is no restriction because C<@echo> turns everything
-into an attribute.
-
-Note that L<TPath::Expression> parameters evaluate not to a list of nodes but to a
-list of L<TPath::Context> objects. Each context's node can be obtained by its C<n>
-accessor.
+Returns its parameter.
 
 =head2 C<@leaf>
 

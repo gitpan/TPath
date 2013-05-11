@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Exporter" => 0,
     "List::Util" => 0,
+    "Math::Trig" => 0,
     "Moose" => "2.0604",
     "Moose::Role" => "2.0604",
     "Moose::Util::TypeConstraints" => "2.0604",
@@ -50,7 +51,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.88",
     "Test::Trap" => 0
   },
-  "VERSION" => "0.014",
+  "VERSION" => "0.015",
   "test" => {
     "TESTS" => "t/*.t"
   }

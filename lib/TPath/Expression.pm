@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '0.014';
+  $TPath::Expression::VERSION = '0.015';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -17,7 +17,7 @@ use overload '""' => \&to_string;
 sub uniq(@);
 
 
-with qw(TPath::Test TPath::Stringifiable);
+with qw(TPath::Test TPath::Numifiable);
 
 
 has f => ( is => 'ro', does => 'TPath::Forester', required => 1 );
@@ -38,8 +38,7 @@ sub select {
     $i->index;
     my $ctx = TPath::Context->new( n => $n, i => $i );
     my $sel = $self->_select( $ctx, 1 );
-    return
-      wantarray ? map { $_->n } @$sel : @$sel ? $sel->[0]->n : undef;
+    return wantarray ? map { $_->n } @$sel : @$sel ? $sel->[0]->n : undef;
 }
 
 # select minus the initialization steps
@@ -53,6 +52,13 @@ sub _select {
     @sel = uniq @sel if @{ $self->_selectors } > 1;
 
     return \@sel;
+}
+
+
+sub to_num {
+    my ( $self, $ctx ) = @_;
+    my $nodes = $self->_select( $ctx, 1 );
+    return scalar @$nodes;
 }
 
 # required by TPath::Test
@@ -111,7 +117,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =head1 SYNOPSIS
 
@@ -130,6 +136,10 @@ An object that will get us the nodes identified by our path expression.
 =head2 f
 
 The expression's L<TPath::Forester>.
+
+=head2 to_num
+
+Required by L<TPath::Numifiable>. Returns the number of nodes selected given the L<TPath::Context>.
 
 =head1 METHODS
 
