@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.015';
+  $TPath::Forester::VERSION = '0.016';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -130,6 +130,9 @@ sub parent {
 
 
 sub id { }
+
+
+sub autoload_attribute { }
 
 sub _kids {
     my ( $self, $original, $ctx ) = @_;
@@ -428,7 +431,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.015
+version 0.016
 
 =head1 SYNOPSIS
 
@@ -567,6 +570,25 @@ L<TPath::Index>.
 
 Expects a node. Returns id of node, if any. By default this method always returns undef.
 Override if your node has some defined notion of id.
+
+=head2 autoload_attribute
+
+Expects an attribute name and optionally a list of arguments. Returns a code reference 
+instantiating the attribute. This method is required for attributes such as
+
+  //foo[@:a]
+
+or
+
+  //bar[@:b(1)]
+
+Note the unescaped colon preceding the attribute name.
+
+Autoloading is useful for this such as HTML or XML trees, where nodes may have ad hoc attributes.
+
+This method must be defined by each forester requiring attribute auto-loading. The default
+method will always return C<undef>, and if one attempts to use it to autoload an attribute
+an error will be thrown during expression compilation.
 
 =head2 is_leaf
 

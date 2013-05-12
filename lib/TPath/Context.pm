@@ -1,6 +1,6 @@
 package TPath::Context;
 {
-  $TPath::Context::VERSION = '0.015';
+  $TPath::Context::VERSION = '0.016';
 }
 
 # ABSTRACT: the context in which a node is evaluated during a search
@@ -8,6 +8,7 @@ package TPath::Context;
 
 use strict;
 use warnings;
+use Scalar::Util qw(refaddr);
 
 use overload '""' => \&to_string;
 
@@ -59,7 +60,14 @@ sub i { $_[0][1] }
 sub path { $_[0][2] }
 
 
-sub to_string { "$_[0][0]" }
+sub to_string {
+    my $s;
+    eval { $s = "$_[0][0]" };
+    if ($@) {    # workaround for odd overload bug
+        $s = 'memaddr' . refaddr $_[0][0];
+    }
+    return $s;
+}
 
 1;
 
@@ -73,7 +81,7 @@ TPath::Context - the context in which a node is evaluated during a search
 
 =head1 VERSION
 
-version 0.015
+version 0.016
 
 =head1 DESCRIPTION
 

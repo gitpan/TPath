@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestMatch;
 {
-  $TPath::Selector::Test::ClosestMatch::VERSION = '0.015';
+  $TPath::Selector::Test::ClosestMatch::VERSION = '0.016';
 }
 
 # ABSTRACT: handles C</E<gt>~foo~>
@@ -46,7 +46,7 @@ TPath::Selector::Test::ClosestMatch - handles C</E<gt>~foo~>
 
 =head1 VERSION
 
-version 0.015
+version 0.016
 
 =head1 ROLES
 

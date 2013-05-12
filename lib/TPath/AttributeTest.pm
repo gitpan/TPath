@@ -1,6 +1,6 @@
 package TPath::AttributeTest;
 {
-  $TPath::AttributeTest::VERSION = '0.015';
+  $TPath::AttributeTest::VERSION = '0.016';
 }
 
 # ABSTRACT: compares an attribute value to another value
@@ -10,6 +10,7 @@ use v5.10;
 use Scalar::Util qw(refaddr looks_like_number);
 use MooseX::SingletonMethod;
 use TPath::TypeConstraints;
+use overload;
 use namespace::autoclean;
 
 
@@ -906,19 +907,20 @@ sub _se {
             return 1;
         }
         when ('oo') {
-            my $f = $v1->can('equals');
+            my $f = $v1->can('equals') || overload::Method( $v1, '==' );
             return $v1->$f($v2) ? 1 : undef if $f;
-            $f = $v2->can('equals');
+            $f = $v2->can('equals') || overload::Method( $v2, '==' );
             return $v2->$f($v1) ? 1 : undef if $f;
             return refaddr $v1 == refaddr $v2 ? 1 : undef;
         }
         when (/o./) {
-            my $f = $v1->can('equals');
+            my $f = $v1->can('equals') || overload::Method( $v1, '==' );
             return $v1->$f->($v2) ? 1 : undef if $f;
             return undef;
         }
         when (/.o/) {
-            my $f = $v2->can('equals');
+            my $f =
+              $v2->can('equals') || overload::Method( $v2, '==' );
             return $v2->$f($v1) ? 1 : undef if $f;
             return undef;
         }
@@ -990,7 +992,7 @@ TPath::AttributeTest - compares an attribute value to another value
 
 =head1 VERSION
 
-version 0.015
+version 0.016
 
 =head1 DESCRIPTION
 

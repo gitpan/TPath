@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.015';
+  $TPath::Grammar::VERSION = '0.016';
 }
 
 use v5.10;
@@ -138,8 +138,7 @@ our $path_grammar = do {
           (?{ $MATCH = clean_pattern($^N) }) <.cp>
     
        <token: aname>
-          @ <name>
-          (?{ $MATCH = $MATCH{name} })
+          @ (?: <name> | : <name> (?{ $MATCH{autoloaded} = 1 }) )
        
        <token: name>
           ((?>\\.|[\p{L}\$_])(?>[\p{L}\$\p{N}_]|[-.:](?=[\p{L}_\$\p{N}])|\\.)*+)  (?{ $MATCH = clean_escapes($^N ) })
@@ -1332,7 +1331,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.015
+version 0.016
 
 =head1 SYNOPSIS
 
