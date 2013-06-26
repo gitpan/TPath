@@ -1,6 +1,6 @@
 package TPath::Selector::Expression;
 {
-  $TPath::Selector::Expression::VERSION = '0.016';
+  $TPath::Selector::Expression::VERSION = '0.017';
 }
 
 # ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>
@@ -41,7 +41,7 @@ TPath::Selector::Expression - selector that handles the parenthesized portion of
 
 =head1 VERSION
 
-version 0.016
+version 0.017
 
 =head1 DESCRIPTION
 

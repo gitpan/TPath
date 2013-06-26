@@ -1,6 +1,6 @@
 package TPath::Numifiable;
 {
-  $TPath::Numifiable::VERSION = '0.016';
+  $TPath::Numifiable::VERSION = '0.017';
 }
 
 # ABSTRACT: role of things that evaluate to numbers
@@ -34,7 +34,7 @@ TPath::Numifiable - role of things that evaluate to numbers
 
 =head1 VERSION
 
-version 0.016
+version 0.017
 
 =head1 ATTRIBUTES
 

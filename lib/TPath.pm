@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.016';
+  $TPath::VERSION = '0.017';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.016
+version 0.017
 
 =head1 SYNOPSIS
 
@@ -1165,7 +1165,7 @@ and adjust the construction of the abstract syntax tree produced by the parser.
           | <literal>
           | <qname>
        
-       <token: qname> : ([[:punct:]].+?[[:punct:]]) 
+       <token: qname> : [[:punct:]].+[[:punct:]]
      
        <rule: attribute> <aname> <args>?
     
