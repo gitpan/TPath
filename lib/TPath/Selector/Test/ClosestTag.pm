@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestTag;
 {
-  $TPath::Selector::Test::ClosestTag::VERSION = '0.017';
+  $TPath::Selector::Test::ClosestTag::VERSION = '0.018';
 }
 
 # ABSTRACT: handles C</E<gt>foo>
@@ -47,7 +47,7 @@ TPath::Selector::Test::ClosestTag - handles C</E<gt>foo>
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 ROLES
 

@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.017';
+  $TPath::VERSION = '0.018';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package TPath::Test::Node::Complement;
 {
-  $TPath::Test::Node::Complement::VERSION = '0.017';
+  $TPath::Test::Node::Complement::VERSION = '0.018';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
@@ -34,7 +34,7 @@ TPath::Test::Node::Complement - L<TPath::Test::Node> implementing matching; e.g.
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 ATTRIBUTES
 

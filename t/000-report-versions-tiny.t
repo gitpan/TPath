@@ -63,7 +63,6 @@ eval { $v .= pmver('Moose::Util::TypeConstraints','2.0604') };
 eval { $v .= pmver('MooseX::MethodAttributes','any version') };
 eval { $v .= pmver('MooseX::MethodAttributes::Role','0.28') };
 eval { $v .= pmver('MooseX::SingletonMethod','0.03') };
-eval { $v .= pmver('Node','any version') };
 eval { $v .= pmver('POSIX','any version') };
 eval { $v .= pmver('Regexp::Grammars','1.026') };
 eval { $v .= pmver('Scalar::Util','any version') };

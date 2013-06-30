@@ -47,13 +47,12 @@ my %WriteMakefileArgs = (
     "File::Temp" => 0,
     "List::MoreUtils" => 0,
     "MooseX::MethodAttributes" => 0,
-    "Node" => 0,
     "Test::Exception" => 0,
     "Test::More" => "0.88",
     "Test::Trap" => 0,
     "base" => 0
   },
-  "VERSION" => "0.017",
+  "VERSION" => "0.018",
   "test" => {
     "TESTS" => "t/*.t"
   }

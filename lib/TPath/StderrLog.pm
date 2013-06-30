@@ -1,6 +1,6 @@
 package TPath::StderrLog;
 {
-  $TPath::StderrLog::VERSION = '0.017';
+  $TPath::StderrLog::VERSION = '0.018';
 }
 
 # ABSTRACT: implementation of TPath::LogStream that simply prints to STDERR
@@ -13,7 +13,7 @@ with 'TPath::LogStream';
 
 sub put {
     my ( $self, $message ) = @_;
-    print STDERR $message, "\n";
+    print STDERR $message // '', "\n";
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -30,7 +30,7 @@ TPath::StderrLog - implementation of TPath::LogStream that simply prints to STDE
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 DESCRIPTION
 
