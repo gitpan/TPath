@@ -15,6 +15,7 @@ lib/TPath/AttributeTest.pm
 lib/TPath/Attributes/Extended.pm
 lib/TPath/Attributes/Standard.pm
 lib/TPath/Compiler.pm
+lib/TPath/Concatenation.pm
 lib/TPath/Context.pm
 lib/TPath/Expression.pm
 lib/TPath/Forester.pm

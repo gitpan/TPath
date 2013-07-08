@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.018';
+  $TPath::Attribute::VERSION = '0.019';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -19,6 +19,14 @@ has name => ( is => 'ro', isa => 'Str', required => 1 );
 
 has args => ( is => 'ro', isa => 'ArrayRef', required => 1 );
 
+# caches results of reflective code for processing args
+has _arg_subs => (
+    is      => 'ro',
+    isa     => 'ArrayRef[CodeRef]',
+    lazy    => 1,
+    builder => '_build_arg_subs'
+);
+
 
 has code => ( is => 'ro', isa => 'CodeRef', required => 1 );
 
@@ -31,28 +39,42 @@ sub apply {
     my @args = ($ctx);
 
     # invoke all code to reify arguments
+    push @args, $_->($ctx) for @{ $self->_arg_subs };
+    $self->code->( $ctx->i->f, @args );
+}
+
+sub _build_arg_subs {
+    my $self = shift;
+    my @codes;
     for my $a ( @{ $self->args } ) {
-        my $value = $a;
-        my $type  = ref $a;
+        my $type = ref $a;
+        my $sub;
         if ( $type && $type !~ /ARRAY|HASH/ ) {
             if ( $a->isa('TPath::Attribute') ) {
-                $value = $a->apply($ctx);
+                $sub = sub { $a->apply(shift) };
+            }
+            elsif ( $a->isa('TPath::Concatenation') ) {
+                $sub = sub { $a->concatenate(shift) };
             }
             elsif ( $a->isa('TPath::AttributeTest') ) {
-                $value = $a->test($ctx);
+                $sub = sub { $a->test(shift) };
             }
             elsif ( $a->isa('TPath::Expression') ) {
-                $value =
-                  [ map { $_->n } @{ $a->_select( $ctx, 0 ) } ];
+                $sub = sub {
+                    [ map { $_->n } @{ $a->_select( shift, 0 ) } ];
+                };
             }
             elsif ( $a->does('TPath::Test') ) {
-                $value = $a->test($ctx);
+                $sub = sub { $a->test(shift) };
             }
-            else { confess 'unknown argument type: ' . ( ref $a ) }
+            else { confess "unknown argument type: $type" }
         }
-        push @args, $value;
+        else {
+            $sub = sub { $a };
+        }
+        push @codes, $sub;
     }
-    $self->code->( $ctx->i->f, @args );
+    return \@codes;
 }
 
 
@@ -102,7 +124,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.018
+version 0.019
 
 =head1 DESCRIPTION
 

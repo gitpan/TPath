@@ -1,6 +1,6 @@
 package TPath::Test::One;
 {
-  $TPath::Test::One::VERSION = '0.018';
+  $TPath::Test::One::VERSION = '0.019';
 }
 
 # ABSTRACT: implements logical function of tests which returns true iff only one test is true
@@ -42,7 +42,7 @@ TPath::Test::One - implements logical function of tests which returns true iff o
 
 =head1 VERSION
 
-version 0.018
+version 0.019
 
 =head1 DESCRIPTION
 

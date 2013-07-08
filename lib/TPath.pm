@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '0.018';
+  $TPath::VERSION = '0.019';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 0.018
+version 0.019
 
 =head1 SYNOPSIS
 
@@ -1112,6 +1112,22 @@ This is verbose, but then this is not likely to be a common requirement.
 The TPath semantics facilitate the implementation of repetition, which is absent from
 XPath.
 
+=head2 String Concatenation
+
+Where you may use a string literal -- C<'foo'>, C<"foo">, C<q("fo'o")>, etc. --
+you may also use a string concatenation. The string concatenation operator is
+C<~>. The arguments it may separate are string literals, numbers, mathematical
+expressions, attributes, or path expressions. Constants will be concatenated
+during compilation, so
+
+  //foo('a' ~ 1)
+
+will compile to
+
+  //foo('a1')
+
+The spaces are optional.
+
 =head2 Grammar
 
 The following is a BNf-style grammar of the TPath expression language. It is the actual parsing code,
@@ -1172,8 +1188,14 @@ and adjust the construction of the abstract syntax tree produced by the parser.
        <rule: args> \( <arg> ( , <arg> )* \)
     
        <token: arg>
-           <literal> | <num> | <attribute> | <treepath> | <attribute_test> | <condition>
+           <literal> | <num> | <concat> | <attribute> | <treepath> | <attribute_test> | <condition>
     
+       <rule: concat>
+           <carg> ( ~ <carg>)+
+       
+       <token: carg>
+           <literal> | <num> | <attribute> | <treepath> | <math>
+
        <token: num> <signed_int> | <float>
     
        <token: signed_int> [+-]? <int>
@@ -1208,7 +1230,7 @@ and adjust the construction of the abstract syntax tree produced by the parser.
     
        <token: cmp> [<>=]=? | ![=~] | =~ | =?\|= | =\|
     
-       <token: value> <literal> | <num> | <attribute> | <treepath> | <math>
+       <token: value> <literal> | <num> | <concat> | <attribute> | <treepath> | <math>
        
        <rule: math> <function> | <operand> ( <mop> <operand> )*
        

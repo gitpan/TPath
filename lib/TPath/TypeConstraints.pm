@@ -1,6 +1,6 @@
 package TPath::TypeConstraints;
 {
-  $TPath::TypeConstraints::VERSION = '0.018';
+  $TPath::TypeConstraints::VERSION = '0.019';
 }
 
 # ABSTRACT: assorted type constraints
@@ -8,26 +8,31 @@ package TPath::TypeConstraints;
 use Moose::Util::TypeConstraints;
 use TPath::Grammar qw(%AXES);
 
+sub prefix(@);
+
 class_type $_
-  for
-  qw(TPath::Attribute TPath::Expression TPath::AttributeTest TPath::Math TPath::Function);
+  for prefix qw(Attribute Expression AttributeTest Math Function Concatenation);
 
 role_type $_
-  for
-  qw(TPath::Test::Boolean TPath::Selector TPath::Forester TPath::Predicate TPath::Numifiable);
+  for prefix qw(Test::Boolean Selector Forester Predicate Numifiable);
 
-union 'ATArg', [qw( Num TPath::Numifiable Str )];
+union ATArg => [qw( Num TPath::Numifiable Str TPath::Concatenation )];
 
-union 'CondArg',
-  [
-    qw(TPath::Attribute TPath::Expression TPath::AttributeTest TPath::Test::Boolean)
-  ];
+union CondArg =>
+  [ prefix qw(Attribute Expression AttributeTest Test::Boolean) ];
 
-union 'MathArg', [qw(TPath::Numifiable Num)];
+union ConcatArg =>
+  [ qw( Num Str ), prefix qw( Attribute Expression Math ) ];
 
-enum 'Quantifier' => qw( * + ? e );
+union MathArg => [qw(TPath::Numifiable Num)];
 
-enum 'Axis' => keys %AXES;
+enum Quantifier => qw( * + ? e );
+
+enum Axis => keys %AXES;
+
+sub prefix(@) {
+    map { "TPath::$_" } @_;
+}
 
 __END__
 
@@ -39,7 +44,7 @@ TPath::TypeConstraints - assorted type constraints
 
 =head1 VERSION
 
-version 0.018
+version 0.019
 
 =head1 AUTHOR
 
