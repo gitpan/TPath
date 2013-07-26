@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Root;
 {
-  $TPath::Selector::Test::Root::VERSION = '0.019';
+  $TPath::Selector::Test::Root::VERSION = '0.020';
 }
 
 # ABSTRACT: handles C<:root>
@@ -33,7 +33,7 @@ TPath::Selector::Test::Root - handles C<:root>
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 METHODS
 

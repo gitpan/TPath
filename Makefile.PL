@@ -52,7 +52,7 @@ my %WriteMakefileArgs = (
     "Test::Trap" => 0,
     "base" => 0
   },
-  "VERSION" => "0.019",
+  "VERSION" => "0.020",
   "test" => {
     "TESTS" => "t/*.t"
   }

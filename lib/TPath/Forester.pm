@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.019';
+  $TPath::Forester::VERSION = '0.020';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -431,7 +431,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 SYNOPSIS
 

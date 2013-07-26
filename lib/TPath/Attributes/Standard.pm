@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.019';
+  $TPath::Attributes::Standard::VERSION = '0.020';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -61,8 +61,8 @@ sub standard_echo : Attr(echo) {
 
 
 sub standard_is_leaf : Attr(leaf) {
-    my ( undef, $ctx ) = @_;
-    return $ctx->i->f->is_leaf($ctx) ? 1 : undef;
+    my ( $self, $ctx ) = @_;
+    return $self->is_leaf($ctx) ? 1 : undef;
 }
 
 
@@ -186,6 +186,76 @@ sub standard_attr : Attr(at) {
     $self->attribute( $ctx->wrap( $nodes[0] ), $attr, @params );
 }
 
+
+sub standard_all : Attr(all) {
+    my ($self, undef, @params) = @_;
+    for (@params) {
+        return undef unless $self->_booleanize($_);
+    }
+    return 1;
+}
+
+
+sub standard_none : Attr(none) {
+    my ($self, undef, @params) = @_;
+    for (@params) {
+        return undef if $self->_booleanize($_);
+    }
+    return 1;
+}
+
+
+sub standard_some : Attr(some) {
+    my ($self, undef, @params) = @_;
+    for (@params) {
+        return 1 if $self->_booleanize($_);
+    }
+    return undef;
+}
+
+
+sub standard_one : Attr(one) {
+    my ($self, undef, @params) = @_;
+    my $found;
+    for (@params) {
+        if ($self->_booleanize($_)) {
+            return undef if $found;
+            $found = 1;
+        }
+    }
+    return $found;
+}
+
+
+sub standard_tcount : Attr(tcount) {
+    my ($self, undef, @params) = @_;
+    my $found = 0;
+    for (@params) {
+        $found++ if $self->_booleanize($_);
+    }
+    return $found;
+}
+
+
+sub standard_fcount : Attr(fcount) {
+    my ($self, undef, @params) = @_;
+    my $found = 0;
+    for (@params) {
+        $found++ unless $self->_booleanize($_);
+    }
+    return $found;
+}
+
+
+sub _booleanize {
+    my ($self, $v) = @_;
+    for (ref $v) {
+        when ('ARRAY') { $v = @$v }
+        when ('HASH') { $v = keys %$v }
+    }
+    return $v && 1;
+}
+
 1;
 
 __END__
@@ -198,7 +268,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 DESCRIPTION
 
@@ -310,6 +380,38 @@ the parameters 1, 2, and 3. Other examples:
 It is the first L<TPath::Context> selected by the path whose attribute is evaluated, that is, 
 the first node returned, so it is relevant that paths are evaluated left-to-right, depth-first, and 
 post-ordered, descendants being returned before their ancestors.
+
+=head2 C<@all(@a, b, 1, "foo")>
+
+True if all its parameters evaluate to true, the standard boolean
+interpretation being given to collection parameters.
+
+=head2 C<@none(@a, b, 1, "foo")>
+
+True if all its parameters evaluate to false, the standard boolean
+interpretation being given to collection parameters.
+
+=head2 C<@some(@a, b, 1, "foo")>
+
+True if any of its parameters evaluates to true, the standard boolean
+interpretation being given to collection parameters.
+
+=head2 C<@one(@a, b, 1, "foo")>
+
+True if only one of its parameters evaluates to true, the standard boolean
+interpretation being given to collection parameters.
+
+=head2 C<@tcount(@a, b, 1, "foo")>
+
+Returns the number of parameters evaluating to true.
+
+=head2 C<@fcount(@a, b, 1, "foo")>
+
+Returns the number of parameters evaluating to false.
+
+=head2 C<<$f->_booleanize($v)>>
+
+Converts a scalar to a boolean value, dereferencing hash and array refs.
 
 =head1 REQUIRED METHODS
 

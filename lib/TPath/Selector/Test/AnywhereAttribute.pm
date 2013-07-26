@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereAttribute;
 {
-  $TPath::Selector::Test::AnywhereAttribute::VERSION = '0.019';
+  $TPath::Selector::Test::AnywhereAttribute::VERSION = '0.020';
 }
 
 # ABSTRACT: handles C<//@foo> expression
@@ -49,7 +49,7 @@ TPath::Selector::Test::AnywhereAttribute - handles C<//@foo> expression
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 ROLES
 

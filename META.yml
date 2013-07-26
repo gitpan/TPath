@@ -44,4 +44,4 @@ requires:
   perl: v5.10.0
   strict: 0
   warnings: 0
-version: 0.019
+version: 0.020
