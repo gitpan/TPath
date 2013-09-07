@@ -1,12 +1,14 @@
 package TPath::Concatenation;
 {
-  $TPath::Concatenation::VERSION = '0.020';
+  $TPath::Concatenation::VERSION = '1.000';
 }
 
 # ABSTRACT: handles the string concatenation in C<//@foo[1 ~ @bar ~ "quux"]>
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Moose;
 use TPath::TypeConstraints;
 use namespace::autoclean;
@@ -79,7 +81,7 @@ TPath::Concatenation - handles the string concatenation in C<//@foo[1 ~ @bar ~ "
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 

@@ -1,6 +1,6 @@
 package TPath::Predicate;
 {
-  $TPath::Predicate::VERSION = '0.020';
+  $TPath::Predicate::VERSION = '1.000';
 }
 
 # ABSTRACT: interface of square bracket sub-expressions in TPath expressions
@@ -12,6 +12,9 @@ with 'TPath::Stringifiable';
 
 
 requires 'filter';
+
+
+has outer => ( is => 'ro', isa => 'Bool', default => 0 );
 
 1;
 
@@ -25,7 +28,26 @@ TPath::Predicate - interface of square bracket sub-expressions in TPath expressi
 
 =head1 VERSION
 
-version 0.020
+version 1.000
+
+=head1 ATTRIBUTES
+
+=head2 outer
+
+Whether the predicate is inside or outside any grouping parentheses.
+
+  //*[foo]    # inside  -- outer is false
+  (//*)[foo]  # outside -- outer is true
+
+This distinction, though available to all predicates, is especially important to index predicates.
+
+  //*[0]
+
+Means the root and any element which is the first child of its parents. While
+
+  (//*)[0]
+
+means the first of all elements -- the root.
 
 =head1 METHODS
 

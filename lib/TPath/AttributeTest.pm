@@ -1,12 +1,14 @@
 package TPath::AttributeTest;
 {
-  $TPath::AttributeTest::VERSION = '0.020';
+  $TPath::AttributeTest::VERSION = '1.000';
 }
 
 # ABSTRACT: compares an attribute value to another value
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Scalar::Util qw(refaddr looks_like_number);
 use MooseX::SingletonMethod;
 use TPath::TypeConstraints;
@@ -1096,7 +1098,7 @@ TPath::AttributeTest - compares an attribute value to another value
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 

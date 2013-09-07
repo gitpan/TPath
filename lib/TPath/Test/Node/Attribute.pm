@@ -1,6 +1,6 @@
 package TPath::Test::Node::Attribute;
 {
-  $TPath::Test::Node::Attribute::VERSION = '0.020';
+  $TPath::Test::Node::Attribute::VERSION = '1.000';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
@@ -36,7 +36,7 @@ TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing attributes; e.g
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 ATTRIBUTES
 

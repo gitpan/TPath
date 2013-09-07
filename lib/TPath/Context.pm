@@ -1,6 +1,6 @@
 package TPath::Context;
 {
-  $TPath::Context::VERSION = '0.020';
+  $TPath::Context::VERSION = '1.000';
 }
 
 # ABSTRACT: the context in which a node is evaluated during a search
@@ -8,6 +8,7 @@ package TPath::Context;
 
 use strict;
 use warnings;
+
 use Scalar::Util qw(refaddr);
 
 use overload '""' => \&to_string;
@@ -81,7 +82,7 @@ TPath::Context - the context in which a node is evaluated during a search
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 

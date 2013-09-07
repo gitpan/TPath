@@ -1,11 +1,12 @@
 package TPath::Selector::Test::Anywhere;
 {
-  $TPath::Selector::Test::Anywhere::VERSION = '0.020';
+  $TPath::Selector::Test::Anywhere::VERSION = '1.000';
 }
 
 # ABSTRACT: handles C<//*> expression
 
-use feature 'state';
+use v5.10;
+
 use Moose;
 use TPath::Test::Node::True;
 use namespace::autoclean;
@@ -40,7 +41,7 @@ TPath::Selector::Test::Anywhere - handles C<//*> expression
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 ROLES
 

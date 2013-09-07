@@ -1,74 +1,110 @@
-#!perl
-
 use strict;
 use warnings;
 
-use Test::More;
+# this test was generated with Dist::Zilla::Plugin::Test::Compile 2.021
+
+use Test::More 0.88;
 
 
 
-use File::Find;
-use File::Temp qw{ tempdir };
-
-my @modules;
-find(
-  sub {
-    return if $File::Find::name !~ /\.pm\z/;
-    my $found = $File::Find::name;
-    $found =~ s{^lib/}{};
-    $found =~ s{[/\\]}{::}g;
-    $found =~ s/\.pm$//;
-    # nothing to skip
-    push @modules, $found;
-  },
-  'lib',
+my @module_files = (
+    'TPath.pm',
+    'TPath/Attribute.pm',
+    'TPath/AttributeTest.pm',
+    'TPath/Attributes/Extended.pm',
+    'TPath/Attributes/Standard.pm',
+    'TPath/Compiler.pm',
+    'TPath/Concatenation.pm',
+    'TPath/Context.pm',
+    'TPath/Expression.pm',
+    'TPath/Forester.pm',
+    'TPath/Function.pm',
+    'TPath/Grammar.pm',
+    'TPath/Index.pm',
+    'TPath/LogStream.pm',
+    'TPath/Math.pm',
+    'TPath/Numifiable.pm',
+    'TPath/Predicate.pm',
+    'TPath/Predicate/Attribute.pm',
+    'TPath/Predicate/AttributeTest.pm',
+    'TPath/Predicate/Boolean.pm',
+    'TPath/Predicate/Expression.pm',
+    'TPath/Predicate/Index.pm',
+    'TPath/Selector.pm',
+    'TPath/Selector/Expression.pm',
+    'TPath/Selector/Id.pm',
+    'TPath/Selector/Parent.pm',
+    'TPath/Selector/Predicated.pm',
+    'TPath/Selector/Previous.pm',
+    'TPath/Selector/Quantified.pm',
+    'TPath/Selector/Self.pm',
+    'TPath/Selector/Test.pm',
+    'TPath/Selector/Test/Anywhere.pm',
+    'TPath/Selector/Test/AnywhereAttribute.pm',
+    'TPath/Selector/Test/AnywhereMatch.pm',
+    'TPath/Selector/Test/AnywhereTag.pm',
+    'TPath/Selector/Test/AxisAttribute.pm',
+    'TPath/Selector/Test/AxisMatch.pm',
+    'TPath/Selector/Test/AxisTag.pm',
+    'TPath/Selector/Test/AxisWildcard.pm',
+    'TPath/Selector/Test/ChildAttribute.pm',
+    'TPath/Selector/Test/ChildMatch.pm',
+    'TPath/Selector/Test/ChildTag.pm',
+    'TPath/Selector/Test/ClosestAttribute.pm',
+    'TPath/Selector/Test/ClosestMatch.pm',
+    'TPath/Selector/Test/ClosestTag.pm',
+    'TPath/Selector/Test/Root.pm',
+    'TPath/StderrLog.pm',
+    'TPath/Stringifiable.pm',
+    'TPath/Test.pm',
+    'TPath/Test/And.pm',
+    'TPath/Test/Boolean.pm',
+    'TPath/Test/Compound.pm',
+    'TPath/Test/Node.pm',
+    'TPath/Test/Node/Attribute.pm',
+    'TPath/Test/Node/Complement.pm',
+    'TPath/Test/Node/Match.pm',
+    'TPath/Test/Node/Tag.pm',
+    'TPath/Test/Node/True.pm',
+    'TPath/Test/Not.pm',
+    'TPath/Test/One.pm',
+    'TPath/Test/Or.pm',
+    'TPath/TypeCheck.pm',
+    'TPath/TypeConstraints.pm'
 );
 
-sub _find_scripts {
-    my $dir = shift @_;
+my @scripts = (
 
-    my @found_scripts = ();
-    find(
-      sub {
-        return unless -f;
-        my $found = $File::Find::name;
-        # nothing to skip
-        open my $FH, '<', $_ or do {
-          note( "Unable to open $found in ( $! ), skipping" );
-          return;
-        };
-        my $shebang = <$FH>;
-        return unless $shebang =~ /^#!.*?\bperl\b\s*$/;
-        push @found_scripts, $found;
-      },
-      $dir,
-    );
+);
 
-    return @found_scripts;
-}
+# no fake home requested
 
-my @scripts;
-do { push @scripts, _find_scripts($_) if -d $_ }
-    for qw{ bin script scripts };
+use IPC::Open3;
+use IO::Handle;
+use File::Spec;
 
-my $plan = scalar(@modules) + scalar(@scripts);
-$plan ? (plan tests => $plan) : (plan skip_all => "no tests to run");
-
+my @warnings;
+for my $lib (@module_files)
 {
-    # fake home for cpan-testers
-    # no fake requested ## local $ENV{HOME} = tempdir( CLEANUP => 1 );
+    open my $stdout, '>', File::Spec->devnull or die $!;
+    open my $stdin, '<', File::Spec->devnull or die $!;
+    my $stderr = IO::Handle->new;
 
-    like( qx{ $^X -Ilib -e "require $_; print '$_ ok'" }, qr/^\s*$_ ok/s, "$_ loaded ok" )
-        for sort @modules;
+    my $pid = open3($stdin, $stdout, $stderr, qq{$^X -Mblib -e"require q[$lib]"});
+    waitpid($pid, 0);
+    is($? >> 8, 0, "$lib loaded ok");
 
-    SKIP: {
-        eval "use Test::Script 1.05; 1;";
-        skip "Test::Script needed to test script compilation", scalar(@scripts) if $@;
-        foreach my $file ( @scripts ) {
-            my $script = $file;
-            $script =~ s!.*/!!;
-            script_compiles( $file, "$script script compiles" );
-        }
+    if (my @_warnings = <$stderr>)
+    {
+        warn @_warnings;
+        push @warnings, @_warnings;
     }
-
 }
+
+
+
+is(scalar(@warnings), 0, 'no warnings found') if $ENV{AUTHOR_TESTING};
+
+
+
+done_testing;

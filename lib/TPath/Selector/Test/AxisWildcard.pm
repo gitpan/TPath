@@ -1,11 +1,12 @@
 package TPath::Selector::Test::AxisWildcard;
 {
-  $TPath::Selector::Test::AxisWildcard::VERSION = '0.020';
+  $TPath::Selector::Test::AxisWildcard::VERSION = '1.000';
 }
 
 # ABSTRACT: handles C</ancestor::*> or C</preceding::*> where this is not the first step in the path, or C<ancestor::*>, etc.
 
 use v5.10;
+
 use Moose;
 use TPath::Test::Node::True;
 use namespace::autoclean;
@@ -41,7 +42,7 @@ TPath::Selector::Test::AxisWildcard - handles C</ancestor::*> or C</preceding::*
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 ROLES
 

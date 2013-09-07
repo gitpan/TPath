@@ -1,12 +1,14 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '0.020';
+  $TPath::Attribute::VERSION = '1.000';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Moose;
 use namespace::autoclean;
 
@@ -124,7 +126,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 

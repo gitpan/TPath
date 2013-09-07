@@ -5,18 +5,20 @@ author:
 build_requires:
   Carp: 0
   File::Basename: 0
-  File::Find: 0
-  File::Temp: 0
+  File::Spec: 0
+  IO::Handle: 0
+  IPC::Open3: 0
   List::MoreUtils: 0
   MooseX::MethodAttributes: 0
   Test::Exception: 0
   Test::More: 0.88
   Test::Trap: 0
   base: 0
+  feature: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560'
+generated_by: 'Dist::Zilla version 4.300036, CPAN::Meta::Converter version 2.132140'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -37,11 +39,11 @@ requires:
   Scalar::Util: 0
   Time::HiRes: 0
   aliased: 0
-  feature: 0
+  if: 0
   namespace::autoclean: 0
   overload: 0
   parent: 0
   perl: v5.10.0
   strict: 0
   warnings: 0
-version: 0.020
+version: 1.000

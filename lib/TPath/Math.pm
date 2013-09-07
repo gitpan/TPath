@@ -1,6 +1,6 @@
 package TPath::Math;
 {
-  $TPath::Math::VERSION = '0.020';
+  $TPath::Math::VERSION = '1.000';
 }
 
 # ABSTRACT: handles the arithmetic in C<//foo[1 + @bar = @quux]>
@@ -60,7 +60,7 @@ TPath::Math - handles the arithmetic in C<//foo[1 + @bar = @quux]>
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 AUTHOR
 

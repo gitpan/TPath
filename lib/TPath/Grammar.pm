@@ -2,12 +2,14 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '0.020';
+  $TPath::Grammar::VERSION = '1.000';
 }
 
 use v5.10;
 use strict;
 use warnings;
+no if $] >= 5.018, warnings => "experimental";
+
 use POSIX qw(acos asin atan ceil floor log10 tan);
 use Math::Trig qw(pi);
 use Scalar::Util qw(looks_like_number);
@@ -102,7 +104,13 @@ our $path_grammar = do {
           [{] <start=(\d*+)> (?: , <end=(\d*+)> )? [}] 
           <require: (?{length $MATCH{start} or length $MATCH{end}})>
        
-       <rule: grouped_step> \( <treepath> \) (?{local $quantifiable = 1}) <quantifier>?
+       <rule: grouped_step> 
+          \( <treepath> \) 
+          (?:
+             (?: <.ws> <[predicate]> )+
+             | 
+             (?{local $quantifiable = 1}) <quantifier>
+          )?
     
        <token: id>
           :id\( ( (?>[^\)\\]|\\.)++ ) \)
@@ -793,14 +801,14 @@ sub normalize_compounds {
 
             # depth first
             normalize_compounds($_) for values %$ref;
-
             my $cs = $ref->{cs};
             if ($cs) {
                 normalize_enums($cs);
                 my $gs = $cs->{grouped_step};
                 if (   $gs
                     && @{ $gs->{treepath}{path} } == 1
-                    && @{ $gs->{treepath}{path}[0]{segment} } == 1 )
+                    && @{ $gs->{treepath}{path}[0]{segment} } == 1
+                    && !$gs->{predicate} )
                 {
                     my $quantifier = $gs->{quantifier};
                     my $step       = $gs->{treepath}{path}[0]{segment}[0];
@@ -1337,7 +1345,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 SYNOPSIS
 

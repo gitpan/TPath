@@ -1,12 +1,13 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '0.020';
+  $TPath::Forester::VERSION = '1.000';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
 
 
 use v5.10;
+
 use Scalar::Util qw(refaddr);
 use Moose::Role;
 
@@ -28,6 +29,9 @@ has log_stream => (
     isa     => 'TPath::LogStream',
     default => sub { TPath::StderrLog->new }
 );
+
+
+has one_based => ( is => 'ro', isa => 'Bool', default => 0);
 
 
 has _tests => (
@@ -188,7 +192,7 @@ sub axis_descendant {
 sub axis_descendant_or_self {
     my ( $self, $ctx, $t ) = @_;
     my @descendants = $self->_descendants( $ctx, $ctx, $t );
-    push @descendants, $ctx if $t->passes($ctx);
+    unshift @descendants, $ctx if $t->passes($ctx);
     return @descendants;
 }
 
@@ -266,7 +270,7 @@ sub _siblings_or_self {
 sub _siblings {
     my ( $self, $original, $ctx, $t ) = @_;
     my @siblings =
-      $self->_untested_siblings( $original, $self->parent( $original, $ctx ) );
+      $self->_untested_siblings( $original, $ctx );
     grep { $t->passes($_) } @siblings;
 }
 
@@ -286,13 +290,13 @@ sub _preceding {
     my @ancestors = $self->_ancestors( $original, $ctx, $tt );
     for my $a ( @ancestors[ 1 .. $#ancestors ] ) {
         for my $p ( $self->_preceding_siblings( $original, $a, $tt ) ) {
-            push @preceding, $self->_descendants( $original, $p, $t );
             push @preceding, $p if $t->passes($p);
+            push @preceding, $self->_descendants( $original, $p, $t );
         }
     }
     for my $p ( $self->_preceding_siblings( $original, $ctx, $tt ) ) {
-        push @preceding, $self->_descendants( $original, $p, $t );
         push @preceding, $p if $t->passes($p);
+        push @preceding, $self->_descendants( $original, $p, $t );
     }
     return @preceding;
 }
@@ -328,13 +332,13 @@ sub _following {
     my @ancestors = $self->_ancestors( $original, $ctx, $tt );
     for my $a ( @ancestors[ 1 .. $#ancestors ] ) {
         for my $p ( $self->_following_siblings( $original, $a, $tt ) ) {
-            push @following, $self->_descendants( $original, $p, $t );
             push @following, $p if $t->passes($p);
+            push @following, $self->_descendants( $original, $p, $t );
         }
     }
     for my $p ( $self->_following_siblings( $original, $ctx, $tt ) ) {
-        push @following, $self->_descendants( $original, $p, $t );
         push @following, $p if $t->passes($p);
+        push @following, $self->_descendants( $original, $p, $t );
     }
     return @following;
 }
@@ -363,8 +367,8 @@ sub _descendants {
     return () unless @children;
     my @descendants;
     for my $c (@children) {
-        push @descendants, $self->_descendants( $original, $c, $t );
         push @descendants, $c if $t->passes($c);
+        push @descendants, $self->_descendants( $original, $c, $t );
     }
     return @descendants;
 }
@@ -431,7 +435,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 SYNOPSIS
 
@@ -505,6 +509,12 @@ refactoring everything to use a new name.
 
 A L<TPath::LogStream> required by the C<@log> attribute. By default it is L<TPath::StderrLog>. This attribute
 is required by the C<@log> attribute from L<TPath::Attributes::Standard>.
+
+=head2 one_based
+
+Whether to use xpath-style index predicates, with C<[1]> being the index of the first element,
+or zero-based indices, with C<[0]> being the first index. This only affects non-negative indices.
+This attribute is false by default.
 
 =head1 METHODS
 

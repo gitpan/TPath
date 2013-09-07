@@ -2,13 +2,14 @@
 
 use strict;
 use warnings;
+
 use File::Basename qw(dirname);
 
 BEGIN {
     push @INC, dirname($0);
 }
 
-use Test::More tests => 99;
+use Test::More tests => 100;
 use Test::Exception;
 use Test::Trap;
 use ToyXMLForester;
@@ -311,21 +312,21 @@ is( scalar @elements, 2,
 $p        = parse('<a><b/><c/><d/></a>');
 $path     = q{leaf::^b};
 @elements = $f->path($path)->select($p);
-is @elements, 2, "foundthe right number of elements with $path on $p";
+is @elements, 2, "found the right number of elements with $path on $p";
 is "$elements[0]", '<c/>', 'first element is correct';
 is "$elements[1]", '<d/>', 'second element is correct';
 
 $p        = parse('<a><b/><c/><d/></a>');
 $path     = q{leaf::^~b~};
 @elements = $f->path($path)->select($p);
-is @elements, 2, "foundthe right number of elements with $path on $p";
+is @elements, 2, "found the right number of elements with $path on $p";
 is "$elements[0]", '<c/>', 'first element is correct';
 is "$elements[1]", '<d/>', 'second element is correct';
 
 $p        = parse('<a><b/><c/><d/></a>');
 $path     = q{leaf::^@te('b')};
 @elements = $f->path($path)->select($p);
-is @elements, 2, "foundthe right number of elements with $path on $p";
+is @elements, 2, "found the right number of elements with $path on $p";
 is "$elements[0]", '<c/>', 'first element is correct';
 is "$elements[1]", '<d/>', 'second element is correct';
 
@@ -372,5 +373,10 @@ trap { @c = $f->path($path)->select($p) };
 is $trap->stderr, "a11\n", 'three item concatenation with all constants works';
 is $f->path($path) . '', q{//*[ @log('a11') ]},
   'constants folded properly when concatenation stringified';
+
+$p    = parse(q{<a><b/><b/></a>});
+$path = q{//b[2]};
+trap { @c = $f->path($path)->select($p) };
+is scalar @c, 0, 'index predicate returns empty list when appropriate';
 
 done_testing();

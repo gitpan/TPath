@@ -1,30 +1,31 @@
 package TPath::Selector::Expression;
 {
-  $TPath::Selector::Expression::VERSION = '0.020';
+  $TPath::Selector::Expression::VERSION = '1.000';
 }
 
-# ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>
+# ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>; also all of C<(//*)[0]>
 
 
 use v5.10;
+
 use Moose;
 use TPath::TypeConstraints;
 use namespace::autoclean;
 
 
-with 'TPath::Selector';
+with 'TPath::Selector::Predicated';
 
 
 has e => ( is => 'ro', isa => 'TPath::Expression', required => 1 );
 
 sub select {
     my ( $self, $ctx, $first ) = @_;
-    return @{ $self->e->_select( $ctx, $first ) };
+    return $self->apply_predicates( @{ $self->e->_select( $ctx, $first ) } );
 }
 
 sub to_string {
     my $self = shift;
-    return $self->e->to_string;
+    return '(' . $self->e->to_string . ')';
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -37,11 +38,11 @@ __END__
 
 =head1 NAME
 
-TPath::Selector::Expression - selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>
+TPath::Selector::Expression - selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>; also all of C<(//*)[0]>
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 
@@ -56,7 +57,7 @@ The expression within the group.
 
 =head1 ROLES
 
-L<TPath::Selector>
+L<TPath::Selector::Predicated>
 
 =head1 AUTHOR
 

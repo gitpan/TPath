@@ -1,26 +1,23 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '0.020';
+  $TPath::Selector::Test::VERSION = '1.000';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Moose::Role;
 use TPath::TypeConstraints;
 use TPath::Test::Node::Complement;
 
 
-with 'TPath::Selector';
+with 'TPath::Selector::Predicated';
 
 
-has predicates => (
-    is         => 'ro',
-    isa        => 'ArrayRef[TPath::Predicate]',
-    default    => sub { [] },
-    auto_deref => 1
-);
+has f => ( is => 'ro', does => 'TPath::Forester', required => 1 );
 
 
 has axis =>
@@ -29,27 +26,38 @@ has axis =>
 
 has first_sensitive => ( is => 'ro', isa => 'Bool', default => 0 );
 
-# axis translated into a forester method name
+# axis translated into a forester method
 has faxis => (
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-    default =>
-      sub { my $self = shift; ( my $v = $self->axis ) =~ tr/-/_/; "axis_$v" }
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        ( my $v = $self->axis ) =~ tr/-/_/;
+        $self->f->can("axis_$v");
+    },
+);
+
+# axis used in a first-sensitive context
+has sensitive_axis => (
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        for ( $self->axis ) {
+            when ('child') { return $self->f->can('axis_self') }
+            when ('descendant') {
+                return $self->f->can('axis_descendant_or_self')
+            }
+            default { return $self->faxis }
+        }
+    },
 );
 
 
 has is_inverted =>
   ( is => 'ro', isa => 'Bool', default => 0, writer => '_mark_inverted' );
-
-around 'to_string' => sub {
-    my ( $orig, $self, @args ) = @_;
-    my $s = $self->$orig(@args);
-    for my $p ( @{ $self->predicates } ) {
-        $s .= '[ ' . $p->to_string . ' ]';
-    }
-    return $s;
-};
 
 sub _stringify_match {
     my ( $self, $re ) = @_;
@@ -79,30 +87,21 @@ sub _invert {
 
 sub candidates {
     my ( $self, $ctx, $first ) = @_;
-    my $axis = $self->_select_axis($first);
-    return $ctx->i->f->$axis( $ctx, $self->node_test );
-}
-
-sub _select_axis {
-    my ( $self, $first ) = @_;
+    my $axis;
     if ( $first && $self->first_sensitive ) {
-        for ( $self->axis ) {
-            when ('child')      { return 'axis_self' }
-            when ('descendant') { return 'axis_descendant_or_self' }
-        }
+        $axis = $self->sensitive_axis;
     }
-    return $self->faxis;
+    else {
+        $axis = $self->faxis;
+    }
+    return $self->f->$axis( $ctx, $self->node_test );
 }
 
 # implements method required by TPath::Selector
 sub select {
     my ( $self, $ctx, $first ) = @_;
     my @candidates = $self->candidates( $ctx, $first );
-    for my $p ( $self->predicates ) {
-        last unless @candidates;
-        @candidates = $p->filter( \@candidates );
-    }
-    return @candidates;
+    return $self->apply_predicates(@candidates);
 }
 
 1;
@@ -117,7 +116,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 
@@ -125,10 +124,10 @@ A L<TPath::Selector> that holds a list of L<TPath::Predicate>s.
 
 =head1 ATTRIBUTES
 
-=head2 predicates
+=head2 f
 
-Auto-deref'ed list of L<TPath::Predicate> objects that filter anything selected
-by this selector.
+Reference to the associated forester for this test. This is used in obtaining
+the test axis.
 
 =head2 axis
 

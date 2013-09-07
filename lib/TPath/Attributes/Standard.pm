@@ -1,12 +1,14 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '0.020';
+  $TPath::Attributes::Standard::VERSION = '1.000';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Moose::Role;
 use MooseX::MethodAttributes::Role;
 use Scalar::Util qw(refaddr);
@@ -67,7 +69,10 @@ sub standard_is_leaf : Attr(leaf) {
 
 
 sub standard_pick : Attr(pick) {
-    my ( undef, undef, $collection, $index ) = @_;
+    my ( $self, undef, $collection, $index ) = @_;
+    if (defined $index && $self->one_based) {
+        $index--;
+    }
     return $collection->[ $index // 0 ];
 }
 
@@ -146,8 +151,16 @@ sub standard_index : Attr(index) {
     my $parent   = $self->parent( $original, $ctx );
     my @siblings = $self->_kids( $original, $parent );
     my $ra       = refaddr $n;
+    my $idx;
     for my $index ( 0 .. $#siblings ) {
-        return $index if refaddr $siblings[$index]->n == $ra;
+        if (refaddr $siblings[$index]->n == $ra) {
+          $idx = $index;
+          last;  
+        }
+    }
+    if (defined $idx) {
+        $idx++ if $self->one_based;
+        return $idx;
     }
     confess "$n not among children of its parent";
 }
@@ -246,7 +259,7 @@ sub standard_fcount : Attr(fcount) {
     return $found;
 }
 
-
+# Converts a scalar to a boolean value, dereferencing hash and array refs.
 sub _booleanize {
     my ($self, $v) = @_;
     for (ref $v) {
@@ -268,7 +281,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 
@@ -408,10 +421,6 @@ Returns the number of parameters evaluating to true.
 =head2 C<@fcount(@a, b, 1, "foo")>
 
 Returns the number of parameters evaluating to false.
-
-=head2 C<<$f->_booleanize($v)>>
-
-Converts a scalar to a boolean value, dereferencing hash and array refs.
 
 =head1 REQUIRED METHODS
 

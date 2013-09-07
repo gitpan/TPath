@@ -1,12 +1,14 @@
 package TPath::Selector::Quantified;
 {
-  $TPath::Selector::Quantified::VERSION = '0.020';
+  $TPath::Selector::Quantified::VERSION = '1.000';
 }
 
 # ABSTRACT: handles expressions like C<a?> and C<//foo*>
 
 
 use v5.10;
+no if $] >= 5.018, warnings => "experimental";
+
 use Moose;
 use TPath::TypeConstraints;
 use namespace::autoclean;
@@ -109,7 +111,7 @@ TPath::Selector::Quantified - handles expressions like C<a?> and C<//foo*>
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 DESCRIPTION
 

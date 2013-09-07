@@ -1,5 +1,13 @@
 Revision history for TPath
 
+1.000     2013-09-06 22:01:52 America/New_York
+  * BUMPED MAJOR VERSION NUMBER -- significant change in semantics of core tpath
+    features
+  * improved effiency of axis selection in TPath::Selector::Test objects
+  * changed index predicates to match behavior of xpath index predicates, modulo
+    the difference in index base
+  * created outer predicates: (//*)[0] in addition to //*[0]
+
 0.020     2013-07-25 21:33:15 America/New_York
   * added the standard boolean attributes @all, @some, @one, @none and the 
     corresponding @fcount and @tcount, which count the number of parameters

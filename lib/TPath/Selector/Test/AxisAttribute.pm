@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisAttribute;
 {
-  $TPath::Selector::Test::AxisAttribute::VERSION = '0.020';
+  $TPath::Selector::Test::AxisAttribute::VERSION = '1.000';
 }
 
 # ABSTRACT: handles C</ancestor::@foo> or C</preceding::@foo> where this is not the first step in the path, or C<ancestor::@foo>, etc.
@@ -44,7 +44,7 @@ TPath::Selector::Test::AxisAttribute - handles C</ancestor::@foo> or C</precedin
 
 =head1 VERSION
 
-version 0.020
+version 1.000
 
 =head1 ROLES
 

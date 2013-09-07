@@ -6,6 +6,7 @@ Makefile.PL
 README
 README.md
 TODO
+XXF.pm
 compilation-tester.pl
 demo.pl
 dist.ini
@@ -35,6 +36,7 @@ lib/TPath/Selector.pm
 lib/TPath/Selector/Expression.pm
 lib/TPath/Selector/Id.pm
 lib/TPath/Selector/Parent.pm
+lib/TPath/Selector/Predicated.pm
 lib/TPath/Selector/Previous.pm
 lib/TPath/Selector/Quantified.pm
 lib/TPath/Selector/Self.pm
@@ -72,6 +74,7 @@ lib/TPath/Test/Or.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
 parsing-tester.pl
+scrap
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm
@@ -80,14 +83,17 @@ t/ToyXMLForester.pm
 t/attribute_tests.t
 t/attributes.t
 t/axis.t
+t/axis_order.t
 t/basic.t
 t/compound.t
 t/equality.t
 t/extended_attributes.t
 t/index_functions.t
 t/match.t
+t/one_based_index.t
 t/parsing.t
 t/precedence.t
+t/predicate_scope.t
 t/previous.t
 t/release-00element.t
 t/release-01parsing.t

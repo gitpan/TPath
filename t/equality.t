@@ -3,6 +3,8 @@
 use v5.10;
 use strict;
 use warnings;
+no if $] >= 5.018, warnings => "experimental";
+
 use File::Basename qw(dirname);
 
 BEGIN {
@@ -140,8 +142,8 @@ $tree = Node->new( tag => 'b', payload => $payload )->add(
 $path     = q{//*[@at(., 'p') = @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 2, "received expected number of elements with $path";
-is $elements[0]->tag, 'a', 'expected tag for first element received';
-is $elements[1]->tag, 'b', 'expected tag for first element received';
+is $elements[0]->tag, 'b', 'expected tag for first element received';
+is $elements[1]->tag, 'a', 'expected tag for first element received';
 $path     = q{//*[@at(., 'p') == @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 1, "received expected number of elements with $path";
@@ -171,8 +173,8 @@ $tree = Node1->new( tag => 'b', payload => $payload )->add(
 $path     = q{//*[@at(., 'p') = @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 2, "received expected number of elements with $path";
-is $elements[0]->tag, 'a', 'expected tag for first element received';
-is $elements[1]->tag, 'b', 'expected tag for first element received';
+is $elements[0]->tag, 'b', 'expected tag for first element received';
+is $elements[1]->tag, 'a', 'expected tag for first element received';
 $path     = q{//*[@at(., 'p') == @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 1, "received expected number of elements with $path";
@@ -202,8 +204,8 @@ $tree = Node2->new( tag => 'b', payload => $payload )->add(
 $path     = q{//*[@at(., 'p') = @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 2, "received expected number of elements with $path";
-is $elements[0]->tag, 'a', 'expected tag for first element received';
-is $elements[1]->tag, 'b', 'expected tag for first element received';
+is $elements[0]->tag, 'b', 'expected tag for first element received';
+is $elements[1]->tag, 'a', 'expected tag for first element received';
 $path     = q{//*[@at(., 'p') == @at(*, 'p')]};
 @elements = $f->path($path)->select($tree);
 is @elements, 1, "received expected number of elements with $path";
