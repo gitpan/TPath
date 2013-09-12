@@ -1,6 +1,6 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '1.000';
+  $TPath::Expression::VERSION = '1.001';
 }
 
 # ABSTRACT: a compiled TPath expression
@@ -102,6 +102,9 @@ sub _stringify_exp {
     return $s;
 }
 
+
+sub case_insensitive { shift->f->case_insensitive }
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
@@ -117,7 +120,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 SYNOPSIS
 
@@ -154,6 +157,10 @@ define any coercion necessary.
 
 If you are doing many selections on a particular tree, you may save some work by 
 using a common index for all selections.
+
+=head2 case_insensitive
+
+Returns whether this expression was created by a case insensitive forester.
 
 =head1 ROLES
 

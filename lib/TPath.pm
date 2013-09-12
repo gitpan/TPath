@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '1.000';
+  $TPath::VERSION = '1.001';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 SYNOPSIS
 
@@ -373,6 +373,18 @@ without the C<foo> tag, C<//~a~>, any node whose tag does not contain the C<a> c
 
 The wildcard selector selects all the nodes on the relevant axis. The default axis is C<child>, so
 C<//b/*> will select all the children of C<b> nodes.
+
+=head3 case sensitivity
+
+If you construct a forester with the C<case_insensitive> parameter set to true
+
+  my $f = MyForester->new( case_insensitive => 1 );
+
+the B<tag> selectors in all expressions compiled by this forester will be case insensitive. So then
+C<//INPUT> will match C<INPUT> and C<input> and C<InPuT> and so forth. The same is true for C<//input> and
+C<//~input~> and C<//^INPUT> and so forth. If your Perl version is 5.16 or higher, the native C<fc>
+function will be used for case normalization. Otherwise, if L<Unicode::CaseFolding> is available, 
+its C<fc> function will be used. If no C<fc> function is available, C<lc> will be used for case folding.
 
 =head2 Axes
 

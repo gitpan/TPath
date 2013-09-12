@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ClosestAttribute;
 {
-  $TPath::Selector::Test::ClosestAttribute::VERSION = '1.000';
+  $TPath::Selector::Test::ClosestAttribute::VERSION = '1.001';
 }
 
 # ABSTRACT: handles C</E<gt>@foo>
@@ -45,7 +45,7 @@ TPath::Selector::Test::ClosestAttribute - handles C</E<gt>@foo>
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 ROLES
 

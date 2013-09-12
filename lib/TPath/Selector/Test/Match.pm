@@ -1,25 +1,18 @@
-package TPath::Selector::Test::Root;
+package TPath::Selector::Test::Match;
 {
-  $TPath::Selector::Test::Root::VERSION = '1.001';
+  $TPath::Selector::Test::Match::VERSION = '1.001';
 }
 
-# ABSTRACT: handles C<:root>
+# ABSTRACT: role for all matching selectors
 
-use Moose;
-use namespace::autoclean;
+use Moose::Role;
 
 
 with 'TPath::Selector::Test';
 
+has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
 
-sub candidates {
-    my ( $self, $ctx ) = @_;
-    return $ctx->i->root;
-}
-
-sub to_string { ':root' }
-
-__PACKAGE__->meta->make_immutable;
+has val => ( is => 'ro', isa => 'Str', required => 1);
 
 1;
 
@@ -29,17 +22,11 @@ __END__
 
 =head1 NAME
 
-TPath::Selector::Test::Root - handles C<:root>
+TPath::Selector::Test::Match - role for all matching selectors
 
 =head1 VERSION
 
 version 1.001
-
-=head1 METHODS
-
-=head2 candidates
-
-Expects node and index. Returns root node.
 
 =head1 ROLES
 

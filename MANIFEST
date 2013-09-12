@@ -6,7 +6,6 @@ Makefile.PL
 README
 README.md
 TODO
-XXF.pm
 compilation-tester.pl
 demo.pl
 dist.ini
@@ -55,6 +54,7 @@ lib/TPath/Selector/Test/ChildTag.pm
 lib/TPath/Selector/Test/ClosestAttribute.pm
 lib/TPath/Selector/Test/ClosestMatch.pm
 lib/TPath/Selector/Test/ClosestTag.pm
+lib/TPath/Selector/Test/Match.pm
 lib/TPath/Selector/Test/Root.pm
 lib/TPath/StderrLog.pm
 lib/TPath/Stringifiable.pm
@@ -74,7 +74,6 @@ lib/TPath/Test/Or.pm
 lib/TPath/TypeCheck.pm
 lib/TPath/TypeConstraints.pm
 parsing-tester.pl
-scrap
 t/00-compile.t
 t/000-report-versions-tiny.t
 t/Element.pm
@@ -85,6 +84,7 @@ t/attributes.t
 t/axis.t
 t/axis_order.t
 t/basic.t
+t/case_sensitivity.t
 t/compound.t
 t/equality.t
 t/extended_attributes.t

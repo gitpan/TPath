@@ -1,6 +1,6 @@
 package TPath::Selector::Test::ChildMatch;
 {
-  $TPath::Selector::Test::ChildMatch::VERSION = '1.000';
+  $TPath::Selector::Test::ChildMatch::VERSION = '1.001';
 }
 
 # ABSTRACT: handles C</~foo~> where this is not the first step in the path, or C<child::~foo~>
@@ -10,9 +10,7 @@ use TPath::Test::Node::Match;
 use namespace::autoclean;
 
 
-with 'TPath::Selector::Test';
-
-has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
+with 'TPath::Selector::Test::Match';
 
 sub BUILD {
     my $self = shift;
@@ -23,7 +21,7 @@ sub to_string {
     my ( $self, $first ) = @_;
     my $s = $first ? '' : '/';
     $s .= '^' if $self->is_inverted;
-    $s .= $self->_stringify_match( $self->rx );
+    $s .= $self->_stringify_match( $self->val );
     return $s;
 }
 
@@ -41,7 +39,7 @@ TPath::Selector::Test::ChildMatch - handles C</~foo~> where this is not the firs
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 ROLES
 

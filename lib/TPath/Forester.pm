@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '1.000';
+  $TPath::Forester::VERSION = '1.001';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -31,7 +31,26 @@ has log_stream => (
 );
 
 
-has one_based => ( is => 'ro', isa => 'Bool', default => 0);
+has one_based => ( is => 'ro', isa => 'Bool', default => 0 );
+
+
+has case_insensitive => ( is => 'ro', isa => 'Bool', default => 0 );
+
+has _cf => (
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        return sub { $_[0] eq $_[1] }
+          unless $self->case_insensitive;
+        return eval 'sub { fc($_[0]) eq fc($_[1]) }' if $] > 5.016;
+        my $sub = eval
+'require Unicode::CaseFold; sub { Unicode::CaseFold::fc($_[0]) eq Unicode::CaseFold::fc($_[1])}';
+        return $sub unless $@;
+        return sub { lc($_[0]) eq lc($_[1]) };
+    }
+);
 
 
 has _tests => (
@@ -269,8 +288,7 @@ sub _siblings_or_self {
 
 sub _siblings {
     my ( $self, $original, $ctx, $t ) = @_;
-    my @siblings =
-      $self->_untested_siblings( $original, $ctx );
+    my @siblings = $self->_untested_siblings( $original, $ctx );
     grep { $t->passes($_) } @siblings;
 }
 
@@ -409,7 +427,7 @@ sub has_tag {
     my ( $self, $n, $tag ) = @_;
     my $t = $self->tag($n);
     return undef unless defined $t;
-    $t eq $tag;
+    $self->_cf->( $t, $tag );
 }
 
 
@@ -435,7 +453,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 SYNOPSIS
 
@@ -514,6 +532,11 @@ is required by the C<@log> attribute from L<TPath::Attributes::Standard>.
 
 Whether to use xpath-style index predicates, with C<[1]> being the index of the first element,
 or zero-based indices, with C<[0]> being the first index. This only affects non-negative indices.
+This attribute is false by default.
+
+=head2 case_insensitive
+
+Whether selectors are case-insensitive in their matchign of tags.
 This attribute is false by default.
 
 =head1 METHODS

@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AxisMatch;
 {
-  $TPath::Selector::Test::AxisMatch::VERSION = '1.000';
+  $TPath::Selector::Test::AxisMatch::VERSION = '1.001';
 }
 
 # ABSTRACT: handles C</ancestor::~foo~> or C</preceding::~foo~> where this is not the first step in the path, or C<ancestor::~foo~>, etc.
@@ -10,9 +10,7 @@ use TPath::Test::Node::Match;
 use namespace::autoclean;
 
 
-with 'TPath::Selector::Test';
-
-has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
+with 'TPath::Selector::Test::Match';
 
 sub BUILD {
     my $self = shift;
@@ -24,7 +22,7 @@ sub to_string {
     my $s = $first ? '' : '/';
     $s .= $self->axis . '::';
     $s .= '^' if $self->is_inverted;
-    $s .= $self->_stringify_match( $self->rx );
+    $s .= $self->_stringify_match( $self->val );
     return $s;
 }
 
@@ -42,7 +40,7 @@ TPath::Selector::Test::AxisMatch - handles C</ancestor::~foo~> or C</preceding::
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 ROLES
 

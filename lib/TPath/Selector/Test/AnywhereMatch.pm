@@ -1,6 +1,6 @@
 package TPath::Selector::Test::AnywhereMatch;
 {
-  $TPath::Selector::Test::AnywhereMatch::VERSION = '1.000';
+  $TPath::Selector::Test::AnywhereMatch::VERSION = '1.001';
 }
 
 # ABSTRACT: handles C<//~foo~> expression
@@ -10,9 +10,7 @@ use TPath::Test::Node::Match;
 use namespace::autoclean;
 
 
-with 'TPath::Selector::Test';
-
-has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
+with 'TPath::Selector::Test::Match';
 
 around BUILDARGS => sub {
     my ( $orig, $class, %args ) = @_;
@@ -34,7 +32,7 @@ sub to_string {
     return
         '//'
       . ( $self->is_inverted ? '^' : '' )
-      . $self->_stringify_match( $self->rx );
+      . $self->_stringify_match( $self->val );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -51,7 +49,7 @@ TPath::Selector::Test::AnywhereMatch - handles C<//~foo~> expression
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 ROLES
 
