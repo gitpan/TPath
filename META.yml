@@ -24,6 +24,9 @@ meta-spec:
   version: 1.4
 name: TPath
 no_index: {}
+optional_features:
+  fc:
+    description: 'Better case normalization for Perl versions before 5.16'
 requires:
   Exporter: 0
   List::Util: 0
@@ -45,4 +48,4 @@ requires:
   perl: v5.10.0
   strict: 0
   warnings: 0
-version: 1.001
+version: 1.002

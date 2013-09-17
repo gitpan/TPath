@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '1.001';
+  $TPath::VERSION = '1.002';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 SYNOPSIS
 
@@ -382,7 +382,7 @@ If you construct a forester with the C<case_insensitive> parameter set to true
 
 the B<tag> selectors in all expressions compiled by this forester will be case insensitive. So then
 C<//INPUT> will match C<INPUT> and C<input> and C<InPuT> and so forth. The same is true for C<//input> and
-C<//~input~> and C<//^INPUT> and so forth. If your Perl version is 5.16 or higher, the native C<fc>
+C<//~input~> and C<//^INPUT> etc. If your Perl version is 5.16 or higher, the native C<fc>
 function will be used for case normalization. Otherwise, if L<Unicode::CaseFolding> is available, 
 its C<fc> function will be used. If no C<fc> function is available, C<lc> will be used for case folding.
 

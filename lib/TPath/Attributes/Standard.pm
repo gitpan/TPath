@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '1.001';
+  $TPath::Attributes::Standard::VERSION = '1.002';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -149,11 +149,11 @@ sub standard_index : Attr(index) {
     return -1 if $i->is_root($n);
     my $original = $ctx;
     my $parent   = $self->parent( $original, $ctx );
-    my @siblings = $self->_kids( $original, $parent );
+    my $siblings = $self->_kids( $original, $parent );
     my $ra       = refaddr $n;
     my $idx;
-    for my $index ( 0 .. $#siblings ) {
-        if (refaddr $siblings[$index]->n == $ra) {
+    for my $index ( 0 .. $#$siblings ) {
+        if (refaddr $siblings->[$index]->n == $ra) {
           $idx = $index;
           last;  
         }
@@ -281,7 +281,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 DESCRIPTION
 

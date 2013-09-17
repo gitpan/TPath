@@ -1,6 +1,6 @@
 package TPath::Context;
 {
-  $TPath::Context::VERSION = '1.001';
+  $TPath::Context::VERSION = '1.002';
 }
 
 # ABSTRACT: the context in which a node is evaluated during a search
@@ -25,14 +25,16 @@ sub new {
 # Expects a new node and the collection from which it was chosen. To be regarded
 # as private.
 sub bud {
-    my ( $self, $n ) = @_;
-    return bless [ $n, $self->[1], [ $self->[0], @{ $self->[2] } ] ];
+
+    # my ( $self, $n ) = @_;
+    return bless [ $_[1], $_[0]->[1], [ $_[0]->[0], @{ $_[0]->[2] } ] ];
 }
 
 #Makes a context that doesn't preserve the path.
 sub wrap {
-    my ( $self, $n ) = @_;
-    return bless [ $n, $self->[1], [] ];
+
+    # my ( $self, $n ) = @_;
+    return bless [ $_[1], $_[0]->[1], [] ];
 }
 
 
@@ -82,7 +84,7 @@ TPath::Context - the context in which a node is evaluated during a search
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 DESCRIPTION
 

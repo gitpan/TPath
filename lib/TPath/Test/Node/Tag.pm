@@ -1,6 +1,6 @@
 package TPath::Test::Node::Tag;
 {
-  $TPath::Test::Node::Tag::VERSION = '1.001';
+  $TPath::Test::Node::Tag::VERSION = '1.002';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
@@ -16,8 +16,9 @@ has tag => ( is => 'ro', isa => 'Str', required => 1 );
 
 # required by TPath::Test::Node
 sub passes {
-    my ( $self, $ctx ) = @_;
-    return $ctx->i->f->has_tag( $ctx->n, $self->tag );
+
+    # my ( $self, $ctx ) = @_;
+    return $_[1]->i->f->has_tag( $_[1]->n, $_[0]->tag );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -34,7 +35,7 @@ TPath::Test::Node::Tag - L<TPath::Test::Node> implementing basic tag pattern; e.
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 ATTRIBUTES
 

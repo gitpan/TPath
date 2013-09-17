@@ -1,6 +1,6 @@
 package TPath::Test::Node::Match;
 {
-  $TPath::Test::Node::Match::VERSION = '1.001';
+  $TPath::Test::Node::Match::VERSION = '1.002';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
@@ -16,8 +16,9 @@ has rx => ( is => 'ro', isa => 'RegexpRef', required => 1 );
 
 # required by TPath::Test::Node
 sub passes {
-    my ( $self, $ctx ) = @_;
-    return $ctx->i->f->matches_tag( $ctx->n, $self->rx );
+
+    # my ( $self, $ctx ) = @_;
+    return $_[1]->i->f->matches_tag( $_[1]->n, $_[0]->rx );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -34,7 +35,7 @@ TPath::Test::Node::Match - L<TPath::Test::Node> implementing matching; e.g., C</
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 ATTRIBUTES
 

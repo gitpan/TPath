@@ -1,6 +1,6 @@
 package TPath::Test::Node::Attribute;
 {
-  $TPath::Test::Node::Attribute::VERSION = '1.001';
+  $TPath::Test::Node::Attribute::VERSION = '1.002';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
@@ -16,8 +16,9 @@ has a => ( is => 'ro', isa => 'TPath::Attribute', required => 1 );
 
 # required by TPath::Test::Node
 sub passes {
-    my ( $self, $ctx ) = @_;
-    return $self->a->test( $ctx ) ? 1 : undef;
+
+    # my ( $self, $ctx ) = @_;
+    return $_[0]->a->test( $_[1] ) ? 1 : undef;
 }
 
 sub to_string { $_[0]->a->to_string }
@@ -36,7 +37,7 @@ TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing attributes; e.g
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 ATTRIBUTES
 

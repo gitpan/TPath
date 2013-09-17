@@ -2,7 +2,7 @@
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '1.001';
+  $TPath::Index::VERSION = '1.002';
 }
 
 
@@ -28,6 +28,12 @@ has _is_indexed => ( is => 'rw', isa => 'Bool', default => 0 );
 
 # Map from children to their parents.
 has cp_index => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
+
+# descendant index
+has d_index => ( is => 'ro', isa => 'HashRef', default => sub {{}});
+
+# kid index
+has k_index => ( is => 'ro', isa => 'HashRef', default => sub {{}});
 
 
 has root => ( is => 'ro', required => 1 );
@@ -65,9 +71,9 @@ sub index {
 
 sub walk {
     my ( $self, $n ) = @_;
-    my @children = $self->f->_decontextualized_kids( $n, $self );
+    my $children = $self->f->_decontextualized_kids( $n, $self );
     $self->n_index($n);
-    for my $c (@children) {
+    for my $c (@$children) {
         $self->pc_index( $n, $c );
         $self->walk($c);
     }
@@ -117,7 +123,7 @@ TPath::Index - general purpose path languages for trees
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 SYNOPSIS
 

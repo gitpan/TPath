@@ -1,6 +1,6 @@
 package TPath::StderrLog;
 {
-  $TPath::StderrLog::VERSION = '1.001';
+  $TPath::StderrLog::VERSION = '1.002';
 }
 
 # ABSTRACT: implementation of TPath::LogStream that simply prints to STDERR
@@ -30,7 +30,7 @@ TPath::StderrLog - implementation of TPath::LogStream that simply prints to STDE
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 DESCRIPTION
 

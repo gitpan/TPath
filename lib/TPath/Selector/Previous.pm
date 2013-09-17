@@ -1,6 +1,6 @@
 package TPath::Selector::Previous;
 {
-  $TPath::Selector::Previous::VERSION = '1.001';
+  $TPath::Selector::Previous::VERSION = '1.002';
 }
 
 # ABSTRACT: C<TPath::Selector> that implements C<:p>
@@ -33,7 +33,7 @@ TPath::Selector::Previous - C<TPath::Selector> that implements C<:p>
 
 =head1 VERSION
 
-version 1.001
+version 1.002
 
 =head1 ROLES
 

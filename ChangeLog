@@ -1,6 +1,11 @@
 Revision history for TPath
 
+1.002     2013-09-17 06:25:16 America/New_York
+  * optimized matching by addition of more caching and elimination of much
+    array copying
+
 1.001     2013-09-12 18:15:44 America/New_York
+  * made it possible to construct case-insensitive expressions
 
 1.000     2013-09-06 22:01:52 America/New_York
   * BUMPED MAJOR VERSION NUMBER -- significant change in semantics of core tpath
