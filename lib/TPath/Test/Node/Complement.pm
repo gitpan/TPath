@@ -1,6 +1,6 @@
 package TPath::Test::Node::Complement;
 {
-  $TPath::Test::Node::Complement::VERSION = '1.002';
+  $TPath::Test::Node::Complement::VERSION = '1.003';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
@@ -14,11 +14,20 @@ with 'TPath::Test::Node';
 
 has nt => ( is => 'ro', isa => 'TPath::Test::Node', required => 1 );
 
+has _cr => ( is => 'rw', isa => 'CodeRef' );
+
 # required by TPath::Test::Node
 sub passes {
+    return (
+        $_[0]->_cr // do {
+            my $nt     = $_[0]->nt;
+            my $passes = $nt->can('passes');
+            $_[0]->_cr( sub { $passes->( $nt, $_[0] ) ? undef : 1 } );
+          }
+    )->( $_[1] );
 
     # my ( $self, $ctx ) = @_;
-    return $_[0]->nt->passes( $_[1] ) ? undef : 1;
+    # return $_[0]->nt->passes( $_[1] ) ? undef : 1;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -35,7 +44,7 @@ TPath::Test::Node::Complement - L<TPath::Test::Node> implementing matching; e.g.
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 ATTRIBUTES
 

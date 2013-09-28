@@ -2,7 +2,7 @@
 
 package TPath::Grammar;
 {
-  $TPath::Grammar::VERSION = '1.002';
+  $TPath::Grammar::VERSION = '1.003';
 }
 
 use v5.10;
@@ -20,6 +20,7 @@ our @EXPORT_OK = qw(parse %AXES %FUNCTIONS %MATH_CONSTANTS);
 
 
 our %AXES = map { $_ => 1 } qw(
+  adjacent
   ancestor
   ancestor-or-self
   child
@@ -1345,7 +1346,7 @@ TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 

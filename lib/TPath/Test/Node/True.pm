@@ -1,6 +1,6 @@
 package TPath::Test::Node::True;
 {
-  $TPath::Test::Node::True::VERSION = '1.002';
+  $TPath::Test::Node::True::VERSION = '1.003';
 }
 
 # ABSTRACT: TPath::Test::Node implementing the wildcard; e.g., //*
@@ -28,7 +28,7 @@ TPath::Test::Node::True - TPath::Test::Node implementing the wildcard; e.g., //*
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 ROLES
 

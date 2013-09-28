@@ -1,8 +1,8 @@
-# ABSTRACT: general purpose path languages for trees
+# ABSTRACT: tree-specific database
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '1.002';
+  $TPath::Index::VERSION = '1.003';
 }
 
 
@@ -119,11 +119,11 @@ __END__
 
 =head1 NAME
 
-TPath::Index - general purpose path languages for trees
+TPath::Index - tree-specific database
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 
@@ -134,6 +134,12 @@ version 1.002
 =head1 DESCRIPTION
 
 A cache of information about a particular tree. Reuse indices to save effort.
+
+The chief function of an index is to enable an expression to map a node to its ancestors for those
+trees that provide this mapping themselves. All tree-specific caches belong here, though.
+
+You should regard the methods and attributes of a L<TPath::Index> as private. The public function
+of an index is to be the optional second argument of a L<TPath::Expression>'s C<select> method.
 
 =head1 ATTRIBUTES
 

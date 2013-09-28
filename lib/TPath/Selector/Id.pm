@@ -1,6 +1,6 @@
 package TPath::Selector::Id;
 {
-  $TPath::Selector::Id::VERSION = '1.002';
+  $TPath::Selector::Id::VERSION = '1.003';
 }
 
 # ABSTRACT: C<TPath::Selector> that implements C<id(foo)>
@@ -39,7 +39,7 @@ TPath::Selector::Id - C<TPath::Selector> that implements C<id(foo)>
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 ROLES
 

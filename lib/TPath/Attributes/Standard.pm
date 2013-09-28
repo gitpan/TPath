@@ -1,6 +1,6 @@
 package TPath::Attributes::Standard;
 {
-  $TPath::Attributes::Standard::VERSION = '1.002';
+  $TPath::Attributes::Standard::VERSION = '1.003';
 }
 
 # ABSTRACT: the standard collection of attributes available to any forester by default
@@ -70,7 +70,7 @@ sub standard_is_leaf : Attr(leaf) {
 
 sub standard_pick : Attr(pick) {
     my ( $self, undef, $collection, $index ) = @_;
-    if (defined $index && $self->one_based) {
+    if ( defined $index && $self->one_based ) {
         $index--;
     }
     return $collection->[ $index // 0 ];
@@ -152,13 +152,14 @@ sub standard_index : Attr(index) {
     my $siblings = $self->_kids( $original, $parent );
     my $ra       = refaddr $n;
     my $idx;
+
     for my $index ( 0 .. $#$siblings ) {
-        if (refaddr $siblings->[$index]->n == $ra) {
-          $idx = $index;
-          last;  
+        if ( refaddr $siblings->[$index]->n == $ra ) {
+            $idx = $index;
+            last;
         }
     }
-    if (defined $idx) {
+    if ( defined $idx ) {
         $idx++ if $self->one_based;
         return $idx;
     }
@@ -201,7 +202,7 @@ sub standard_attr : Attr(at) {
 
 
 sub standard_all : Attr(all) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     for (@params) {
         return undef unless $self->_booleanize($_);
     }
@@ -210,7 +211,7 @@ sub standard_all : Attr(all) {
 
 
 sub standard_none : Attr(none) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     for (@params) {
         return undef if $self->_booleanize($_);
     }
@@ -219,7 +220,7 @@ sub standard_none : Attr(none) {
 
 
 sub standard_some : Attr(some) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     for (@params) {
         return 1 if $self->_booleanize($_);
     }
@@ -228,10 +229,10 @@ sub standard_some : Attr(some) {
 
 
 sub standard_one : Attr(one) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     my $found;
     for (@params) {
-        if ($self->_booleanize($_)) {
+        if ( $self->_booleanize($_) ) {
             return undef if $found;
             $found = 1;
         }
@@ -241,7 +242,7 @@ sub standard_one : Attr(one) {
 
 
 sub standard_tcount : Attr(tcount) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     my $found = 0;
     for (@params) {
         $found++ if $self->_booleanize($_);
@@ -251,7 +252,7 @@ sub standard_tcount : Attr(tcount) {
 
 
 sub standard_fcount : Attr(fcount) {
-    my ($self, undef, @params) = @_;
+    my ( $self, undef, @params ) = @_;
     my $found = 0;
     for (@params) {
         $found++ unless $self->_booleanize($_);
@@ -259,12 +260,30 @@ sub standard_fcount : Attr(fcount) {
     return $found;
 }
 
+
+sub standard_var : Attr(var) {
+    my ( undef, $ctx, $key, @values ) = @_;
+    my $vars = $ctx->expression->vars;
+    return $vars->{$key} unless @values;
+    return $vars->{$key} = @values > 1 ? \@values : $values[0];
+}
+
+sub standard_v : Attr(v) {
+    goto &standard_var;
+}
+
+
+sub standard_clear_var : Attr(clear_var) {
+    my ( undef, $ctx, $key) = @_;
+    return delete $ctx->expression->vars->{$key};
+}
+
 # Converts a scalar to a boolean value, dereferencing hash and array refs.
 sub _booleanize {
-    my ($self, $v) = @_;
-    for (ref $v) {
+    my ( $self, $v ) = @_;
+    for ( ref $v ) {
         when ('ARRAY') { $v = @$v }
-        when ('HASH') { $v = keys %$v }
+        when ('HASH')  { $v = keys %$v }
     }
     return $v && 1;
 }
@@ -281,7 +300,7 @@ TPath::Attributes::Standard - the standard collection of attributes available to
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 
@@ -421,6 +440,24 @@ Returns the number of parameters evaluating to true.
 =head2 C<@fcount(@a, b, 1, "foo")>
 
 Returns the number of parameters evaluating to false.
+
+=head2 C<@var(@a, "key")>
+=method C<@v(@a, "key", "value")>
+
+Returns the value of the given variable in the context, also setting it if the optional values
+parameters are supplied. This attribute is accessible as either C<@var> or C<@v>
+
+  my $e = $f->path('/*[@v("size", @tsize)]');
+  $e->select($some_tree);
+  say $e->vars->{size};   # prints the number of nodes in the tree
+
+If a single parameter is passed in as the value, this value is stored under the key. If
+more than one parameter is passed in, a reference to the values array is stored.
+
+=head2 C<@clear_var("key")>
+
+Deletes the given value from the expression's variable hash, returning any
+value deleted.
 
 =head1 REQUIRED METHODS
 

@@ -1,6 +1,6 @@
 package TPath::Test;
 {
-  $TPath::Test::VERSION = '1.002';
+  $TPath::Test::VERSION = '1.003';
 }
 
 # ABSTRACT: interface of conditional expressions in predicates
@@ -26,7 +26,7 @@ TPath::Test - interface of conditional expressions in predicates
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 

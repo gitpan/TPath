@@ -1,6 +1,6 @@
 package TPath::Predicate::Expression;
 {
-  $TPath::Predicate::Expression::VERSION = '1.002';
+  $TPath::Predicate::Expression::VERSION = '1.003';
 }
 
 # ABSTRACT: implements the C<[c]> in C<//a/b[c]>
@@ -38,7 +38,7 @@ TPath::Predicate::Expression - implements the C<[c]> in C<//a/b[c]>
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 

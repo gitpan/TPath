@@ -1,6 +1,6 @@
 package TPath::Selector::Test;
 {
-  $TPath::Selector::Test::VERSION = '1.002';
+  $TPath::Selector::Test::VERSION = '1.003';
 }
 
 # ABSTRACT: role of selectors that apply some test to a node to select it
@@ -84,17 +84,43 @@ sub _invert {
     $self->_mark_inverted(1);
 }
 
+has _cr1 => ( is => 'rw', isa => 'CodeRef' );
+has _cr2 => ( is => 'rw', isa => 'CodeRef' );
+
 
 sub candidates {
-    my ( $self, $ctx, $first ) = @_;
-    my $axis;
-    if ( $first && $self->first_sensitive ) {
-        $axis = $self->sensitive_axis;
-    }
-    else {
-        $axis = $self->faxis;
-    }
-    return $self->f->$axis( $ctx, $self->node_test );
+    return (
+        $_[0]->_cr1 // do {
+            my $axis;
+            my $nt = $_[0]->node_test;
+            my $f  = $_[0]->f;
+            if ( $_[0]->first_sensitive ) {
+                $axis = $_[0]->sensitive_axis;
+            }
+            else {
+                $axis = $_[0]->faxis;
+            }
+            $_[0]->_cr1( sub { $axis->( $f, $_[0], $nt ) } );
+          }
+    )->( $_[1] ) if $_[2];
+    return (
+        $_[0]->_cr2 // do {
+            my $axis = $_[0]->faxis;
+            my $nt   = $_[0]->node_test;
+            my $f    = $_[0]->f;
+            $_[0]->_cr2( sub { $axis->( $f, $_[0], $nt ) } );
+          }
+    )->( $_[1] );
+
+    # my ( $self, $ctx, $first ) = @_;
+    # my $axis;
+    # if ( $first && $self->first_sensitive ) {
+    #     $axis = $self->sensitive_axis;
+    # }
+    # else {
+    #    $axis = $self->faxis;
+    # }
+    # return $self->f->$axis( $ctx, $self->node_test );
 }
 
 # implements method required by TPath::Selector
@@ -116,7 +142,7 @@ TPath::Selector::Test - role of selectors that apply some test to a node to sele
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 

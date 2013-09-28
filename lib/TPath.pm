@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '1.002';
+  $TPath::VERSION = '1.003';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 
@@ -389,239 +389,261 @@ its C<fc> function will be used. If no C<fc> function is available, C<lc> will b
 =head2 Axes
 
 To illustrate the nodes on various axes I will using the following tree, showing which nodes
-are selected from the tree relative the the C<c> node. Selected nodes will be in capital letters.
+are selected from the tree relative the the C<d> node. Selected nodes will be in capital letters.
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =over 8
 
+=item adjacent
+
+  //d/adjacent::*
+
+         root
+          |
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b C     d     E f
+   /|\   /|\   /|\
+  g h i j k l m n o
+    |     |     |
+    p     q     r
+
+The C<adjacent> axis might be called the C<adjacent-sibling> axis. It selects
+the nearest siblings of the context node passing the test. C<//foo/adjacent::p>
+will select the immediately preceding and following C<p> siblings of C<foo> nodes.
+
 =item ancestor
 
-  //c/ancestor::*
+  //d/ancestor::*
 
          ROOT
           |
-          A
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __A__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item ancestor-or-self
 
-  //c/ancestor-or-self::*
+  //d/ancestor-or-self::*
 
          ROOT
           |
-          A
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     C     d
+        __A__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     D     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item child
 
-  //c/child::*
+  //d/child::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g H I J l m n
+  g h i J K L m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item descendant
 
-  //c/descendant::*
+  //d/descendant::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g H I J l m n
+  g h i J K L m n o
     |     |     |
-    o     P     q
+    p     Q     r
 
 =item descendant-or-self
 
-  //c/descendant-or-self::*
+  //d/descendant-or-self::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     C     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     D     e f
    /|\   /|\   /|\
-  e f g H I J l m n
+  g h i J K L m n o
     |     |     |
-    o     P     q
+    p     Q     r
 
 =item following
 
-  //c/following::*
+  //d/following::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     D
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     E F
    /|\   /|\   /|\
-  e f g h i j L M N
+  g h i j k l M N O
     |     |     |
-    o     p     Q
+    p     q     R
 
 =item following-sibling
 
-  //c/following-sibling::*
+  //d/following-sibling::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     D
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     E F
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item leaf
 
-  //c/leaf::*
+  //d/leaf::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g H i J l m n
+  g h i J k L m n o
     |     |     |
-    o     P     q
+    p     Q     r
 
 =item parent
 
-  //c/parent::*
+  //d/parent::*
 
          root
           |
-          A
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __A__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item preceding
 
-  //c/preceding::*
+  //d/preceding::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    B     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  B C     d     e f
    /|\   /|\   /|\
-  E F G h i j l m n
+  G H I j k l m n o
     |     |     |
-    O     p     q
+    P     q     r
 
 =item preceding-sibling
 
-  //c/preceding-sibling::*
+  //d/preceding-sibling::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    B     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  B C     d     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item previous
 
-  //c/previous::*
+  //d/previous::*
 
          ROOT
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     c     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     d     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 The previous axis is a bit different from the others. It doesn't concern the
 structure of the tree but the history of node selection. The root node is always
@@ -1053,6 +1075,37 @@ One could make this HTML implementation more efficient by memoizing C<autoload_a
 attributes it doesn't make sense to further parameterize attribute generation -- all you need is the
 name -- so any attribute arguments are ignored during auto-loading.
 
+=head2 Variables
+
+There are three special attributes among the standard attributes that facilitate
+using variables in tpath expressions: C<@var>, C<@v>, and C<@clear_var>. The
+first two are synonyms, so there are really only two functionally distinct
+variable attributes. The first two allow one to set or check the value of a
+particular variable. The last clears a variable, returning whatever value it
+had before clearing. The variables themselves live in a hash belonging to a
+particular expression.
+
+One can use variables to obtain information from a selection other than a list
+of nodes. For example,
+
+  my $exp = $forester->path('/*[@v( "size", @tsize )][@v( "leaves", @size(leaf::*) )]');
+  $exp->select($tree);
+  say 'number of nodes in the tree: ' . $exp->vars->{size};
+  say 'number of leaf nodes: ' . $exp->vars->{leaves};
+
+One may also use variables to make later selections in an expression dependent
+on earlier selections.
+
+  my $exp = $forester->path('//foo[ @v( "bar", @quux ) ]//baz[ @quux = @v("bar") ]');
+
+Finally, one may use variables to parameterize an expression:
+
+  for my $fruit qw(apple orange kumquat quince) {
+      $exp->vars->{fruit} = $fruit;
+      my @harvest = $exp->select($tree);
+      deliver( $recipients->{$fruit}, @harvest );
+  }
+
 =head2 Special Selectors
 
 There are four special selectors B<that cannot occur with predicates> and may only be 
@@ -1407,6 +1460,22 @@ I wrote tpath initially in Java (L<http://dfhoughton.org/treepath/>) because I w
 convenient way to select nodes from parse trees. I've re-written it in Perl because I figured
 it might be handy and why not? Since I've been working on the Perl version I've added lots of features.
 Eventually I'll back port these to the Java version, but I haven't yet.
+
+=head1 SEE ALSO
+
+L<Tree::XPathEngine> and L<Class::XPath> provide similar functionality, though
+their aim is not to provide a generic tree path language but rather to provide
+a means of adapting XPath, designed with XML in mind, to non-XML trees. I have
+not actually used these modules, but if you are already familiar with XPath and
+your node names and whatnot comport with those of XPath, than these may better
+suit your needs.
+
+If what you really want is to use XPath on XML in Perl, consider L<XML::XPath> or
+L<XML::LibXML>. If speed is your concern and you are able to use the latter,
+it's probably what you want.
+
+L<TPath> is fast enough as pure Perl tree path libraries go, but it has Moose's
+startup lag and its own conventions.
 
 =head1 ACKNOWLEDGEMENTS
 

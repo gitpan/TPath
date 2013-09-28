@@ -43,6 +43,7 @@ my %WriteMakefileArgs = (
   "TEST_REQUIRES" => {
     "Carp" => 0,
     "File::Basename" => 0,
+    "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "List::MoreUtils" => 0,
@@ -53,7 +54,7 @@ my %WriteMakefileArgs = (
     "base" => 0,
     "feature" => 0
   },
-  "VERSION" => "1.002",
+  "VERSION" => "1.003",
   "test" => {
     "TESTS" => "t/*.t"
   }

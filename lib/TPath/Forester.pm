@@ -1,6 +1,6 @@
 package TPath::Forester;
 {
-  $TPath::Forester::VERSION = '1.002';
+  $TPath::Forester::VERSION = '1.003';
 }
 
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
@@ -36,21 +36,26 @@ has one_based => ( is => 'ro', isa => 'Bool', default => 0 );
 
 has case_insensitive => ( is => 'ro', isa => 'Bool', default => 0 );
 
-has _cf => (
-    is      => 'ro',
-    isa     => 'CodeRef',
-    lazy    => 1,
-    default => sub {
-        my $self = shift;
-        return sub { $_[0] eq $_[1] }
-          unless $self->case_insensitive;
-        return eval 'sub { fc($_[0]) eq fc($_[1]) }' if $] > 5.016;
-        my $sub = eval
-'require Unicode::CaseFold; sub { Unicode::CaseFold::fc($_[0]) eq Unicode::CaseFold::fc($_[1])}';
-        return $sub unless $@;
-        return sub { lc( $_[0] ) eq lc( $_[1] ) };
-    }
+has _cr => (
+    is  => 'rw',
+    isa => 'CodeRef',
 );
+
+has _cf => (
+    is  => 'rw',
+    isa => 'CodeRef',
+);
+
+sub _build_cf {
+    my $self = shift;
+    return sub { $_[0] eq $_[1] }
+      unless $self->case_insensitive;
+    return eval 'sub { fc($_[0]) eq fc($_[1]) }' if $] > 5.016;
+    my $sub = eval
+'require Unicode::CaseFold; sub { Unicode::CaseFold::fc($_[0]) eq Unicode::CaseFold::fc($_[1])}';
+    return $sub unless $@;
+    return sub { lc( $_[0] ) eq lc( $_[1] ) };
+}
 
 
 has _tests => (
@@ -199,6 +204,11 @@ sub _decontextualized_kids {
 sub axis_ancestor {
     my ( $self, $ctx, $t ) = @_;
     @{ $self->_ancestors( $ctx, $ctx, $t ) };
+}
+
+sub axis_adjacent {
+    my ( $self, $ctx, $t ) = @_;
+    @{ $self->_adjacent( $ctx, $ctx, $t ) };
 }
 
 sub axis_ancestor_or_self {
@@ -434,13 +444,62 @@ sub _children {
     [ grep { $t->passes($_) ? $_ : () } @$children ];
 }
 
+sub _adjacent {
+    my ( $self, $original, $ctx, $t ) = @_;
+        return [] if $self->is_root($ctx);
+    my $siblings = $self->_kids( $original, $self->parent( $original, $ctx ) );
+    my $lim = $#$siblings;
+    return [] if $lim == 1;
+    my $idx;
+    my $ra = refaddr $original->n;
+    for my $i ( 0 .. $lim ) {
+        $idx = $i;
+        last if refaddr $siblings->[$idx]->n == $ra;
+    }
+    my @adjacent;
+    if ($idx) {
+        for ( my $i = $idx - 1 ; $i >= 0 ; $i-- ) {
+            my $c = $siblings->[$i];
+            if ( $t->passes($c) ) {
+                push @adjacent, $c;
+                last;
+            }
+        }
+    }
+    if ( $idx < $lim ) {
+        for my $i ( $idx + 1 .. $lim ) {
+            my $c = $siblings->[$i];
+            if ( $t->passes($c) ) {
+                push @adjacent, $c;
+                last;
+            }
+        }
+    }
+    return \@adjacent;
+}
+
 
 sub has_tag {
 
+    (
+        $_[0]->_cr // do {
+            my $tag = $_[0]->can('tag');
+            my $cf  = $_[0]->_build_cf;
+            $_[0]->_cr(
+                sub {
+                    my $t = $tag->( $_[0], $_[1] );
+                    return undef unless defined $t;
+                    return $cf->( $t, $_[2] );
+                }
+            );
+          }
+    )->(@_);
+
+    # optimized from
     # my ( $self, $n, $tag ) = @_;
-    my $t = $_[0]->tag( $_[1] );
-    return undef unless defined $t;
-    $_[0]->_cf->( $t, $_[2] );
+    # my $t = $_[0]->tag( $_[1] );
+    # return undef unless defined $t;
+    # $_[0]->_cf->( $t, $_[2] );
 }
 
 
@@ -467,7 +526,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 

@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '1.002';
+  $TPath::Compiler::VERSION = '1.003';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -56,7 +56,11 @@ use aliased 'TPath::Test::One';
 our @EXPORT_OK = qw(compile);
 
 
-sub compile { treepath(@_) }
+sub compile {
+    my $e = treepath(@_);
+    $e->_link_self_to_attributes;
+    return $e;
+}
 
 sub treepath {
     my ( $ref, $forester ) = @_;
@@ -240,8 +244,7 @@ sub full {
                     }
                     else {
                         $rv =
-                          ChildMatch->new( %common_args, first_sensitive => 1 )
-                          ;
+                          ChildMatch->new( %common_args, first_sensitive => 1 );
                     }
                 }
                 when ('//') {
@@ -495,7 +498,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 

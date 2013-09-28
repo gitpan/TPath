@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '1.002';
+  $TPath::Attribute::VERSION = '1.003';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -10,6 +10,7 @@ use v5.10;
 no if $] >= 5.018, warnings => "experimental";
 
 use Moose;
+use TPath::TypeConstraints;
 use namespace::autoclean;
 
 
@@ -29,6 +30,9 @@ has _arg_subs => (
     builder => '_build_arg_subs'
 );
 
+has _expr => ( is => 'rw', isa => 'TPath::Expression', weak_ref => 1 )
+  ;
+
 
 has code => ( is => 'ro', isa => 'CodeRef', required => 1 );
 
@@ -38,6 +42,7 @@ has autoloaded => ( is => 'ro', isa => 'Bool', default => 0 );
 
 sub apply {
     my ( $self, $ctx ) = @_;
+    $ctx->expression( $self->_expr );
     my @args = ($ctx);
 
     # invoke all code to reify arguments
@@ -126,7 +131,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 DESCRIPTION
 

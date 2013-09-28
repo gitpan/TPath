@@ -1,20 +1,19 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '1.002';
+  $TPath::Expression::VERSION = '1.003';
 }
 
 # ABSTRACT: a compiled TPath expression
 
 
+use v5.10;
 use TPath::TypeCheck;
 use TPath::TypeConstraints;
 use TPath::Context;
-use Scalar::Util qw(refaddr);
+use Scalar::Util qw(refaddr reftype);
 use Moose;
 
 use overload '""' => \&to_string;
-
-sub uniq(@);
 
 
 with qw(TPath::Test TPath::Numifiable);
@@ -27,6 +26,21 @@ has _selectors =>
 
 has string =>
   ( is => 'ro', isa => 'Str', lazy => 1, builder => '_stringify_exp' );
+
+has needs_uniq => (
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        return 1 if @{ $self->_selectors } > 1;
+        return 1 if @{ $self->_selectors->[0] } > 1;
+        return 0;
+    },
+);
+
+
+has 'vars' => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
 
 
 sub select {
@@ -49,7 +63,7 @@ sub _select {
     for my $fork ( @{ $self->_selectors } ) {
         push @sel, @{ _sel( $ctx, $fork, 0, $first ) };
     }
-    @sel = uniq @sel if @{ $self->_selectors } > 1;
+    @sel = uniq(@sel) if $self->needs_uniq;
 
     return \@sel;
 }
@@ -71,7 +85,7 @@ sub test {
 sub _sel {
     my ( $ctx, $fork, $idx, $first ) = @_;
     my $selector = $fork->[ $idx++ ];
-    my @c = uniq $selector->select( $ctx, $first );
+    my @c = uniq( $selector->select( $ctx, $first ) );
     return \@c if $idx == @$fork;
 
     my @sel;
@@ -81,7 +95,7 @@ sub _sel {
 
 # a substitute for List::MoreUtils::uniq which uses reference address rather than stringification to establish identity
 # the list filtered is assumed to be of TPath::Context objects
-sub uniq(@) {
+sub uniq {
     return @_ if @_ < 2;
     my %seen = ();
     grep { not $seen{ refaddr $_->n }++ } @_;
@@ -105,6 +119,31 @@ sub _stringify_exp {
 
 sub case_insensitive { shift->f->case_insensitive }
 
+# recursively links top expression to attributes to make variable cache
+# available to all attributes
+sub _link_self_to_attributes {
+    my $self = shift;
+    _recursive_link( $self, $self, {} );
+}
+
+sub _recursive_link {
+    my ( $e, $ref, $cache ) = @_;
+    my $rt = reftype($ref) // '';
+    return unless $rt eq 'HASH' or $rt eq 'ARRAY';
+    return if $cache->{ refaddr $ref}++;
+    if ( blessed $ref && $ref->isa('TPath::Attribute') ) {
+        $ref->_expr($e);
+    }
+    for ($rt) {
+        when ('HASH') {
+            _recursive_link( $e, $_, $cache ) for values %$ref;
+        }
+        when ('ARRAY') {
+            _recursive_link( $e, $_, $cache ) for @$ref;
+        }
+    }
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
@@ -120,7 +159,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 
@@ -139,6 +178,10 @@ An object that will get us the nodes identified by our path expression.
 =head2 f
 
 The expression's L<TPath::Forester>.
+
+=head2 vars
+
+Variables available during the application of this expression.
 
 =head2 to_num
 
