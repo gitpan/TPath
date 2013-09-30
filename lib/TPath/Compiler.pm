@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '1.003';
+  $TPath::Compiler::VERSION = '1.004';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -10,6 +10,7 @@ use strict;
 use warnings;
 use v5.10;
 no if $] >= 5.018, warnings => "experimental";
+use Scalar::Util qw(refaddr blessed reftype);
 
 use TPath::Grammar qw(%FUNCTIONS);
 
@@ -58,8 +59,26 @@ our @EXPORT_OK = qw(compile);
 
 sub compile {
     my $e = treepath(@_);
-    $e->_link_self_to_attributes;
+    exp_attribute_link( $e, $e, {} );
     return $e;
+}
+
+sub exp_attribute_link {
+    my ( $e, $ref, $cache ) = @_;
+    my $rt = reftype($ref) // '';
+    return unless $rt eq 'HASH' or $rt eq 'ARRAY';
+    return if $cache->{ refaddr $ref}++;
+    if ( blessed $ref && $ref->isa('TPath::Attribute') ) {
+        $ref->_expr($e);
+    }
+    for ($rt) {
+        when ('HASH') {
+            exp_attribute_link( $e, $_, $cache ) for values %$ref;
+        }
+        when ('ARRAY') {
+            exp_attribute_link( $e, $_, $cache ) for @$ref;
+        }
+    }
 }
 
 sub treepath {
@@ -498,7 +517,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 DESCRIPTION
 

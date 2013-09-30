@@ -1,6 +1,6 @@
 package TPath::Selector::Test::Match;
 {
-  $TPath::Selector::Test::Match::VERSION = '1.003';
+  $TPath::Selector::Test::Match::VERSION = '1.004';
 }
 
 # ABSTRACT: role for all matching selectors
@@ -26,7 +26,7 @@ TPath::Selector::Test::Match - role for all matching selectors
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 ROLES
 

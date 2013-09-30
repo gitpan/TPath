@@ -1,6 +1,6 @@
 package TPath::Context;
 {
-  $TPath::Context::VERSION = '1.003';
+  $TPath::Context::VERSION = '1.004';
 }
 
 # ABSTRACT: the context in which a node is evaluated during a search
@@ -17,7 +17,7 @@ use overload '""' => \&to_string;
 sub new {
     my $class  = shift;
     my %params = @_;
-    my $self   = [ $params{n}, $params{i}, [] ];
+    my $self   = [ $params{n}, $params{i}, [], undef ];
     bless $self, $class;
 }
 
@@ -27,14 +27,14 @@ sub new {
 sub bud {
 
     # my ( $self, $n ) = @_;
-    return bless [ $_[1], $_[0][1], [ $_[0][0], @{ $_[0][2] } ] ];
+    return bless [ $_[1], $_[0][1], [ $_[0][0], @{ $_[0][2] } ], undef ];
 }
 
 #Makes a context that doesn't preserve the path.
 sub wrap {
 
     # my ( $self, $n ) = @_;
-    return bless [ $_[1], $_[0][1], [] ];
+    return bless [ $_[1], $_[0][1], [], undef ];
 }
 
 
@@ -43,7 +43,7 @@ sub previous {
     my @previous = @{ $self->[2] };
     my $n        = shift @previous;
     return () unless $n;
-    return bless [ $n, $self->[1], \@previous ];
+    return bless [ $n, $self->[1], \@previous, undef ];
 }
 
 
@@ -65,8 +65,7 @@ sub path { $_[0][2] }
 
 sub expression {
     return $_[0][3] if @_ < 2;
-    my ( $self, $e ) = @_;
-    return $self->[3] = $e;
+    return $_[0][3] = $_[1];
 }
 
 
@@ -91,7 +90,7 @@ TPath::Context - the context in which a node is evaluated during a search
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 DESCRIPTION
 

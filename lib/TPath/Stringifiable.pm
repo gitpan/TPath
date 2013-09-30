@@ -1,11 +1,12 @@
 package TPath::Stringifiable;
 {
-  $TPath::Stringifiable::VERSION = '1.003';
+  $TPath::Stringifiable::VERSION = '1.004';
 }
 
 # ABSTRACT: role requiring that a class have a to_string method
 
 
+use v5.10;
 use Moose::Role;
 use Scalar::Util qw(looks_like_number);
 
@@ -19,8 +20,21 @@ sub _escape {
     my ( $self, $string, @chars ) = @_;
     my $s = '';
     my %chars = map { $_ => 1 } @chars, '\\';
+    state $special = [ "\t", "\f", "\n", "\r", "\013", "\b" ];
     for my $c ( split //, $string ) {
-        $s .= '\\' if $chars{$c};
+        if ( $c ~~ $special ) {
+            for ($c) {
+                when ("\t")   { $c = '\\t' }
+                when ("\f")   { $c = '\\f' }
+                when ("\012") { $c = '\\n' }
+                when ("\015") { $c = '\\r' }
+                when ("\013") { $c = '\\v' }
+                when ("\b")   { $c = '\\b' }
+            }
+        }
+        elsif ( $chars{$c} ) {
+            $c = '\\' . $c;
+        }
         $s .= $c;
     }
     return $s;
@@ -63,7 +77,7 @@ TPath::Stringifiable - role requiring that a class have a to_string method
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 DESCRIPTION
 

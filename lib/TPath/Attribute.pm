@@ -1,6 +1,6 @@
 package TPath::Attribute;
 {
-  $TPath::Attribute::VERSION = '1.003';
+  $TPath::Attribute::VERSION = '1.004';
 }
 
 # ABSTRACT: handles evaluating an attribute for a particular node
@@ -131,7 +131,7 @@ TPath::Attribute - handles evaluating an attribute for a particular node
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 DESCRIPTION
 

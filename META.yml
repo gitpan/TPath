@@ -49,4 +49,4 @@ requires:
   perl: v5.10.0
   strict: 0
   warnings: 0
-version: 1.003
+version: 1.004

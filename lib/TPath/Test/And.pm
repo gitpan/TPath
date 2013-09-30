@@ -1,6 +1,6 @@
 package TPath::Test::And;
 {
-  $TPath::Test::And::VERSION = '1.003';
+  $TPath::Test::And::VERSION = '1.004';
 }
 
 # ABSTRACT: implements logical conjunction of tests
@@ -39,7 +39,7 @@ TPath::Test::And - implements logical conjunction of tests
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 DESCRIPTION
 

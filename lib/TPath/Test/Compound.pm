@@ -1,6 +1,6 @@
 package TPath::Test::Compound;
 {
-  $TPath::Test::Compound::VERSION = '1.003';
+  $TPath::Test::Compound::VERSION = '1.004';
 }
 
 # ABSTRACT: role of TPath::Tests that combine multiple other tests under some boolean operator
@@ -38,7 +38,7 @@ TPath::Test::Compound - role of TPath::Tests that combine multiple other tests u
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 ATTRIBUTES
 

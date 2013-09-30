@@ -1,6 +1,6 @@
 package TPath;
 {
-  $TPath::VERSION = '1.003';
+  $TPath::VERSION = '1.004';
 }
 
 # ABSTRACT: general purpose path languages for trees
@@ -17,7 +17,7 @@ TPath - general purpose path languages for trees
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 SYNOPSIS
 
@@ -657,57 +657,57 @@ history.
 
 =item self
 
-  //c/self::*
+  //d/self::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    b     C     d
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  b c     D     e f
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item sibling
 
-  //c/sibling::*
+  //d/sibling::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    B     c     D
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  B C     d     E F
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =item sibling-or-self
 
-  //c/sibling-or-self::*
+  //d/sibling-or-self::*
 
          root
           |
-          a
-         /|\
-        / | \
-       /  |  \
-      /   |   \
-     /    |    \
-    B     C     D
+        __a__
+       / /|\ \
+      / / | \ \
+     / /  |  \ \
+    / /   |   \ \
+   / /    |    \ \
+  B C     D     E F
    /|\   /|\   /|\
-  e f g h i j l m n
+  g h i j k l m n o
     |     |     |
-    o     p     q
+    p     q     r
 
 =back
 
@@ -1453,6 +1453,43 @@ between an C<@> and an attribute name
 and between a repetition suffix and the element repeated
 
   //a + # bad!
+
+=head2 Escape Sequences in String Literals
+
+All the places where one may use the C<\> escape character to protect a special character in
+a string one may also use one of the escape sequences understood by tpath, which are
+just those understood by JSON. These are
+
+=over4
+
+=item \t
+
+The tab character.
+
+=item \n
+
+The ASCII newline character -- decimal character 10 in the basic ASCII set. Note that this
+isn't the magic newline character in Perl that adapts to the operating system it finds itself
+on. This is just the 10th character in the ASCII set (excluding the null character).
+
+=item \r
+
+The ASCII carriage return character, decimal character 13.
+
+=item \f
+
+The ASCII form feed character.
+
+=item \b
+
+The backspace character.
+
+=item \v
+
+The vertical tab character. Why \v? Well, I figure it's important enough to somebody to be
+included in the JSON spec, so it's here too. This is character 11 in ASCII's decimal set.
+
+=back
 
 =head1 HISTORY
 

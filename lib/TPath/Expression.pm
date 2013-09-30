@@ -1,16 +1,15 @@
 package TPath::Expression;
 {
-  $TPath::Expression::VERSION = '1.003';
+  $TPath::Expression::VERSION = '1.004';
 }
 
 # ABSTRACT: a compiled TPath expression
 
 
-use v5.10;
 use TPath::TypeCheck;
 use TPath::TypeConstraints;
 use TPath::Context;
-use Scalar::Util qw(refaddr reftype);
+use Scalar::Util qw(refaddr);
 use Moose;
 
 use overload '""' => \&to_string;
@@ -119,31 +118,6 @@ sub _stringify_exp {
 
 sub case_insensitive { shift->f->case_insensitive }
 
-# recursively links top expression to attributes to make variable cache
-# available to all attributes
-sub _link_self_to_attributes {
-    my $self = shift;
-    _recursive_link( $self, $self, {} );
-}
-
-sub _recursive_link {
-    my ( $e, $ref, $cache ) = @_;
-    my $rt = reftype($ref) // '';
-    return unless $rt eq 'HASH' or $rt eq 'ARRAY';
-    return if $cache->{ refaddr $ref}++;
-    if ( blessed $ref && $ref->isa('TPath::Attribute') ) {
-        $ref->_expr($e);
-    }
-    for ($rt) {
-        when ('HASH') {
-            _recursive_link( $e, $_, $cache ) for values %$ref;
-        }
-        when ('ARRAY') {
-            _recursive_link( $e, $_, $cache ) for @$ref;
-        }
-    }
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
@@ -159,7 +133,7 @@ TPath::Expression - a compiled TPath expression
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 SYNOPSIS
 

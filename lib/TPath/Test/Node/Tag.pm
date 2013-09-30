@@ -1,6 +1,6 @@
 package TPath::Test::Node::Tag;
 {
-  $TPath::Test::Node::Tag::VERSION = '1.003';
+  $TPath::Test::Node::Tag::VERSION = '1.004';
 }
 
 # ABSTRACT: L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
@@ -46,7 +46,7 @@ TPath::Test::Node::Tag - L<TPath::Test::Node> implementing basic tag pattern; e.
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 ATTRIBUTES
 

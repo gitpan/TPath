@@ -1,6 +1,6 @@
 package TPath::TypeConstraints;
 {
-  $TPath::TypeConstraints::VERSION = '1.003';
+  $TPath::TypeConstraints::VERSION = '1.004';
 }
 
 # ABSTRACT: assorted type constraints
@@ -44,7 +44,7 @@ TPath::TypeConstraints - assorted type constraints
 
 =head1 VERSION
 
-version 1.003
+version 1.004
 
 =head1 AUTHOR
 
