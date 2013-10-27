@@ -1,6 +1,6 @@
 package TPath::Test::Or;
 {
-  $TPath::Test::Or::VERSION = '1.004';
+  $TPath::Test::Or::VERSION = '1.005';
 }
 
 # ABSTRACT: implements logical disjunction of tests
@@ -39,7 +39,7 @@ TPath::Test::Or - implements logical disjunction of tests
 
 =head1 VERSION
 
-version 1.004
+version 1.005
 
 =head1 DESCRIPTION
 

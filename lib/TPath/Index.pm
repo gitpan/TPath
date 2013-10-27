@@ -2,7 +2,7 @@
 
 package TPath::Index;
 {
-  $TPath::Index::VERSION = '1.004';
+  $TPath::Index::VERSION = '1.005';
 }
 
 
@@ -123,7 +123,7 @@ TPath::Index - tree-specific database
 
 =head1 VERSION
 
-version 1.004
+version 1.005
 
 =head1 SYNOPSIS
 

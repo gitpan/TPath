@@ -1,6 +1,6 @@
 package TPath::Compiler;
 {
-  $TPath::Compiler::VERSION = '1.004';
+  $TPath::Compiler::VERSION = '1.005';
 }
 
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
@@ -174,6 +174,7 @@ sub full {
                 }
                 when ('//') {
                     die 'axes disallowed with // separator' if defined $axis;
+                    set_anywhere( \@predicates );
                     $rv = Anywhere->new(
                         f          => $forester,
                         predicates => \@predicates
@@ -217,6 +218,7 @@ sub full {
                 }
                 when ('//') {
                     die 'axes disallowed with // separator' if defined $axis;
+                    set_anywhere( \@predicates );
                     $rv = AnywhereTag->new(
                         f          => $forester,
                         tag        => $val,
@@ -268,6 +270,7 @@ sub full {
                 }
                 when ('//') {
                     die 'axes disallowed with // separator' if defined $axis;
+                    set_anywhere( $common_args{predicates} );
                     $rv =
                       TPath::Selector::Test::AnywhereMatch->new(%common_args);
                 }
@@ -305,6 +308,7 @@ sub full {
                 }
                 when ('//') {
                     die 'axes disallowed with // separator' if defined $axis;
+                    set_anywhere( \@predicates );
                     $rv = AnywhereAttribute->new(
                         f          => $forester,
                         a          => $a,
@@ -339,6 +343,15 @@ sub full {
     }
     $rv->_invert if $complement;
     return $rv;
+}
+
+# tell index predicates if they're attached to a // step
+sub set_anywhere {
+    my $predicates = shift;
+    return unless $predicates;
+    for my $p (@$predicates) {
+        $p->_anywhere(1) if $p->isa('TPath::Predicate::Index');
+    }
 }
 
 sub predicates {
@@ -517,7 +530,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 1.004
+version 1.005
 
 =head1 DESCRIPTION
 

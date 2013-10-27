@@ -1,6 +1,6 @@
 package TPath::Stringifiable;
 {
-  $TPath::Stringifiable::VERSION = '1.004';
+  $TPath::Stringifiable::VERSION = '1.005';
 }
 
 # ABSTRACT: role requiring that a class have a to_string method
@@ -77,7 +77,7 @@ TPath::Stringifiable - role requiring that a class have a to_string method
 
 =head1 VERSION
 
-version 1.004
+version 1.005
 
 =head1 DESCRIPTION
 

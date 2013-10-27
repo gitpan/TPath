@@ -1,6 +1,6 @@
 package TPath::Predicate;
 {
-  $TPath::Predicate::VERSION = '1.004';
+  $TPath::Predicate::VERSION = '1.005';
 }
 
 # ABSTRACT: interface of square bracket sub-expressions in TPath expressions
@@ -28,7 +28,7 @@ TPath::Predicate - interface of square bracket sub-expressions in TPath expressi
 
 =head1 VERSION
 
-version 1.004
+version 1.005
 
 =head1 ATTRIBUTES
 
