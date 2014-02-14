@@ -1,10 +1,7 @@
 # ABSTRACT: parses TPath expressions into ASTs
 
 package TPath::Grammar;
-{
-  $TPath::Grammar::VERSION = '1.005';
-}
-
+$TPath::Grammar::VERSION = '1.006';
 use v5.10;
 use strict;
 use warnings;
@@ -1349,13 +1346,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Grammar - parses TPath expressions into ASTs
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 SYNOPSIS
 

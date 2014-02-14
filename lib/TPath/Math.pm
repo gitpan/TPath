@@ -1,8 +1,5 @@
 package TPath::Math;
-{
-  $TPath::Math::VERSION = '1.005';
-}
-
+$TPath::Math::VERSION = '1.006';
 # ABSTRACT: handles the arithmetic in C<//foo[1 + @bar = @quux]>
 
 use Moose;
@@ -54,13 +51,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Math - handles the arithmetic in C<//foo[1 + @bar = @quux]>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 AUTHOR
 

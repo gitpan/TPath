@@ -1,8 +1,5 @@
 package TPath::Concatenation;
-{
-  $TPath::Concatenation::VERSION = '1.005';
-}
-
+$TPath::Concatenation::VERSION = '1.006';
 # ABSTRACT: handles the string concatenation in C<//@foo[1 ~ @bar ~ "quux"]>
 
 
@@ -75,13 +72,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Concatenation - handles the string concatenation in C<//@foo[1 ~ @bar ~ "quux"]>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

@@ -1,8 +1,5 @@
 package TPath::Selector::Expression;
-{
-  $TPath::Selector::Expression::VERSION = '1.005';
-}
-
+$TPath::Selector::Expression::VERSION = '1.006';
 # ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>; also all of C<(//*)[0]>
 
 
@@ -36,13 +33,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Expression - selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>; also all of C<(//*)[0]>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

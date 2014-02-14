@@ -1,8 +1,5 @@
 package TPath::Selector::Id;
-{
-  $TPath::Selector::Id::VERSION = '1.005';
-}
-
+$TPath::Selector::Id::VERSION = '1.006';
 # ABSTRACT: C<TPath::Selector> that implements C<id(foo)>
 
 use Moose;
@@ -33,13 +30,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Id - C<TPath::Selector> that implements C<id(foo)>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

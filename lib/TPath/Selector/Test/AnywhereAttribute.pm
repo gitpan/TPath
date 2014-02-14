@@ -1,8 +1,5 @@
 package TPath::Selector::Test::AnywhereAttribute;
-{
-  $TPath::Selector::Test::AnywhereAttribute::VERSION = '1.005';
-}
-
+$TPath::Selector::Test::AnywhereAttribute::VERSION = '1.006';
 # ABSTRACT: handles C<//@foo> expression
 
 use Moose;
@@ -43,13 +40,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Test::AnywhereAttribute - handles C<//@foo> expression
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

@@ -1,8 +1,5 @@
 package TPath::TypeCheck;
-{
-  $TPath::TypeCheck::VERSION = '1.005';
-}
-
+$TPath::TypeCheck::VERSION = '1.006';
 # ABSTRACT: applies type constraint on nodes
 
 
@@ -26,13 +23,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::TypeCheck - applies type constraint on nodes
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

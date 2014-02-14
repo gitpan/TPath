@@ -1,8 +1,5 @@
 package TPath::Test::Node::Tag;
-{
-  $TPath::Test::Node::Tag::VERSION = '1.005';
-}
-
+$TPath::Test::Node::Tag::VERSION = '1.006';
 # ABSTRACT: L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
 
 use Moose;
@@ -40,13 +37,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Node::Tag - L<TPath::Test::Node> implementing basic tag pattern; e.g., C<//foo>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ATTRIBUTES
 

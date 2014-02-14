@@ -1,8 +1,5 @@
 package TPath::Test::Node;
-{
-  $TPath::Test::Node::VERSION = '1.005';
-}
-
+$TPath::Test::Node::VERSION = '1.006';
 # ABSTRACT: role for tests determining whether a node has some property
 
 
@@ -17,13 +14,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Node - role for tests determining whether a node has some property
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

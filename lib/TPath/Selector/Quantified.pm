@@ -1,8 +1,5 @@
 package TPath::Selector::Quantified;
-{
-  $TPath::Selector::Quantified::VERSION = '1.005';
-}
-
+$TPath::Selector::Quantified::VERSION = '1.006';
 # ABSTRACT: handles expressions like C<a?> and C<//foo*>
 
 
@@ -105,13 +102,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Quantified - handles expressions like C<a?> and C<//foo*>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

@@ -1,8 +1,5 @@
 package TPath::Predicate::Index;
-{
-  $TPath::Predicate::Index::VERSION = '1.005';
-}
-
+$TPath::Predicate::Index::VERSION = '1.006';
 # ABSTRACT: implements the C<[0]> in C<//a/b[0]>
 
 
@@ -104,13 +101,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Predicate::Index - implements the C<[0]> in C<//a/b[0]>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 DESCRIPTION
 

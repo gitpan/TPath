@@ -1,8 +1,5 @@
 package TPath::TypeConstraints;
-{
-  $TPath::TypeConstraints::VERSION = '1.005';
-}
-
+$TPath::TypeConstraints::VERSION = '1.006';
 # ABSTRACT: assorted type constraints
 
 use Moose::Util::TypeConstraints;
@@ -26,9 +23,9 @@ union ConcatArg =>
 
 union MathArg => [qw(TPath::Numifiable Num)];
 
-enum Quantifier => qw( * + ? e );
+enum Quantifier => [qw( * + ? e )];
 
-enum Axis => keys %AXES;
+enum Axis => [ keys %AXES ];
 
 sub prefix(@) {
     map { "TPath::$_" } @_;
@@ -38,13 +35,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::TypeConstraints - assorted type constraints
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 AUTHOR
 

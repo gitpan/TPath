@@ -1,8 +1,5 @@
 package TPath::Test::Node::Attribute;
-{
-  $TPath::Test::Node::Attribute::VERSION = '1.005';
-}
-
+$TPath::Test::Node::Attribute::VERSION = '1.006';
 # ABSTRACT: L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
 
 use Moose;
@@ -39,13 +36,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Node::Attribute - L<TPath::Test::Node> implementing attributes; e.g., C<//@foo>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ATTRIBUTES
 

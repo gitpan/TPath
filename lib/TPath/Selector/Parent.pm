@@ -1,8 +1,5 @@
 package TPath::Selector::Parent;
-{
-  $TPath::Selector::Parent::VERSION = '1.005';
-}
-
+$TPath::Selector::Parent::VERSION = '1.006';
 # ABSTRACT: L<TPath::Selector> that implements C<..>
 
 use Moose;
@@ -27,13 +24,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Parent - L<TPath::Selector> that implements C<..>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

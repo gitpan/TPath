@@ -1,8 +1,5 @@
 package TPath::Forester;
-{
-  $TPath::Forester::VERSION = '1.005';
-}
-
+$TPath::Forester::VERSION = '1.006';
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
 
 
@@ -520,13 +517,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Forester - a generator of TPath expressions for a particular class of nodes
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 SYNOPSIS
 

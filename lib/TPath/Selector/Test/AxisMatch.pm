@@ -1,8 +1,5 @@
 package TPath::Selector::Test::AxisMatch;
-{
-  $TPath::Selector::Test::AxisMatch::VERSION = '1.005';
-}
-
+$TPath::Selector::Test::AxisMatch::VERSION = '1.006';
 # ABSTRACT: handles C</ancestor::~foo~> or C</preceding::~foo~> where this is not the first step in the path, or C<ancestor::~foo~>, etc.
 
 use Moose;
@@ -34,13 +31,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Test::AxisMatch - handles C</ancestor::~foo~> or C</preceding::~foo~> where this is not the first step in the path, or C<ancestor::~foo~>, etc.
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

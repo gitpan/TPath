@@ -1,8 +1,5 @@
 package TPath::Test::Boolean;
-{
-  $TPath::Test::Boolean::VERSION = '1.005';
-}
-
+$TPath::Test::Boolean::VERSION = '1.006';
 # ABSTRACT: any empty role used to tag boolean TPath::Tests
 
 use Moose::Role;
@@ -15,13 +12,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Boolean - any empty role used to tag boolean TPath::Tests
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 AUTHOR
 

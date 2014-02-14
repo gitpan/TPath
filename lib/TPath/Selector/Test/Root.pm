@@ -1,8 +1,5 @@
 package TPath::Selector::Test::Root;
-{
-  $TPath::Selector::Test::Root::VERSION = '1.005';
-}
-
+$TPath::Selector::Test::Root::VERSION = '1.006';
 # ABSTRACT: handles C<:root>
 
 use Moose;
@@ -27,13 +24,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Test::Root - handles C<:root>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 METHODS
 

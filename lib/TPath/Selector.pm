@@ -1,8 +1,5 @@
 package TPath::Selector;
-{
-  $TPath::Selector::VERSION = '1.005';
-}
-
+$TPath::Selector::VERSION = '1.006';
 # ABSTRACT: an interface for classes that select nodes from a candidate collection
 
 use Moose::Role;
@@ -19,13 +16,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector - an interface for classes that select nodes from a candidate collection
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

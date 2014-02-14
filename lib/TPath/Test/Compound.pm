@@ -1,8 +1,5 @@
 package TPath::Test::Compound;
-{
-  $TPath::Test::Compound::VERSION = '1.005';
-}
-
+$TPath::Test::Compound::VERSION = '1.006';
 # ABSTRACT: role of TPath::Tests that combine multiple other tests under some boolean operator
 
 use Moose::Role;
@@ -32,13 +29,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Compound - role of TPath::Tests that combine multiple other tests under some boolean operator
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ATTRIBUTES
 

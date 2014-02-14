@@ -1,8 +1,5 @@
 package TPath::Selector::Test::Anywhere;
-{
-  $TPath::Selector::Test::Anywhere::VERSION = '1.005';
-}
-
+$TPath::Selector::Test::Anywhere::VERSION = '1.006';
 # ABSTRACT: handles C<//*> expression
 
 use v5.10;
@@ -35,13 +32,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Test::Anywhere - handles C<//*> expression
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

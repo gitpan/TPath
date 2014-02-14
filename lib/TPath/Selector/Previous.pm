@@ -1,8 +1,5 @@
 package TPath::Selector::Previous;
-{
-  $TPath::Selector::Previous::VERSION = '1.005';
-}
-
+$TPath::Selector::Previous::VERSION = '1.006';
 # ABSTRACT: C<TPath::Selector> that implements C<:p>
 
 use Moose;
@@ -27,13 +24,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Selector::Previous - C<TPath::Selector> that implements C<:p>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ROLES
 

@@ -1,8 +1,5 @@
 package TPath::Function;
-{
-  $TPath::Function::VERSION = '1.005';
-}
-
+$TPath::Function::VERSION = '1.006';
 # ABSTRACT: implements the functions in expressions such as C<//*[:abs(@foo) = 1]> and C<//*[:sqrt(@bar) == 2]>
 
 use Moose;
@@ -39,13 +36,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Function - implements the functions in expressions such as C<//*[:abs(@foo) = 1]> and C<//*[:sqrt(@bar) == 2]>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 AUTHOR
 

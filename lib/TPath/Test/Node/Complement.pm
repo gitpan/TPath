@@ -1,8 +1,5 @@
 package TPath::Test::Node::Complement;
-{
-  $TPath::Test::Node::Complement::VERSION = '1.005';
-}
-
+$TPath::Test::Node::Complement::VERSION = '1.006';
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
 
 use Moose;
@@ -38,13 +35,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 TPath::Test::Node::Complement - L<TPath::Test::Node> implementing matching; e.g., C<//^~foo~>, C<//^foo>, and C<//^@foo>
 
 =head1 VERSION
 
-version 1.005
+version 1.006
 
 =head1 ATTRIBUTES
 
