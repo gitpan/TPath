@@ -1,5 +1,5 @@
 package TPath::Test::Node::Match;
-$TPath::Test::Node::Match::VERSION = '1.006';
+$TPath::Test::Node::Match::VERSION = '1.007';
 # ABSTRACT: L<TPath::Test::Node> implementing matching; e.g., C<//~foo~>
 
 use Moose;
@@ -45,7 +45,7 @@ TPath::Test::Node::Match - L<TPath::Test::Node> implementing matching; e.g., C</
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ATTRIBUTES
 

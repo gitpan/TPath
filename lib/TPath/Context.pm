@@ -1,5 +1,5 @@
 package TPath::Context;
-$TPath::Context::VERSION = '1.006';
+$TPath::Context::VERSION = '1.007';
 # ABSTRACT: the context in which a node is evaluated during a search
 
 
@@ -89,7 +89,7 @@ TPath::Context - the context in which a node is evaluated during a search
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package TPath::Numifiable;
-$TPath::Numifiable::VERSION = '1.006';
+$TPath::Numifiable::VERSION = '1.007';
 # ABSTRACT: role of things that evaluate to numbers
 
 use Moose::Role;
@@ -33,7 +33,7 @@ TPath::Numifiable - role of things that evaluate to numbers
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ATTRIBUTES
 

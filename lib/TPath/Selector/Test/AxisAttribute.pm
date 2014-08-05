@@ -1,5 +1,5 @@
 package TPath::Selector::Test::AxisAttribute;
-$TPath::Selector::Test::AxisAttribute::VERSION = '1.006';
+$TPath::Selector::Test::AxisAttribute::VERSION = '1.007';
 # ABSTRACT: handles C</ancestor::@foo> or C</preceding::@foo> where this is not the first step in the path, or C<ancestor::@foo>, etc.
 
 use Moose;
@@ -43,7 +43,7 @@ TPath::Selector::Test::AxisAttribute - handles C</ancestor::@foo> or C</precedin
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

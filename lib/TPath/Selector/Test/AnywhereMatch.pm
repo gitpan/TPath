@@ -1,5 +1,5 @@
 package TPath::Selector::Test::AnywhereMatch;
-$TPath::Selector::Test::AnywhereMatch::VERSION = '1.006';
+$TPath::Selector::Test::AnywhereMatch::VERSION = '1.007';
 # ABSTRACT: handles C<//~foo~> expression
 
 use Moose;
@@ -48,7 +48,7 @@ TPath::Selector::Test::AnywhereMatch - handles C<//~foo~> expression
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

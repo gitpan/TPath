@@ -1,5 +1,5 @@
 package TPath::Selector::Test::AxisWildcard;
-$TPath::Selector::Test::AxisWildcard::VERSION = '1.006';
+$TPath::Selector::Test::AxisWildcard::VERSION = '1.007';
 # ABSTRACT: handles C</ancestor::*> or C</preceding::*> where this is not the first step in the path, or C<ancestor::*>, etc.
 
 use v5.10;
@@ -41,7 +41,7 @@ TPath::Selector::Test::AxisWildcard - handles C</ancestor::*> or C</preceding::*
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

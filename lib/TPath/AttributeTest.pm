@@ -1,5 +1,5 @@
 package TPath::AttributeTest;
-$TPath::AttributeTest::VERSION = '1.006';
+$TPath::AttributeTest::VERSION = '1.007';
 # ABSTRACT: compares an attribute value to another value
 
 
@@ -200,7 +200,7 @@ sub _m_func {
                 my ( $self, $ctx ) = @_;
                 my $lv = $self->$ls_func($ctx);
                 my $rv = $self->$rs_func($ctx);
-                $lv =~ /$rv/ ? 1 : undef;
+                ( $lv // '' ) =~ /$rv/ ? 1 : undef;
               }
               : sub {
                 my ( $self, $ctx ) = @_;
@@ -1097,7 +1097,7 @@ TPath::AttributeTest - compares an attribute value to another value
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package TPath::Selector::Predicated;
-$TPath::Selector::Predicated::VERSION = '1.006';
+$TPath::Selector::Predicated::VERSION = '1.007';
 # ABSTRACT: role of selectors that have predicates
 
 
@@ -54,7 +54,7 @@ TPath::Selector::Predicated - role of selectors that have predicates
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

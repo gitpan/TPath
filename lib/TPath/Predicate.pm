@@ -1,5 +1,5 @@
 package TPath::Predicate;
-$TPath::Predicate::VERSION = '1.006';
+$TPath::Predicate::VERSION = '1.007';
 # ABSTRACT: interface of square bracket sub-expressions in TPath expressions
 
 use Moose::Role;
@@ -27,7 +27,7 @@ TPath::Predicate - interface of square bracket sub-expressions in TPath expressi
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ATTRIBUTES
 

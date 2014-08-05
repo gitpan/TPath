@@ -1,5 +1,12 @@
 Revision history for TPath
 
+1.007     2014-08-05 12:22:57-04:00 America/New_York
+  * added /.../ and :m/.../mods regex syntax
+  * removed most of grammar section from documentation, referring instead to
+    TPath::Grammar
+  * fixed case-insensitivity code for v5.16
+  * silenced Regexp::Grammars warning that emerged in v5.16
+
 1.006     2014-02-14 12:10:54-05:00 America/New_York
   * fixed enum deprecation warning
 

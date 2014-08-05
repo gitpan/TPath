@@ -1,5 +1,5 @@
 package TPath::Selector::Test::ChildAttribute;
-$TPath::Selector::Test::ChildAttribute::VERSION = '1.006';
+$TPath::Selector::Test::ChildAttribute::VERSION = '1.007';
 # ABSTRACT: handles C</@foo> where this is not the first step in the path, or C<child::@foo>
 
 use Moose;
@@ -41,7 +41,7 @@ TPath::Selector::Test::ChildAttribute - handles C</@foo> where this is not the f
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

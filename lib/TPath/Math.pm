@@ -1,5 +1,5 @@
 package TPath::Math;
-$TPath::Math::VERSION = '1.006';
+$TPath::Math::VERSION = '1.007';
 # ABSTRACT: handles the arithmetic in C<//foo[1 + @bar = @quux]>
 
 use Moose;
@@ -59,7 +59,7 @@ TPath::Math - handles the arithmetic in C<//foo[1 + @bar = @quux]>
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 AUTHOR
 

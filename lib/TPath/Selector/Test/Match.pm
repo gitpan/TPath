@@ -1,5 +1,5 @@
 package TPath::Selector::Test::Match;
-$TPath::Selector::Test::Match::VERSION = '1.006';
+$TPath::Selector::Test::Match::VERSION = '1.007';
 # ABSTRACT: role for all matching selectors
 
 use Moose::Role;
@@ -25,7 +25,7 @@ TPath::Selector::Test::Match - role for all matching selectors
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

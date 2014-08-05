@@ -1,5 +1,5 @@
 package TPath::Forester;
-$TPath::Forester::VERSION = '1.006';
+$TPath::Forester::VERSION = '1.007';
 # ABSTRACT: a generator of TPath expressions for a particular class of nodes
 
 
@@ -47,7 +47,7 @@ sub _build_cf {
     my $self = shift;
     return sub { $_[0] eq $_[1] }
       unless $self->case_insensitive;
-    return eval 'sub { fc($_[0]) eq fc($_[1]) }' if $] > 5.016;
+    return eval 'sub { use feature "fc"; fc($_[0]) eq fc($_[1]) }' if $] > 5.016;
     my $sub = eval
 'require Unicode::CaseFold; sub { Unicode::CaseFold::fc($_[0]) eq Unicode::CaseFold::fc($_[1])}';
     return $sub unless $@;
@@ -525,7 +525,7 @@ TPath::Forester - a generator of TPath expressions for a particular class of nod
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 SYNOPSIS
 

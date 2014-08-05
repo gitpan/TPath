@@ -1,5 +1,5 @@
 package TPath::Predicate::Boolean;
-$TPath::Predicate::Boolean::VERSION = '1.006';
+$TPath::Predicate::Boolean::VERSION = '1.007';
 # ABSTRACT: implements the C<[@foo or @bar ]> in C<//a/b[@foo or @bar]>
 
 
@@ -35,7 +35,7 @@ TPath::Predicate::Boolean - implements the C<[@foo or @bar ]> in C<//a/b[@foo or
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

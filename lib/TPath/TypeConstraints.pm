@@ -1,5 +1,5 @@
 package TPath::TypeConstraints;
-$TPath::TypeConstraints::VERSION = '1.006';
+$TPath::TypeConstraints::VERSION = '1.007';
 # ABSTRACT: assorted type constraints
 
 use Moose::Util::TypeConstraints;
@@ -43,7 +43,7 @@ TPath::TypeConstraints - assorted type constraints
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 AUTHOR
 

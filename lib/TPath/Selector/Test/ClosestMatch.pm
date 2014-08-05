@@ -1,5 +1,5 @@
 package TPath::Selector::Test::ClosestMatch;
-$TPath::Selector::Test::ClosestMatch::VERSION = '1.006';
+$TPath::Selector::Test::ClosestMatch::VERSION = '1.007';
 # ABSTRACT: handles C</E<gt>~foo~>
 
 use Moose;
@@ -45,7 +45,7 @@ TPath::Selector::Test::ClosestMatch - handles C</E<gt>~foo~>
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

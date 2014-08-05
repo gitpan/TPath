@@ -1,5 +1,5 @@
 package TPath::Selector::Test::ClosestAttribute;
-$TPath::Selector::Test::ClosestAttribute::VERSION = '1.006';
+$TPath::Selector::Test::ClosestAttribute::VERSION = '1.007';
 # ABSTRACT: handles C</E<gt>@foo>
 
 use Moose;
@@ -44,7 +44,7 @@ TPath::Selector::Test::ClosestAttribute - handles C</E<gt>@foo>
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

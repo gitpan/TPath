@@ -1,7 +1,7 @@
 # ABSTRACT: tree-specific database
 
 package TPath::Index;
-$TPath::Index::VERSION = '1.006';
+$TPath::Index::VERSION = '1.007';
 
 use Moose;
 use Scalar::Util qw(refaddr weaken);
@@ -122,7 +122,7 @@ TPath::Index - tree-specific database
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 SYNOPSIS
 

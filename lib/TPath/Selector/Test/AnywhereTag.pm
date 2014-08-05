@@ -1,5 +1,5 @@
 package TPath::Selector::Test::AnywhereTag;
-$TPath::Selector::Test::AnywhereTag::VERSION = '1.006';
+$TPath::Selector::Test::AnywhereTag::VERSION = '1.007';
 # ABSTRACT: handles C<//foo> expression
 
 use Moose;
@@ -50,7 +50,7 @@ TPath::Selector::Test::AnywhereTag - handles C<//foo> expression
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

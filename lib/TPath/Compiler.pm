@@ -1,5 +1,5 @@
 package TPath::Compiler;
-$TPath::Compiler::VERSION = '1.006';
+$TPath::Compiler::VERSION = '1.007';
 # ABSTRACT: takes ASTs and returns compiled L<TPath::Expression> objects
 
 
@@ -411,6 +411,7 @@ sub attribute {
 
 sub arg {
     my ( $arg, $forester ) = @_;
+    return $arg unless ref $arg;
     my $v = $arg->{v};
     return $v if defined $v;
     my $num = $arg->{num};
@@ -529,7 +530,7 @@ TPath::Compiler - takes ASTs and returns compiled L<TPath::Expression> objects
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

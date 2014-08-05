@@ -1,5 +1,5 @@
 package TPath::Selector::Expression;
-$TPath::Selector::Expression::VERSION = '1.006';
+$TPath::Selector::Expression::VERSION = '1.007';
 # ABSTRACT: selector that handles the parenthesized portion of C<a(/foo|/bar)> and C<a(/foo|/bar)+>; also all of C<(//*)[0]>
 
 
@@ -41,7 +41,7 @@ TPath::Selector::Expression - selector that handles the parenthesized portion of
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package TPath::Test::Node;
-$TPath::Test::Node::VERSION = '1.006';
+$TPath::Test::Node::VERSION = '1.007';
 # ABSTRACT: role for tests determining whether a node has some property
 
 
@@ -22,7 +22,7 @@ TPath::Test::Node - role for tests determining whether a node has some property
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 DESCRIPTION
 

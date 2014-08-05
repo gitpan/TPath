@@ -1,5 +1,5 @@
 package TPath::Selector::Test::ChildMatch;
-$TPath::Selector::Test::ChildMatch::VERSION = '1.006';
+$TPath::Selector::Test::ChildMatch::VERSION = '1.007';
 # ABSTRACT: handles C</~foo~> where this is not the first step in the path, or C<child::~foo~>
 
 use Moose;
@@ -38,7 +38,7 @@ TPath::Selector::Test::ChildMatch - handles C</~foo~> where this is not the firs
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

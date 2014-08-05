@@ -1,5 +1,5 @@
 package TPath::Selector::Test::ClosestTag;
-$TPath::Selector::Test::ClosestTag::VERSION = '1.006';
+$TPath::Selector::Test::ClosestTag::VERSION = '1.007';
 # ABSTRACT: handles C</E<gt>foo>
 
 use Moose;
@@ -46,7 +46,7 @@ TPath::Selector::Test::ClosestTag - handles C</E<gt>foo>
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 ROLES
 

@@ -1,5 +1,5 @@
 package TPath::Attributes::Extended;
-$TPath::Attributes::Extended::VERSION = '1.006';
+$TPath::Attributes::Extended::VERSION = '1.007';
 # ABSTRACT: a collection of attributes beyond the standard set
 
 
@@ -215,7 +215,7 @@ TPath::Attributes::Extended - a collection of attributes beyond the standard set
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 SYNOPSIS
 

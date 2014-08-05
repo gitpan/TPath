@@ -1,5 +1,5 @@
 package TPath::Selector::Test::Root;
-$TPath::Selector::Test::Root::VERSION = '1.006';
+$TPath::Selector::Test::Root::VERSION = '1.007';
 # ABSTRACT: handles C<:root>
 
 use Moose;
@@ -32,7 +32,7 @@ TPath::Selector::Test::Root - handles C<:root>
 
 =head1 VERSION
 
-version 1.006
+version 1.007
 
 =head1 METHODS
 
